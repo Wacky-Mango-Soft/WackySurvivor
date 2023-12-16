@@ -16,8 +16,14 @@ public class GunController : MonoBehaviour
 
     [SerializeField] private Vector3 originPos;
 
-    private void Start() {
+    Vector3 recoilBack;
+    Vector3 retroActionRecoilBack;
+
+    private void Start()
+    {
         audioSource = GetComponent<AudioSource>();
+        recoilBack = new Vector3(currentGun.retroActionForce, originPos.y, originPos.z);
+        retroActionRecoilBack = new Vector3(currentGun.retroActionFineSightForce, currentGun.fineSightOriginPos.y, currentGun.fineSightOriginPos.z);
     }
 
     void Update()
@@ -55,7 +61,11 @@ public class GunController : MonoBehaviour
         currentFireRate = currentGun.fireRate;
         PlaySE(currentGun.fire_Sound);
         currentGun.muzzleFlash.Play();
-        Debug.Log("�Ѿ� �߻���");
+
+        StopAllCoroutines();
+        StartCoroutine(RetroActionCoroutine());
+
+        Debug.Log("shoot!");
     }
 
     private void TryReload()
@@ -94,27 +104,30 @@ public class GunController : MonoBehaviour
 
     private void TryFineSight()
     {
-        if(Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2"))
         {
             FineSight();
+        }
+        if (Input.GetButtonUp("Fire2"))
+        {
+            FineSightExit();
         }
     }
 
     private void FineSight()
     {
-        isFineSightMode = !isFineSightMode;
+        isFineSightMode = true;
         currentGun.anim.SetBool("FineSightMode", isFineSightMode);
-
-        if(isFineSightMode)
-        {
-            StopAllCoroutines();
-            StartCoroutine(FineSightActiveCoroutine());
-        }
-        else
-        {
-            StopAllCoroutines();
-            StartCoroutine(FineSightDeActiveCoroutine());
-        }
+        StopAllCoroutines();
+        StartCoroutine(FineSightActiveCoroutine());
+    }
+    
+    private void FineSightExit()
+    {
+        isFineSightMode = false;
+        currentGun.anim.SetBool("FineSightMode", isFineSightMode);
+        StopAllCoroutines();
+        StartCoroutine(FineSightDeActiveCoroutine());
     }
 
     IEnumerator FineSightActiveCoroutine()
@@ -134,7 +147,41 @@ public class GunController : MonoBehaviour
             yield return null;
         }
     }
-    
+
+    IEnumerator RetroActionCoroutine()
+    {
+        if(!isFineSightMode)
+        {
+            currentGun.transform.localPosition = originPos;
+            // recoil start
+            while(currentGun.transform.localPosition.x <= currentGun.retroActionForce - 0.02f)
+            {
+                currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, recoilBack, 0.4f);
+                yield return null;
+            }
+            // gun recovery position
+            while(currentGun.transform.localPosition != originPos)
+            {
+                currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, originPos, 0.1f);
+                yield return null;
+            }
+        } else
+        {
+            currentGun.transform.localPosition = currentGun.fineSightOriginPos;
+            // fineSightMode recoil start
+            while (currentGun.transform.localPosition.x <= currentGun.retroActionFineSightForce - 0.02f)
+            {
+                currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, retroActionRecoilBack, 0.4f);
+                yield return null;
+            }
+            // fineSightMode gun recovery position
+            while (currentGun.transform.localPosition != currentGun.fineSightOriginPos)
+            {
+                currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, currentGun.fineSightOriginPos, 0.1f);
+                yield return null;
+            }
+        }
+    }
 
     private void PlaySE(AudioClip _clip) {
         audioSource.clip = _clip;
