@@ -14,7 +14,6 @@ public class GunController : MonoBehaviour
     private AudioSource audioSource;
     private bool isFineSightMode = false;
 
-    // º»·¡ Æ÷Áö¼Ç °ª
     [SerializeField] private Vector3 originPos;
 
     private void Start() {
@@ -31,7 +30,7 @@ public class GunController : MonoBehaviour
 
     private void GunFireRateCalc() {
         if (currentFireRate > 0) {
-            currentFireRate -= Time.deltaTime; // 60ºÐÀÇ 1
+            currentFireRate -= Time.deltaTime;
         }
     }
 
@@ -56,7 +55,7 @@ public class GunController : MonoBehaviour
         currentFireRate = currentGun.fireRate;
         PlaySE(currentGun.fire_Sound);
         currentGun.muzzleFlash.Play();
-        Debug.Log("ÃÑ¾Ë ¹ß»çÇÔ");
+        Debug.Log("ï¿½Ñ¾ï¿½ ï¿½ß»ï¿½ï¿½ï¿½");
     }
 
     private void TryReload()
@@ -89,7 +88,7 @@ public class GunController : MonoBehaviour
         } 
         else
         {
-            Debug.Log("¼ÒÀ¯ÇÑ ÃÑ¾ËÀÌ ¾ø½À´Ï´Ù");
+            Debug.Log("carry bullet count = 0");
         }
     }
 
@@ -108,21 +107,34 @@ public class GunController : MonoBehaviour
 
         if(isFineSightMode)
         {
-            
+            StopAllCoroutines();
+            StartCoroutine(FineSightActiveCoroutine());
         }
         else
         {
-
-        }
-
-        IEnumerator FineSightActiveCoroutine()
-        {
-            while(currentGun.transform.localPosition != currentGun.fineSightOriginPos)
-            {
-
-            }
+            StopAllCoroutines();
+            StartCoroutine(FineSightDeActiveCoroutine());
         }
     }
+
+    IEnumerator FineSightActiveCoroutine()
+    {
+        while(currentGun.transform.localPosition != currentGun.fineSightOriginPos)
+        {
+            currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, currentGun.fineSightOriginPos, 0.2f);
+            yield return null;
+        }
+    }
+    
+    IEnumerator FineSightDeActiveCoroutine()
+    {
+        while(currentGun.transform.localPosition != originPos)
+        {
+            currentGun.transform.localPosition = Vector3.Lerp(currentGun.transform.localPosition, originPos, 0.2f);
+            yield return null;
+        }
+    }
+    
 
     private void PlaySE(AudioClip _clip) {
         audioSource.clip = _clip;

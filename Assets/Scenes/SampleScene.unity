@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657886, g: 0.49641275, b: 0.5748176, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5600,7 +5600,7 @@ MonoBehaviour:
   carryBulletCount: 23
   retroActionForce: 0
   retroActionFineSightForce: 0
-  fineSightOriginPos: {x: 0, y: 0, z: 0}
+  fineSightOriginPos: {x: 0.55, y: 0.335, z: -0.586}
   anim: {fileID: 779946363}
   muzzleFlash: {fileID: 2078166212}
   fire_Sound: {fileID: 8300000, guid: 780cb5215d1fc9e45b5a8fbddd9ace4b, type: 3}
