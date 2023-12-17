@@ -14,14 +14,20 @@ public class GunController : MonoBehaviour
     private AudioSource audioSource;
     private bool isFineSightMode = false;
 
-    [SerializeField] private Vector3 originPos;
+    private Vector3 originPos;
 
     Vector3 recoilBack;
     Vector3 retroActionRecoilBack;
 
+    private RaycastHit hitInfo;
+    [SerializeField] private Camera theCam;
+
+    [SerializeField] private GameObject hitEffectPrefab;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        originPos = Vector3.zero;
         recoilBack = new Vector3(currentGun.retroActionForce, originPos.y, originPos.z);
         retroActionRecoilBack = new Vector3(currentGun.retroActionFineSightForce, currentGun.fineSightOriginPos.y, currentGun.fineSightOriginPos.z);
     }
@@ -57,16 +63,23 @@ public class GunController : MonoBehaviour
             }
         }
     }
-    private void Shoot() {
+    private void Shoot()
+    {
         currentGun.currentBulletCount--;
         currentFireRate = currentGun.fireRate;
         PlaySE(currentGun.fire_Sound);
         currentGun.muzzleFlash.Play();
-
+        Hit();
         StopAllCoroutines();
         StartCoroutine(RetroActionCoroutine());
+    }
 
-        Debug.Log("shoot!");
+    private void Hit()
+    {
+        if(Physics.Raycast(theCam.transform.position, theCam.transform.forward, out hitInfo, currentGun.range)) {
+            GameObject clone = Instantiate(hitEffectPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+            Destroy(clone, 2f);
+        }
     }
 
     private void TryReload()
@@ -196,6 +209,10 @@ public class GunController : MonoBehaviour
     private void PlaySE(AudioClip _clip) {
         audioSource.clip = _clip;
         audioSource.Play();
+    }
+
+    public Gun GetGun() {
+        return currentGun;
     }
 
 }
