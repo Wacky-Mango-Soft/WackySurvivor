@@ -5600,7 +5600,7 @@ MonoBehaviour:
   carryBulletCount: 23
   retroActionForce: 0.3
   retroActionFineSightForce: 0.7
-  fineSightOriginPos: {x: 0.55, y: 0.335, z: -0.586}
+  fineSightOriginPos: {x: 0.55, y: 0.335, z: -0.585}
   anim: {fileID: 779946363}
   muzzleFlash: {fileID: 2078166212}
   fire_Sound: {fileID: 8300000, guid: 780cb5215d1fc9e45b5a8fbddd9ace4b, type: 3}
