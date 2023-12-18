@@ -12,9 +12,15 @@ public class Crosshair : MonoBehaviour
     // 이동시 조준점 변경
     public void WalkingAnimation(bool _flag)
     {
+        WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
         animator.SetBool("Walking", _flag);
     }
     public void RunningAnimation(bool _flag)
+    {
+        WeaponManager.currentWeaponAnim.SetBool("Run", _flag);
+        animator.SetBool("Running", _flag);
+    }
+    public void JumpingAnimation(bool _flag)
     {
         animator.SetBool("Running", _flag);
     }

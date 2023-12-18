@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
+    // 활성화 여부
+    public static bool isActivate = true;
+
     // 현재 장착된 총
     [SerializeField] private Gun currentGun;
 
@@ -35,7 +38,6 @@ public class GunController : MonoBehaviour
     // 피격 이펙트
     [SerializeField] private GameObject hitEffectPrefab;
 
-
     private void Start()
     {
         originPos = Vector3.zero;
@@ -43,14 +45,20 @@ public class GunController : MonoBehaviour
         retroActionRecoilBack = new Vector3(currentGun.retroActionFineSightForce, currentGun.fineSightOriginPos.y, currentGun.fineSightOriginPos.z);
         audioSource = GetComponent<AudioSource>();
         theCrosshair = FindObjectOfType<Crosshair>();
+
+        WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentGun.anim;
     }
 
     void Update()
     {
-        GunFireRateCalc();
-        TryFire();
-        TryReload();
-        TryFineSight();
+        if (isActivate)
+        {
+            GunFireRateCalc();
+            TryFire();
+            TryReload();
+            TryFineSight();
+        }
     }
 
     // 연사속도 재계산
@@ -103,6 +111,7 @@ public class GunController : MonoBehaviour
             , out hitInfo, currentGun.range)) {
             GameObject clone = Instantiate(hitEffectPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(clone, 2f);
+            Debug.Log(hitInfo.transform.name); // 타겟 확인용 디버깅
         }
     }
 
@@ -113,6 +122,16 @@ public class GunController : MonoBehaviour
         {
             CancelFineSight();
             StartCoroutine(ReloadCoroutine());
+        }
+    }
+
+    // 재장전 취소
+    public void CancelReload()
+    {
+        if (isReload)
+        {
+            StopAllCoroutines();
+            isReload = false;
         }
     }
 
@@ -247,13 +266,30 @@ public class GunController : MonoBehaviour
         audioSource.Play();
     }
 
+    // 현재 Gun return
     public Gun GetGun() {
         return currentGun;
     }
 
+    // 현재 정조준 모드인지 여부 Getter
     public bool GetFineSightMode()
     {
         return isFineSightMode;
     }
 
+    // 무기 변경
+    public void GunChange(Gun _gun)
+    {
+        if (WeaponManager.currentWeapon != null)
+        {
+            WeaponManager.currentWeapon.gameObject.SetActive(false);
+        }
+        currentGun = _gun;
+        WeaponManager.currentWeapon = currentGun.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentGun.anim;
+
+        currentGun.transform.localPosition = Vector3.zero;
+        currentGun.gameObject.SetActive(true);
+        isActivate = true;
+    }
 }
