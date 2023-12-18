@@ -5,14 +5,11 @@ using UnityEngine;
 public class Crosshair : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-
     private float gunAccuracy;
-
     [SerializeField] private GameObject go_CrosshairHUD;
-
     [SerializeField] private GunController theGunController;
 
-    // ¿ÃµøΩ√ ¡∂¡ÿ¡° ∫Ø∞Ê
+    // Ïù¥ÎèôÏãú Ï°∞Ï§ÄÏ†ê Î≥ÄÍ≤Ω
     public void WalkingAnimation(bool _flag)
     {
         animator.SetBool("Walking", _flag);
@@ -30,7 +27,7 @@ public class Crosshair : MonoBehaviour
         animator.SetBool("FineSight", _flag);
     }
 
-    // ªÁ∞›Ω√ ¡∂¡ÿ¡° ∫Ø∞Ê
+    // ÏÇ¨Í≤©Ïãú Ï°∞Ï§ÄÏ†ê Î≥ÄÍ≤Ω
     public void FireAnimation()
     {
         if(animator.GetBool("Walking"))
@@ -47,7 +44,7 @@ public class Crosshair : MonoBehaviour
         }
     }
 
-    // ¡∂¡ÿ¿≤ ∫Ø∞Ê
+    // Ï°∞Ï§ÄÏú® Î≥ÄÍ≤Ω
     public float GetAccuracy()
     {
         if (animator.GetBool("Walking"))

@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class HandController : MonoBehaviour
 {
-    // ÇöÀç ÀåÂøµÈ HandÇü Å¸ÀÔ ¹«±â
+    // í˜„ì¬ ì¥ì°©ëœ Handí˜• íƒ€ì… ë¬´ê¸°
     [SerializeField] private Hand currentHand;
 
-    // °ø°İ »óÅÂ º¯¼ö
+
+    // ê³µê²© ìƒíƒœ ë³€ìˆ˜
     private bool isAttack = false;
     private bool isSwing = false;
 

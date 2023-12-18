@@ -4,26 +4,25 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public string gunName; // ÃÑ ÀÌ¸§
-    public float range; // »çÁ¤ °Å¸®
-    public float accuracy; // Á¤È®µµ
-    public float fireRate; // ¿¬»ç ¼Óµµ
-    public float reloadTime; // ÀçÀåÀü ¼Óµµ
+    public string gunName; // ì´ ì´ë¦„
+    public float range; // ì‚¬ì • ê±°ë¦¬
+    public float accuracy; // ì •í™•ë„
+    public float fireRate; // ì—°ì‚¬ ì†ë„
+    public float reloadTime; // ì¬ì¥ì „ ì†ë„
 
-    public int damage; // ÃÑÀÇ µ¥¹ÌÁö
+    public int damage; // ì´ì˜ ë°ë¯¸ì§€
 
-    public int reloadBulletCount; // ÃÑÀÇ ÀçÀåÀü °³¼ö
-    public int currentBulletCount; // ÇöÀç Åº¾ËÁı¿¡ ³²¾ÆÀÖ´Â ÃÑ¾ËÀÇ °³¼ö
-    public int maxBulletCount; // ÃÖ´ë ¼ÒÀ¯ °¡´É ÃÑ¾Ë °³¼ö
-    public int carryBulletCount; // ÇöÀç ¼ÒÀ¯ÇÏ°í ÀÖ´Â ÃÑ¾Ë °³¼ö
+    public int reloadBulletCount; // ì´ì˜ ì¬ì¥ì „ ê°œìˆ˜
+    public int currentBulletCount; // í˜„ì¬ íƒ„ì•Œì§‘ì— ë‚¨ì•„ìˆëŠ” ì´ì•Œì˜ ê°œìˆ˜
+    public int maxBulletCount; // ìµœëŒ€ ì†Œìœ  ê°€ëŠ¥ ì´ì•Œ ê°œìˆ˜
+    public int carryBulletCount; // í˜„ì¬ ì†Œìœ í•˜ê³  ìˆëŠ” ì´ì•Œ ê°œìˆ˜
 
-    public float retroActionForce; // ¹İµ¿ ¼¼±â
-    public float retroActionFineSightForce; // Á¤Á¶ÁØ½ÃÀÇ ¹İµ¿ ¼¼±â
+    public float retroActionForce; // ë°˜ë™ ì„¸ê¸°
+    public float retroActionFineSightForce; // ì •ì¡°ì¤€ì‹œì˜ ë°˜ë™ ì„¸ê¸°
 
     public Vector3 fineSightOriginPos;
     public Animator anim;
     public ParticleSystem muzzleFlash;
-
     public AudioClip fire_Sound;
 
 }
