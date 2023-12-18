@@ -21,11 +21,11 @@ public class WeaponManager : MonoBehaviour
 
     // 무기 배열
     [SerializeField] Gun[] guns;
-    [SerializeField] Hand[] hands;
+    [SerializeField] CloseWeapon[] hands;
 
     // 무기 배열을 문자열로 분류할 딕셔너리
     private Dictionary<string, Gun> gunDictionary = new Dictionary<string, Gun>();
-    private Dictionary<string, Hand> handDictionary = new Dictionary<string, Hand>();
+    private Dictionary<string, CloseWeapon> handDictionary = new Dictionary<string, CloseWeapon>();
 
     // 필요한 컴포넌트
     [SerializeField] private GunController theGunController;
@@ -40,7 +40,7 @@ public class WeaponManager : MonoBehaviour
         }
         for (int i = 0; i < hands.Length; i++)
         {
-            handDictionary.Add(hands[i].handName, hands[i]);
+            handDictionary.Add(hands[i].closeWeaponName, hands[i]);
         }
     }
 
