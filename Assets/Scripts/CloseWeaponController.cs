@@ -17,14 +17,6 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     protected RaycastHit hitInfo;
 
-    void Update()
-    {
-        if (isActivate)
-        {
-            TryAttack();
-        }
-    }
-
     protected void TryAttack()
     {
         if (Input.GetButton("Fire1"))
