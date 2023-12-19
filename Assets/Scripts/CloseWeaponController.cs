@@ -54,7 +54,7 @@ public abstract class CloseWeaponController : MonoBehaviour
         return false;
     }
 
-    // 완성 함수지만 추가 편집한 함수
+    // 가상 함수
     public virtual void CloseWeaponChange(CloseWeapon _CloseWeapon)
     {
         if (WeaponManager.currentWeapon != null)
