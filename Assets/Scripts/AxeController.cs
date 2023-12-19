@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AxeController : CloseWeaponController
 {
+        // 활성화 여부
+    public static bool isActivate = false;
+    
     void Update()
     {
         if (isActivate)
@@ -23,5 +26,10 @@ public class AxeController : CloseWeaponController
             }
             yield return null;
         }
+    }
+        public override void CloseWeaponChange(CloseWeapon _CloseWeapon)
+    { 
+        base.CloseWeaponChange(_CloseWeapon);
+        isActivate = true;
     }
 }

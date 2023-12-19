@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class HandController : CloseWeaponController
 {
+    // 활성화 여부
+    public static bool isActivate = false;
+
     void Update()
     {
         if (isActivate)
@@ -24,5 +27,11 @@ public class HandController : CloseWeaponController
             }
             yield return null;
         }
+    }
+
+    public override void CloseWeaponChange(CloseWeapon _CloseWeapon)
+    { 
+        base.CloseWeaponChange(_CloseWeapon);
+        isActivate = true;
     }
 }

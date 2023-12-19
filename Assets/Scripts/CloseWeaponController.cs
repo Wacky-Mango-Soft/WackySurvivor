@@ -5,11 +5,9 @@ using UnityEngine;
 // 미완성 추상 클레스
 public abstract class CloseWeaponController : MonoBehaviour
 {
-    // 활성화 여부
-    public static bool isActivate = false;
 
     // 현재 장착된 Hand형 타입 무기
-    [SerializeField] protected CloseWeapon currentHand;
+    [SerializeField] protected CloseWeapon currentCloseWeapon;
 
     // 공격 상태 변수
     protected bool isAttack = false;
@@ -31,16 +29,16 @@ public abstract class CloseWeaponController : MonoBehaviour
     IEnumerator AttackCoroutine()
     {
         isAttack = true;
-        currentHand.anim.SetTrigger("Attack");
+        currentCloseWeapon.anim.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(currentHand.attackDelayA);
+        yield return new WaitForSeconds(currentCloseWeapon.attackDelayA);
         isSwing = true;
         StartCoroutine(HitCoroutine());
 
-        yield return new WaitForSeconds(currentHand.attackDelayB);
+        yield return new WaitForSeconds(currentCloseWeapon.attackDelayB);
         isSwing = false;
 
-        yield return new WaitForSeconds(currentHand.attackDelay - (currentHand.attackDelayA + currentHand.attackDelayB));
+        yield return new WaitForSeconds(currentCloseWeapon.attackDelay - (currentCloseWeapon.attackDelayA + currentCloseWeapon.attackDelayB));
         isAttack = false;
     }
 
@@ -49,25 +47,25 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     protected bool CheckObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentHand.range))
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range))
         {
             return true;
         }
         return false;
     }
 
-    public void HandChange(CloseWeapon _hand)
+    // 완성 함수지만 추가 편집한 함수
+    public virtual void CloseWeaponChange(CloseWeapon _CloseWeapon)
     {
         if (WeaponManager.currentWeapon != null)
         {
             WeaponManager.currentWeapon.gameObject.SetActive(false);
         }
-        currentHand = _hand;
-        WeaponManager.currentWeapon = currentHand.GetComponent<Transform>();
-        WeaponManager.currentWeaponAnim = currentHand.anim;
+        currentCloseWeapon = _CloseWeapon;
+        WeaponManager.currentWeapon = currentCloseWeapon.GetComponent<Transform>();
+        WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;
 
-        currentHand.transform.localPosition = Vector3.zero;
-        currentHand.gameObject.SetActive(true);
-        isActivate = true;
+        currentCloseWeapon.transform.localPosition = Vector3.zero;
+        currentCloseWeapon.gameObject.SetActive(true);
     }
 }
