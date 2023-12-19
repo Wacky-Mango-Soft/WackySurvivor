@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
-public class AxeController : CloseWeaponController
+public class PickaxeController : CloseWeaponController
 {
-        // 활성화 여부
-    public static bool isActivate = true;
+    // 활성화 여부
+    public static bool isActivate = false;
 
     private void Start()
     {
@@ -33,9 +35,9 @@ public class AxeController : CloseWeaponController
             yield return null;
         }
     }
-    
-        public override void CloseWeaponChange(CloseWeapon _CloseWeapon)
-    { 
+
+    public override void CloseWeaponChange(CloseWeapon _CloseWeapon)
+    {
         base.CloseWeaponChange(_CloseWeapon);
         isActivate = true;
     }
