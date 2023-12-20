@@ -34,7 +34,7 @@ public class AxeController : CloseWeaponController
         }
     }
     
-        public override void CloseWeaponChange(CloseWeapon _CloseWeapon)
+    public override void CloseWeaponChange(CloseWeapon _CloseWeapon)
     { 
         base.CloseWeaponChange(_CloseWeapon);
         isActivate = true;

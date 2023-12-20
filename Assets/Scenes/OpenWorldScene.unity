@@ -6524,7 +6524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1996110638}
   go_CrosshairHUD: {fileID: 1996110636}
-  theGunController: {fileID: 1809753783}
+  theGunController: {fileID: 1809753789}
 --- !u!1 &1212351589
 GameObject:
   m_ObjectHideFlags: 0
@@ -7285,7 +7285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e51ae326ee49456da4aed61955677f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theGunController: {fileID: 1809753783}
+  theGunController: {fileID: 1809753789}
   go_BulletHUD: {fileID: 281204398}
   text_Bullet:
   - {fileID: 582637777}
@@ -7397,13 +7397,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1809753781}
-  - component: {fileID: 1809753782}
-  - component: {fileID: 1809753783}
-  - component: {fileID: 1809753787}
-  - component: {fileID: 1809753788}
   - component: {fileID: 1809753784}
-  - component: {fileID: 1809753785}
+  - component: {fileID: 1809753790}
+  - component: {fileID: 1809753789}
+  - component: {fileID: 1809753788}
+  - component: {fileID: 1809753787}
   - component: {fileID: 1809753786}
+  - component: {fileID: 1809753785}
   m_Layer: 2
   m_Name: Holder
   m_TagString: Untagged
@@ -7430,35 +7430,6 @@ Transform:
   - {fileID: 396690957}
   m_Father: {fileID: 963194228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1809753782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809753780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ac9461056a7413488053b32e9fcf3d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentCloseWeapon: {fileID: 1218047408}
---- !u!114 &1809753783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809753780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13bcd42ade5a747479dbb0919c877138, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentGun: {fileID: 779946364}
-  isFineSightMode: 0
-  theCam: {fileID: 449267394}
-  hitEffectPrefab: {fileID: 5557683303693439543, guid: edfa5fb190966405e94a4e6a76c30a0c, type: 3}
 --- !u!82 &1809753784
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7567,7 +7538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb321d97946da0243ab560e55e60f994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeaponType: GUN
+  currentWeaponType: AXE
   changeWeaponDelayTime: 0.1
   changeWeaponEndDelayTime: 0.1
   guns:
@@ -7578,10 +7549,10 @@ MonoBehaviour:
   - {fileID: 1517435050}
   pickaxes:
   - {fileID: 1343746214}
-  theGunController: {fileID: 1809753783}
-  theHandController: {fileID: 1809753782}
-  theAxeController: {fileID: 1809753787}
-  thePickaxeController: {fileID: 1809753788}
+  theGunController: {fileID: 1809753789}
+  theHandController: {fileID: 1809753790}
+  theAxeController: {fileID: 1809753788}
+  thePickaxeController: {fileID: 1809753787}
 --- !u!114 &1809753786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7597,21 +7568,8 @@ MonoBehaviour:
   limitPos: {x: 0.18, y: 0.1, z: 0}
   fineSightLimitPos: {x: 0.005, y: 0.005, z: 0}
   smoothSway: {x: 0.05, y: 0.03, z: 0}
-  theGunController: {fileID: 1809753783}
+  theGunController: {fileID: 1809753789}
 --- !u!114 &1809753787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809753780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25ced0a3a91b37144ba88679bddbd1f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentCloseWeapon: {fileID: 1517435050}
---- !u!114 &1809753788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7624,6 +7582,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCloseWeapon: {fileID: 1343746214}
+--- !u!114 &1809753788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809753780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ced0a3a91b37144ba88679bddbd1f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentCloseWeapon: {fileID: 1517435050}
+--- !u!114 &1809753789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809753780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bcd42ade5a747479dbb0919c877138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGun: {fileID: 779946364}
+  isFineSightMode: 0
+  theCam: {fileID: 963194227}
+  hitEffectPrefab: {fileID: 5557683303693439543, guid: edfa5fb190966405e94a4e6a76c30a0c, type: 3}
+--- !u!114 &1809753790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809753780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac9461056a7413488053b32e9fcf3d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentCloseWeapon: {fileID: 1218047408}
 --- !u!1 &1880345279
 GameObject:
   m_ObjectHideFlags: 0

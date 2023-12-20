@@ -56,6 +56,7 @@ public class WeaponManager : MonoBehaviour
         {
             pickaxeDictionary.Add(pickaxes[i].closeWeaponName, pickaxes[i]);
         }
+
     }
 
     void Update()
