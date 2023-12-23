@@ -198,13 +198,38 @@ public class PlayerController : MonoBehaviour
     }
 
     // 상하 캐릭터 회전
-    private void CameraRotation() {
-        float _xRotation = Input.GetAxisRaw("Mouse Y");
-        float _cameraRotationX = _xRotation * lookSensitivity;
-        currentCameraRotationX -= _cameraRotationX;
-        currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+    private bool pauseCameraRotation = false;
 
-        theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
+    private void CameraRotation() 
+    {
+        if (!pauseCameraRotation)
+        {
+            float _xRotation = Input.GetAxisRaw("Mouse Y");
+            float _cameraRotationX = _xRotation * lookSensitivity;
+
+            currentCameraRotationX -= _cameraRotationX;
+            currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+
+            theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
+        }
+    }
+
+    public IEnumerator TreeLookCoroutine(Vector3 _target)
+    {
+        pauseCameraRotation = true;
+
+        Quaternion direction = Quaternion.LookRotation(_target - theCamera.transform.position);
+        Vector3 eulerValue = direction.eulerAngles;
+        float destinationX = eulerValue.x;
+
+        while(Mathf.Abs(destinationX - currentCameraRotationX) >= 0.5f)
+        {
+            eulerValue = Quaternion.Lerp(theCamera.transform.localRotation, direction, 0.3f).eulerAngles;  // 쿼터니언 👉 벡터
+            theCamera.transform.localRotation = Quaternion.Euler(eulerValue.x, 0f, 0f); // 벡터 👉 쿼터니언 (X축으로만 회전하면 됨)
+            currentCameraRotationX = theCamera.transform.localEulerAngles.x; 
+            yield return null;
+        }
+        pauseCameraRotation = false;
     }
 
 }

@@ -11,6 +11,7 @@ public class AxeController : CloseWeaponController
     {
         WeaponManager.currentWeapon = currentCloseWeapon.GetComponent<Transform>();
         WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;
+        thePlayerController = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -31,6 +32,12 @@ public class AxeController : CloseWeaponController
                 {
                     hitInfo.transform.GetComponent<Grass>().Damage();
                 }
+
+                if (hitInfo.transform.tag == "Tree")
+                {
+                    hitInfo.transform.GetComponent<TreeComponent>().Chop(hitInfo.point, transform.eulerAngles.y);
+                }
+
                 isSwing = false;
                 Debug.Log(hitInfo.transform.name);
             }

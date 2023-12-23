@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 미완성 추상 클레스
@@ -15,6 +16,9 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     protected RaycastHit hitInfo;
 
+    // 필요한 컴포넌트
+    protected PlayerController thePlayerController;
+
     protected void TryAttack()
     {
         if (Input.GetButton("Fire1"))
@@ -25,6 +29,7 @@ public abstract class CloseWeaponController : MonoBehaviour
                 {
                     if (currentCloseWeapon.isAxe && hitInfo.transform.tag == "Tree")
                     {
+                        StartCoroutine(thePlayerController.TreeLookCoroutine(hitInfo.transform.GetComponent<TreeComponent>().GetTreeCenterPosition()));
                         StartCoroutine(AttackCoroutine("Chop", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
                         return;
                     }
