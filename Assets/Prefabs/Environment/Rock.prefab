@@ -74,6 +74,8 @@ MonoBehaviour:
   go_rock: {fileID: 7552567649409047651}
   go_debris: {fileID: 4366216071583553832}
   go_effect_prefabs: {fileID: 4995509375441567966, guid: d36c85a68afb10440b4da2d05e84f2aa, type: 3}
+  go_rock_item_prefab: {fileID: 6838754449282347255, guid: f6cfa652129b68c4ab5435076988aa2b, type: 3}
+  count: 5
   strike_Sound: Pickaxe_Strike
   destroy_Sound: Rock_Destroy
 --- !u!1001 &4366216071583588348
