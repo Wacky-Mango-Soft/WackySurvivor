@@ -22,10 +22,17 @@ public class Grass : MonoBehaviour
     [SerializeField]
     private string hit_sound;  // 풀 타격시 소리
 
+    [SerializeField]
+    private Item item_leaf;
+    [SerializeField]
+    private int leafCount;
+    private Inventory theInventory;
+
     void Start()
     {
         rigidbodys = this.transform.GetComponentsInChildren<Rigidbody>();
         boxColiders = this.transform.GetComponentsInChildren<BoxCollider>();
+        theInventory = theInventory = FindObjectOfType<Inventory>();
     }
 
     public void Damage()
@@ -50,6 +57,8 @@ public class Grass : MonoBehaviour
 
     private void Destruction()
     {
+        theInventory.AcquireItem(item_leaf, leafCount);
+
         for (int i = 0; i < rigidbodys.Length; i++)
         {
             rigidbodys[i].useGravity = true;

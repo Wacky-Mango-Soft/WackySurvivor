@@ -316,6 +316,8 @@ MonoBehaviour:
   explosionForce: 0.05
   go_hit_effect_prefab: {fileID: 3741817964633842, guid: 3047050268b5452429fddfe4e9e8c7ae, type: 3}
   hit_sound: Twig_Hit
+  item_leaf: {fileID: 11400000, guid: b4c3cd9c4a153ef428cf84c812e36717, type: 2}
+  leafCount: 3
 --- !u!1 &7751064391609517574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}

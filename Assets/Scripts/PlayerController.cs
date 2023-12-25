@@ -67,8 +67,11 @@ public class PlayerController : MonoBehaviour
         TryCrounch();
         Move();
         MoveCheck();
-        CameraRotation();
-        CharacterRotation();
+        if(!Inventory.invectoryActivated)
+        {
+            CameraRotation();
+            CharacterRotation();
+        }
     }
 
     // 앉기 시도

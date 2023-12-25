@@ -64,15 +64,15 @@ public class TreeComponent : MonoBehaviour
 
     private void AngleCalc(float _angleY)
     {
-        if (_angleY >= 0 && _angleY <= 70)
+        if (_angleY >= 0 && _angleY <= 72)
             DestroyPiece(2);
-        else if (_angleY >= 70 && _angleY <= 140)
+        else if (_angleY >= 72 && _angleY <= 144)
             DestroyPiece(3);
-        else if (_angleY >= 140 && _angleY <= 210)
+        else if (_angleY >= 144 && _angleY <= 216)
             DestroyPiece(4);
-        else if (_angleY >= 210 && _angleY <= 280)
+        else if (_angleY >= 216 && _angleY <= 288)
             DestroyPiece(0);
-        else if (_angleY >= 280 && _angleY <= 360)
+        else if (_angleY >= 288 && _angleY <= 360)
             DestroyPiece(1);
     }
 

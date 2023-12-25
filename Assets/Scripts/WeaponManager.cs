@@ -61,26 +61,19 @@ public class WeaponManager : MonoBehaviour
 
     void Update()
     {
-        if (!isChangeWeapon)
+        if(!Inventory.invectoryActivated)
         {
-
-            if (Input.GetKeyDown(KeyCode.Alpha1)) // 1 누르면 '맨손'으로 무기 교체 실행
+            if (!isChangeWeapon)
             {
-                StartCoroutine(ChangeWeaponCoroutine("HAND", "맨손"));
+                if (Input.GetKeyDown(KeyCode.Alpha1)) // 1 누르면 '맨손'으로 무기 교체 실행
+                    StartCoroutine(ChangeWeaponCoroutine("HAND", "맨손"));
+                else if (Input.GetKeyDown(KeyCode.Alpha2)) // 2 누르면 '서브 머신건'으로 무기 교체 실행
+                    StartCoroutine(ChangeWeaponCoroutine("GUN", "SubMachineGun1"));
+                else if (Input.GetKeyDown(KeyCode.Alpha3)) // 3 누르면 '도끼'로 무기 교체 실행
+                    StartCoroutine(ChangeWeaponCoroutine("AXE", "Axe"));
+                else if (Input.GetKeyDown(KeyCode.Alpha4)) // 4 누르면 '곡괭이'로 무기 교체 실행
+                    StartCoroutine(ChangeWeaponCoroutine("PICKAXE", "Pickaxe"));
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) // 2 누르면 '서브 머신건'으로 무기 교체 실행
-            {
-                StartCoroutine(ChangeWeaponCoroutine("GUN", "SubMachineGun1"));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                StartCoroutine(ChangeWeaponCoroutine("AXE", "Axe"));
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4)) 
-            {
-                StartCoroutine(ChangeWeaponCoroutine("PICKAXE", "Pickaxe"));
-            }
-
         }
     }
 

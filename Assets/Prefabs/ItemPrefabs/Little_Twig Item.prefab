@@ -10,7 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       propertyPath: m_Name
-      value: Little_Twig
+      value: Little_Twig Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       propertyPath: m_LocalScale.x
@@ -26,15 +34,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 238.6902
+      value: 246.2879
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.573788
+      value: 16.170315
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 140.82475
+      value: 134.89415
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       propertyPath: m_LocalRotation.w
@@ -78,6 +86,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2654811582855980124}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7286776712946546530}
   m_SourcePrefab: {fileID: 100100000, guid: 81453898e7b2eb045a481afb9dc3e974, type: 3}
 --- !u!1 &2287706425360440019 stripped
 GameObject:
@@ -132,3 +143,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.08805847, y: 1.0784178, z: 0.08432007}
   m_Center: {x: 0.0010147095, y: 0.5391387, z: 0.0017692726}
+--- !u!114 &7286776712946546530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2287706425360440019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d759967696c18ad4694722f6ccd3e18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 827e4d36a36e46d4ca1f92fc0067d97f, type: 2}

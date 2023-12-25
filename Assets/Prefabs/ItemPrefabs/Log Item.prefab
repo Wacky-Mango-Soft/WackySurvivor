@@ -10,7 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       propertyPath: m_Name
-      value: Log
+      value: Log Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
+      propertyPath: m_TagString
+      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       propertyPath: m_LocalScale.x
@@ -26,15 +34,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 242.16
+      value: 245.7285
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.91
+      value: 16.927404
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 143.31
+      value: 137.34802
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       propertyPath: m_LocalRotation.w
@@ -86,6 +94,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7120924156985082903}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 188247953869911286}
   m_SourcePrefab: {fileID: 100100000, guid: 5633616ba6d922c408b83f62bca08779, type: 3}
 --- !u!1 &9045199277513544757 stripped
 GameObject:
@@ -142,3 +153,16 @@ CapsuleCollider:
   m_Height: 0.045
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.0007}
+--- !u!114 &188247953869911286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9045199277513544757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d759967696c18ad4694722f6ccd3e18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 8eb160b4a98bfe54593a49c50c0b80cb, type: 2}

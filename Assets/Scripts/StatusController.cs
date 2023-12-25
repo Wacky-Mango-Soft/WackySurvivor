@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -194,6 +195,16 @@ public class StatusController : MonoBehaviour
             currentThirsty -= _count;
     }
 
+    public void IncreaseStamina(int _count)
+    {
+        if (currentSp + _count > sp)
+        {
+            currentSp = sp;
+        }
+        else
+            currentSp += _count;
+    }
+
     public void DecreaseStamina(int _count)
     {
         spUsed = true;
@@ -230,4 +241,5 @@ public class StatusController : MonoBehaviour
     {
         return currentSp;
     }
+
 }
