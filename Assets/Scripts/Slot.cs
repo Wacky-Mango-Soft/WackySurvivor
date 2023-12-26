@@ -15,13 +15,17 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [SerializeField]
     private GameObject go_CountImage;
 
-    private Rect baseRect;  // Inventory_Base 이미지의 Rect 정보 받아 옴.
     private InputNumber theInputNumber;
     private ItemEffectDatabase theItemEffectDatabase;
 
+    [SerializeField] private RectTransform baseRect;  // Inventory_Base 의 영역
+    [SerializeField] private RectTransform quickSlotBaseRect; // 퀵슬롯의 영역. 퀵슬롯 영역의 슬롯들을 묶어 관리하는 'Content' 오브젝트가 할당 됨.
+
+    [SerializeField] private bool isQuickSlot;  // 해당 슬롯이 퀵슬롯인지 여부 판단
+    [SerializeField] private int quickSlotNumber;  // 퀵슬롯 넘버
+
     void Start()
     {
-        baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
         theInputNumber = FindObjectOfType<InputNumber>();
         theItemEffectDatabase = FindObjectOfType<ItemEffectDatabase>();
     }
@@ -112,13 +116,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // 마우스 드래그가 끝났을 때 발생하는 이벤트
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (DragSlot.instance.transform.localPosition.x < baseRect.xMin
-            || DragSlot.instance.transform.localPosition.x > baseRect.xMax
-            || DragSlot.instance.transform.localPosition.y < baseRect.yMin
-            || DragSlot.instance.transform.localPosition.y > baseRect.yMax)
+        if (!((DragSlot.instance.transform.localPosition.x > baseRect.rect.xMin
+            && DragSlot.instance.transform.localPosition.x < baseRect.rect.xMax
+            && DragSlot.instance.transform.localPosition.y > baseRect.rect.yMin
+            && DragSlot.instance.transform.localPosition.y < baseRect.rect.yMax)
+            ||
+            (DragSlot.instance.transform.localPosition.x > quickSlotBaseRect.rect.xMin
+            && DragSlot.instance.transform.localPosition.x < quickSlotBaseRect.rect.xMax
+            && DragSlot.instance.transform.localPosition.y + baseRect.transform.localPosition.y > quickSlotBaseRect.rect.yMin + quickSlotBaseRect.transform.localPosition.y
+            && DragSlot.instance.transform.localPosition.y + baseRect.transform.localPosition.y < quickSlotBaseRect.rect.yMax + quickSlotBaseRect.transform.localPosition.y)))
         {
             if (DragSlot.instance.dragSlot != null)
+            {
                 theInputNumber.Call();
+            }
 
         }
         else
@@ -132,7 +143,17 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void OnDrop(PointerEventData eventData)
     {
         if (DragSlot.instance.dragSlot != null)
+        {
             ChangeSlot();
+
+            if (isQuickSlot)  // 인벤토리->퀵슬롯 or 퀵슬롯->퀵슬롯
+                theItemEffectDatabase.IsActivatedquickSlot(quickSlotNumber);
+            else  // 인벤토리->인벤토리. 퀵슬롯->인벤토리
+            {
+                if (DragSlot.instance.dragSlot.isQuickSlot)  // 퀵슬롯->인벤토리
+                    theItemEffectDatabase.IsActivatedquickSlot(DragSlot.instance.dragSlot.quickSlotNumber);
+            }
+        }
     }
 
     private void ChangeSlot()
@@ -157,5 +178,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void OnPointerExit(PointerEventData eventData)
     {
         theItemEffectDatabase.HideToolTip();
+    }
+
+    public int GetQuickSlotNumber()
+    {
+        return quickSlotNumber;
     }
 }

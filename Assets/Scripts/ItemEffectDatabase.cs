@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,15 @@ public class ItemEffectDatabase : MonoBehaviour
     private WeaponManager theWeaponManager;
     [SerializeField]
     private SlotToolTip theSlotToolTip;
+    [SerializeField]
+    private QuickSlotController theQuickSlotController;
+
+
+    // QuickSlotController > Slot 징검다리
+    public void IsActivatedquickSlot(int _num)
+    {
+        theQuickSlotController.IsActivatedQuickSlot(_num);
+    }
 
     // SlotToolTip > Slot
     public void ShowToolTip(Item _item, Vector3 _pos)
@@ -92,4 +102,5 @@ public class ItemEffectDatabase : MonoBehaviour
             Debug.Log("itemEffectDatabase에 일치하는 itemName이 없습니다.");
         }
     }
+
 }
