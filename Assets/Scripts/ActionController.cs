@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class ActionController : MonoBehaviour
 {
@@ -21,10 +24,20 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private Inventory theInventory;
 
+    private RaycastHit hitInfo_SphereRay;
+    private float castRadius = 1.0f;
+    private Vector3 previousCameraForward;
+
+    private void Start()
+    {
+    }
+
     void Update()
     {
         CheckItem();
         TryAction();
+        CheckDragableItem();
+        TryDrag();
     }
 
     private void TryAction()
@@ -34,6 +47,48 @@ public class ActionController : MonoBehaviour
             CheckItem();
             CanPickUp();
         }
+    }
+
+    private void TryDrag()
+    {
+        if (Input.GetKey(KeyCode.F))
+        {
+            if (CheckDragableItem())
+            {
+                DragItem();
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.F) && CheckDragableItem())
+        {
+            DrowItem();
+        }
+    }
+
+    private void DragItem()
+    {
+        hitInfo_SphereRay.transform.position = transform.position + transform.forward * range;
+        previousCameraForward = transform.forward;
+    }
+
+    private void DrowItem()
+    {
+        Vector3 currentCameraForward = transform.forward;
+        Vector3 throwDirection = currentCameraForward - previousCameraForward;
+        float throwPower = ((throwDirection / Time.deltaTime).magnitude) % 10f;
+        Debug.Log(throwPower);
+        hitInfo_SphereRay.transform.GetComponent<Rigidbody>().AddForce(throwDirection.normalized * throwPower, ForceMode.Impulse);
+    }
+
+    private bool CheckDragableItem()
+    {
+        if (Physics.SphereCast(transform.position, castRadius, transform.forward, out hitInfo_SphereRay, range, layerMask))
+        {
+            if (hitInfo_SphereRay.transform.tag == "Item")
+            {
+                return true;
+            } 
+        }
+        return false;
     }
 
     private void CheckItem()
@@ -53,7 +108,7 @@ public class ActionController : MonoBehaviour
     {
         pickupActivated = true;
         actionText.gameObject.SetActive(true);
-        actionText.text = hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득 " + "<color=yellow>" + "(E)" + "</color>";
+        actionText.text = hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득 " + "<color=yellow>" + "(E)" + "</color>" + " 들기 " + "<color=yellow>" + "(F)" + "</color>";
     }
 
     private void ItemInfoDisappear()

@@ -83,6 +83,10 @@ public class InputNumber : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 
+        if (int.Parse(text_Preview.text) == _num)  // 모두 버리는거면
+            if (QuickSlotController.go_HandItem != null)  // 손에 아이템 들고 있다면
+                Destroy(QuickSlotController.go_HandItem);
+
         DragSlot.instance.dragSlot = null;
         go_Base.SetActive(false);
         activated = false;

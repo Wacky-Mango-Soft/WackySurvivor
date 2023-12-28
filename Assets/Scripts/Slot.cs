@@ -66,7 +66,13 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         text_Count.text = itemCount.ToString();
 
         if (itemCount <= 0)
+        {
             ClearSlot();
+            if (isQuickSlot)
+                if (QuickSlotController.go_HandItem != null)
+                    if (QuickSlotController.go_HandItem.GetComponent<ItemPickUp>().item.itemType == Item.ItemType.Used)
+                        Destroy(QuickSlotController.go_HandItem);
+        }
     }
 
     // 해당 슬롯 하나 삭제
@@ -116,6 +122,10 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // 마우스 드래그가 끝났을 때 발생하는 이벤트
     public void OnEndDrag(PointerEventData eventData)
     {
+        // fixed. 해상도 및 인터페이스 이동에 따라 가변적으로 적용하도록 변경.
+        float baseAndQuickDynamicPos = CalculateMovementDirection(baseRect.transform.localPosition, quickSlotBaseRect.transform.localPosition);
+
+        // 인벤토리 영역 || 퀵슬롯 영역
         if (!((DragSlot.instance.transform.localPosition.x > baseRect.rect.xMin
             && DragSlot.instance.transform.localPosition.x < baseRect.rect.xMax
             && DragSlot.instance.transform.localPosition.y > baseRect.rect.yMin
@@ -123,8 +133,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             ||
             (DragSlot.instance.transform.localPosition.x > quickSlotBaseRect.rect.xMin
             && DragSlot.instance.transform.localPosition.x < quickSlotBaseRect.rect.xMax
-            && DragSlot.instance.transform.localPosition.y + baseRect.transform.localPosition.y > quickSlotBaseRect.rect.yMin + quickSlotBaseRect.transform.localPosition.y
-            && DragSlot.instance.transform.localPosition.y + baseRect.transform.localPosition.y < quickSlotBaseRect.rect.yMax + quickSlotBaseRect.transform.localPosition.y)))
+            && DragSlot.instance.transform.localPosition.y > quickSlotBaseRect.rect.yMin + baseAndQuickDynamicPos
+            && DragSlot.instance.transform.localPosition.y < quickSlotBaseRect.rect.yMax + baseAndQuickDynamicPos)))
         {
             if (DragSlot.instance.dragSlot != null)
             {
@@ -139,9 +149,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
     }
 
+    // Extension method (인터페이스가 y축이 아닌 x축으로 이동했을때를 구하려면 내적을 구할때 조건을 다르게 처리해주면된다)
+    // 중앙을 앵커로 삼아놓고 이동했으므로 이렇게 계산할 수 있으니 캔버스 앵커를 마음대로 할거면 다른 방법을 시도할것
+    public float CalculateMovementDirection(Vector3 startPoint, Vector3 endPoint)
+    {
+        // 이동한 거리 계산
+        Vector3 movement = endPoint - startPoint;
+
+        // 이동한 거리에 대한 방향과 크기 반환
+        Vector3 direction = movement.normalized;
+        float distance = movement.magnitude;
+
+        // 내적 구해서 y값 이동에 따른 결과 출력 (양수면 같은방향, 음수면 반대방향, 0이면 수직이나 즉각이다)
+        if (Vector3.Dot(direction, Vector3.up) > 0)
+            return distance;
+        else
+            return -distance;
+    }
+
+
     // 해당 슬롯에 무언가가 마우스 드롭 됐을 때 발생하는 이벤트
     public void OnDrop(PointerEventData eventData)
     {
+        //Debug.Log("OnDrop");
         if (DragSlot.instance.dragSlot != null)
         {
             ChangeSlot();

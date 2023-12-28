@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class QuickSlotController : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class QuickSlotController : MonoBehaviour
 
     [SerializeField]
     private WeaponManager theWeaponManager;
+
+    [SerializeField] private Transform tf_ItemPos;  // 손 끝 오브젝트. 손 끝에 아이템이 위치도록 Transform 정보 받아올 것
+    public static GameObject go_HandItem;   // 손에 든 아이템. static인 이유는 이거 하나 받아오려고 📜QuickSlotController 로딩하는건 낭비라서
+
+    [SerializeField]
+    private ItemEffectDatabase theItemEffectDatabase;
 
     void Start()
     {
@@ -87,14 +94,43 @@ public class QuickSlotController : MonoBehaviour
             if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Equipment)
                 StartCoroutine(theWeaponManager.ChangeWeaponCoroutine(quickSlots[selectedSlot].item.weaponType, quickSlots[selectedSlot].item.itemName));
             else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used)
-                StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+                ChangeHand(quickSlots[selectedSlot].item);
             else
-                StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+                ChangeHand();
         }
         else
         {
-            StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+            ChangeHand();
         }
     }
 
+    private void ChangeHand(Item _item = null)
+    {
+        StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+
+        if (_item != null)
+            StartCoroutine(HandItemCoroutine());
+    }
+
+    IEnumerator HandItemCoroutine()
+    {
+        HandController.isActivate = false;
+        yield return new WaitUntil(() => HandController.isActivate);  // 맨손 교체의 마지막 과정
+
+        go_HandItem = Instantiate(quickSlots[selectedSlot].item.itemPrefab, tf_ItemPos.position, tf_ItemPos.rotation);
+        go_HandItem.GetComponent<Rigidbody>().isKinematic = true;  // 중력 영향 X 
+        go_HandItem.GetComponent<Collider>().enabled = false;  // 콜라이더 끔 (플레이어와 충돌하지 않게)
+        go_HandItem.tag = "Untagged";   // 획득 안되도록 레이어 태그 바꿈
+        go_HandItem.layer = 8;  // "Weapon" 레이어는 int
+        go_HandItem.transform.SetParent(tf_ItemPos);
+    }
+
+    public void EatItem()
+    {
+        theItemEffectDatabase.UseItem(quickSlots[selectedSlot].item);
+        quickSlots[selectedSlot].SetSlotCount(-1);
+
+        if (quickSlots[selectedSlot].itemCount <= 0)
+            Destroy(go_HandItem);
+    }
 }
