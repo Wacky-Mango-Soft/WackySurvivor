@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class QuickSlotController : MonoBehaviour
 {
     [SerializeField] private Slot[] quickSlots;  // 퀵슬롯들 (8개)
     [SerializeField] private Transform tf_parent;  // 퀵슬롯들의 부모 오브젝트
+    [SerializeField] private Image[] img_CoolTime;  // 퀵슬롯 쿨타임 이미지들 
 
     private int selectedSlot;  // 선택된 퀵슬롯의 인덱스 (0~7)
     [SerializeField] private GameObject go_SelectedImage;  // 선택된 퀵슬롯 이미지
@@ -16,40 +18,102 @@ public class QuickSlotController : MonoBehaviour
     private WeaponManager theWeaponManager;
 
     [SerializeField] private Transform tf_ItemPos;  // 손 끝 오브젝트. 손 끝에 아이템이 위치도록 Transform 정보 받아올 것
-    public static GameObject go_HandItem;   // 손에 든 아이템. static인 이유는 이거 하나 받아오려고 📜QuickSlotController 로딩하는건 낭비라서
+    public static GameObject go_HandItem;   // 손에 든 아이템. static인 이유는 이거 하나 받아오려고 QuickSlotController 로딩하는건 낭비라서
 
     [SerializeField]
     private ItemEffectDatabase theItemEffectDatabase;
+
+    [SerializeField]
+    private float coolTime;  // 정해짐 쿨타임  [SerializeField]로 유니티 인스펙터에서 결정
+    private float currentCoolTime;  // coolTime 을 시작점으로 0 이 될 때까지 감소 업뎃
+    private bool isCoolTime;  // 현재 쿨타임 중인지
+
+    // 퀵슬롯 등장 내용
+    [SerializeField] private float appearTime;  // 퀵슬롯이 나타나는 동안의 시간
+    private float currentAppearTime;
+    private bool isAppear;
+    private Animator anim;
 
     void Start()
     {
         quickSlots = tf_parent.GetComponentsInChildren<Slot>();
         selectedSlot = 0;
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
         TryInputNumber();
+        CoolTimeCalc();
+        AppearCalc();
+    }
+
+    private void CoolTimeReset()
+    {
+        currentCoolTime = coolTime;
+        isCoolTime = true;
+    }
+
+    private void CoolTimeCalc()
+    {
+        if (isCoolTime)
+        {
+            currentCoolTime -= Time.deltaTime;  // 1 초에 1 씩 감소
+
+            for (int i = 0; i < img_CoolTime.Length; i++)
+                img_CoolTime[i].fillAmount = currentCoolTime / coolTime;
+
+            if (currentCoolTime <= 0)
+                isCoolTime = false;
+        }
+    }
+
+    public void AppearReset()
+    {
+        currentAppearTime = appearTime;
+        isAppear = true;
+        anim.SetBool("Appear", isAppear);
+    }
+
+    private void AppearCalc()
+    {
+        if (Inventory.invectoryActivated)  // 인벤토리 켜져있을 땐 퀵슬롯도 늘 활성화
+            AppearReset();
+        else  // 인벤토리가 켜져 있지 않을때만 쿨타임 깎아야 함
+        {
+            if (isAppear)
+            {
+                currentAppearTime -= Time.deltaTime; // 1초에 1감소
+                if (currentAppearTime <= 0)
+                {
+                    isAppear = false;
+                    anim.SetBool("Appear", isAppear);
+                }
+            }
+        }
     }
 
     private void TryInputNumber()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            ChangeSlot(0);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            ChangeSlot(1);
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            ChangeSlot(2);
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            ChangeSlot(3);
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-            ChangeSlot(4);
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-            ChangeSlot(5);
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-            ChangeSlot(6);
-        else if (Input.GetKeyDown(KeyCode.Alpha8))
-            ChangeSlot(7);
+        if (!isCoolTime)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                ChangeSlot(0);
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                ChangeSlot(1);
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                ChangeSlot(2);
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+                ChangeSlot(3);
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+                ChangeSlot(4);
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+                ChangeSlot(5);
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+                ChangeSlot(6);
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+                ChangeSlot(7);
+        }
     }
 
     public void IsActivatedQuickSlot(int _num)
@@ -89,6 +153,9 @@ public class QuickSlotController : MonoBehaviour
 
     private void Execute()
     {
+        CoolTimeReset();
+        AppearReset(); // 퀵슬롯 선택시 퀵슬롯 나오게 변경 #1
+
         if (quickSlots[selectedSlot].item != null)
         {
             if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Equipment)
@@ -127,10 +194,16 @@ public class QuickSlotController : MonoBehaviour
 
     public void EatItem()
     {
+        CoolTimeReset();
+        AppearReset(); // 아이템 사용시 퀵슬롯 나오게 변경 #1
         theItemEffectDatabase.UseItem(quickSlots[selectedSlot].item);
         quickSlots[selectedSlot].SetSlotCount(-1);
 
         if (quickSlots[selectedSlot].itemCount <= 0)
             Destroy(go_HandItem);
+    }
+    public bool GetIsCoolTime()
+    {
+        return isCoolTime;
     }
 }

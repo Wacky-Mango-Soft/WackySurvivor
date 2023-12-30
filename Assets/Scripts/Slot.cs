@@ -65,6 +65,13 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         itemCount += _count;
         text_Count.text = itemCount.ToString();
 
+        // unknown code
+        //if (_count < 0)
+        //{
+        //    if (theItemEffectDatabase.GetIsFull())
+        //        theItemEffectDatabase.SetIsFull(false);
+        //}
+
         if (itemCount <= 0)
         {
             ClearSlot();
@@ -85,6 +92,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         text_Count.text = "0";
         go_CountImage.SetActive(false);
+
+        if (theItemEffectDatabase.GetIsFull())
+            theItemEffectDatabase.SetIsFull(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -93,10 +103,18 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             if (item != null)
             {
-                theItemEffectDatabase.UseItem(item);
-
-                if (item.itemType == Item.ItemType.Used)
-                    SetSlotCount(-1);
+                if (!isQuickSlot)  // 인벤토리 우클 (인벤토리에서는 쿨타임 적용 x, 적용하려면 쿨타임 이미지 추가하고 퀵슬롯 컨트롤러하고 똑같이 하면된다
+                {
+                    theItemEffectDatabase.UseItem(item);
+                    if (item.itemType == Item.ItemType.Used)
+                        SetSlotCount(-1);
+                }
+                else if (!theItemEffectDatabase.GetIsCoolTime())  // 퀵슬롯 우클 + 쿨타임 중이 아닐 때
+                {
+                    theItemEffectDatabase.UseItem(item);
+                    if (item.itemType == Item.ItemType.Used)
+                        SetSlotCount(-1);
+                }
             }
         }
     }
@@ -104,7 +122,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // 마우스 드래그가 시작 됐을 때 발생하는 이벤트
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (item != null)
+        if (item != null && Inventory.invectoryActivated) // #2 인벤토리가 아닐땐 드레그 불가
         {
             DragSlot.instance.dragSlot = this;
             DragSlot.instance.DragSetImage(itemImage);
@@ -115,40 +133,44 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // 마우스 드래그 중일 때 계속 발생하는 이벤트
     public void OnDrag(PointerEventData eventData)
     {
-        if (item != null)
+        if (item != null && Inventory.invectoryActivated) // #2
             DragSlot.instance.transform.position = eventData.position;
     }
 
     // 마우스 드래그가 끝났을 때 발생하는 이벤트
     public void OnEndDrag(PointerEventData eventData)
     {
-        // fixed. 해상도 및 인터페이스 이동에 따라 가변적으로 적용하도록 변경.
-        float baseAndQuickDynamicPos = CalculateMovementDirection(baseRect.transform.localPosition, quickSlotBaseRect.transform.localPosition);
-
-        // 인벤토리 영역 || 퀵슬롯 영역
-        if (!((DragSlot.instance.transform.localPosition.x > baseRect.rect.xMin
-            && DragSlot.instance.transform.localPosition.x < baseRect.rect.xMax
-            && DragSlot.instance.transform.localPosition.y > baseRect.rect.yMin
-            && DragSlot.instance.transform.localPosition.y < baseRect.rect.yMax)
-            ||
-            (DragSlot.instance.transform.localPosition.x > quickSlotBaseRect.rect.xMin
-            && DragSlot.instance.transform.localPosition.x < quickSlotBaseRect.rect.xMax
-            && DragSlot.instance.transform.localPosition.y > quickSlotBaseRect.rect.yMin + baseAndQuickDynamicPos
-            && DragSlot.instance.transform.localPosition.y < quickSlotBaseRect.rect.yMax + baseAndQuickDynamicPos)))
+        if (Inventory.invectoryActivated) // #2
         {
-            if (DragSlot.instance.dragSlot != null)
+            // fixed. #1 해상도 및 인터페이스 이동에 따라 가변적으로 적용하도록 변경.
+            float baseAndQuickDynamicPos = CalculateMovementDirection(baseRect.transform.localPosition, quickSlotBaseRect.transform.localPosition);
+
+            // 인벤토리 영역 || 퀵슬롯 영역
+            if (!((DragSlot.instance.transform.localPosition.x > baseRect.rect.xMin
+                && DragSlot.instance.transform.localPosition.x < baseRect.rect.xMax
+                && DragSlot.instance.transform.localPosition.y > baseRect.rect.yMin
+                && DragSlot.instance.transform.localPosition.y < baseRect.rect.yMax)
+                ||
+                (DragSlot.instance.transform.localPosition.x > quickSlotBaseRect.rect.xMin
+                && DragSlot.instance.transform.localPosition.x < quickSlotBaseRect.rect.xMax
+                && DragSlot.instance.transform.localPosition.y > quickSlotBaseRect.rect.yMin + baseAndQuickDynamicPos
+                && DragSlot.instance.transform.localPosition.y < quickSlotBaseRect.rect.yMax + baseAndQuickDynamicPos)))
             {
-                theInputNumber.Call();
-            }
+                if (DragSlot.instance.dragSlot != null)
+                {
+                    theInputNumber.Call();
+                }
 
-        }
-        else
-        {
-            DragSlot.instance.SetColor(0);
-            DragSlot.instance.dragSlot = null;
+            }
+            else
+            {
+                DragSlot.instance.SetColor(0);
+                DragSlot.instance.dragSlot = null;
+            }
         }
     }
 
+    // #1
     // Extension method (인터페이스가 y축이 아닌 x축으로 이동했을때를 구하려면 내적을 구할때 조건을 다르게 처리해주면된다)
     // 중앙을 앵커로 삼아놓고 이동했으므로 이렇게 계산할 수 있으니 캔버스 앵커를 마음대로 할거면 다른 방법을 시도할것
     public float CalculateMovementDirection(Vector3 startPoint, Vector3 endPoint)
@@ -171,17 +193,20 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // 해당 슬롯에 무언가가 마우스 드롭 됐을 때 발생하는 이벤트
     public void OnDrop(PointerEventData eventData)
     {
-        //Debug.Log("OnDrop");
-        if (DragSlot.instance.dragSlot != null)
+        if (Inventory.invectoryActivated) //#2
         {
-            ChangeSlot();
-
-            if (isQuickSlot)  // 인벤토리->퀵슬롯 or 퀵슬롯->퀵슬롯
-                theItemEffectDatabase.IsActivatedquickSlot(quickSlotNumber);
-            else  // 인벤토리->인벤토리. 퀵슬롯->인벤토리
+            //Debug.Log("OnDrop");
+            if (DragSlot.instance.dragSlot != null)
             {
-                if (DragSlot.instance.dragSlot.isQuickSlot)  // 퀵슬롯->인벤토리
-                    theItemEffectDatabase.IsActivatedquickSlot(DragSlot.instance.dragSlot.quickSlotNumber);
+                ChangeSlot();
+
+                if (isQuickSlot)  // 인벤토리->퀵슬롯 or 퀵슬롯->퀵슬롯
+                    theItemEffectDatabase.IsActivatedquickSlot(quickSlotNumber);
+                else  // 인벤토리->인벤토리. 퀵슬롯->인벤토리
+                {
+                    if (DragSlot.instance.dragSlot.isQuickSlot)  // 퀵슬롯->인벤토리
+                        theItemEffectDatabase.IsActivatedquickSlot(DragSlot.instance.dragSlot.quickSlotNumber);
+                }
             }
         }
     }

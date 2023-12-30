@@ -36,7 +36,14 @@ public class ItemEffectDatabase : MonoBehaviour
     private SlotToolTip theSlotToolTip;
     [SerializeField]
     private QuickSlotController theQuickSlotController;
+    [SerializeField]
+    private Inventory theInventory;
 
+    // Inventory > QuickSlot
+    public void AppearReset()
+    {
+        theQuickSlotController.AppearReset();
+    }
 
     // QuickSlotController > Slot 징검다리
     public void IsActivatedquickSlot(int _num)
@@ -54,6 +61,23 @@ public class ItemEffectDatabase : MonoBehaviour
     public void HideToolTip()
     {
         theSlotToolTip.HideToolTip();
+    }
+
+    public bool GetIsCoolTime()
+    {
+        return theQuickSlotController.GetIsCoolTime();
+    }
+
+    // Inventory > Slot
+    public bool GetIsFull()
+    {
+        return theInventory.GetIsInventoryFull();
+    }
+
+    // Inventory > Slot
+    public void SetIsFull(bool _flag)
+    {
+        theInventory.SetIsInventoryFull(_flag);
     }
 
     public void UseItem(Item _item)

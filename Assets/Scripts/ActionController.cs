@@ -20,6 +20,8 @@ public class ActionController : MonoBehaviour
 
     [SerializeField]
     private Text actionText;  // 행동을 보여 줄 텍스트
+    [SerializeField]
+    private Text itemFullText;  // 아이템이 꽉 찼다는 경고 메세지를 보여줄 텍스트 #1
 
     [SerializeField]
     private Inventory theInventory;
@@ -27,6 +29,7 @@ public class ActionController : MonoBehaviour
     private RaycastHit hitInfo_SphereRay;
     private float castRadius = 1.0f;
     private Vector3 previousCameraForward;
+
 
     private void Start()
     {
@@ -119,7 +122,7 @@ public class ActionController : MonoBehaviour
 
     private void CanPickUp()
     {
-        if (pickupActivated)
+        if (pickupActivated && !theInventory.GetIsInventoryFull())
         {
             if (hitInfo.transform != null)
             {
@@ -129,5 +132,15 @@ public class ActionController : MonoBehaviour
                 ItemInfoDisappear();
             }
         }
+    }
+
+    // #1
+    public IEnumerator WhenInventoryIsFull()
+    {
+        itemFullText.gameObject.SetActive(true);
+        itemFullText.text = "아이템이 가득 찼습니다.";
+
+        yield return new WaitForSeconds(3.0f);  // 3 초 후 메세지는 사라짐. 메세지는 3 초만 띄움.
+        itemFullText.gameObject.SetActive(false);
     }
 }
