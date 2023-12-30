@@ -78,7 +78,7 @@ public class ActionController : MonoBehaviour
         Vector3 currentCameraForward = transform.forward;
         Vector3 throwDirection = currentCameraForward - previousCameraForward;
         float throwPower = ((throwDirection / Time.deltaTime).magnitude) % 10f;
-        Debug.Log(throwPower);
+        //Debug.Log(throwPower);
         hitInfo_SphereRay.transform.GetComponent<Rigidbody>().AddForce(throwDirection.normalized * throwPower, ForceMode.Impulse);
     }
 
