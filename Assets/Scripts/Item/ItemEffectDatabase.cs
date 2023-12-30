@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// #1 효과 타입 Enum 레이블로 변환
 public enum RestoreType
 {
     HP,

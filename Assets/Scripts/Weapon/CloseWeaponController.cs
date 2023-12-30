@@ -15,6 +15,7 @@ public abstract class CloseWeaponController : MonoBehaviour
     protected bool isSwing = false;
 
     protected RaycastHit hitInfo;
+    [SerializeField] protected LayerMask layerMask;
 
     // 필요한 컴포넌트
     protected PlayerController thePlayerController;
@@ -34,6 +35,16 @@ public abstract class CloseWeaponController : MonoBehaviour
                             StartCoroutine(thePlayerController.TreeLookCoroutine(hitInfo.transform.GetComponent<TreeComponent>().GetTreeCenterPosition()));
                             StartCoroutine(AttackCoroutine("Chop", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
                             return;
+                        }
+                        else if (hitInfo.transform.tag == "WeakAnimal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        {
+                            SoundManager.instance.PlaySE("Animal_Hit");
+                            hitInfo.transform.GetComponent<WeakAnimal>().Damage(currentCloseWeapon.damage, transform.position);
+                        }
+                        else if (hitInfo.transform.tag == "StrongAnimal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        {
+                            SoundManager.instance.PlaySE("Animal_Hit");
+                            hitInfo.transform.GetComponent<StrongAnimal>().Damage(currentCloseWeapon.damage, transform.position);
                         }
                     }
 
@@ -65,7 +76,7 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     protected bool CheckObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range))
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range, layerMask))
         {
             return true;
         }

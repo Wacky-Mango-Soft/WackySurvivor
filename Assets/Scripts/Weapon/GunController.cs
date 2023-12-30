@@ -30,6 +30,7 @@ public class GunController : MonoBehaviour
 
     // 레이저 충돌 정보 받아올 변수
     private RaycastHit hitInfo;
+    [SerializeField] private LayerMask layerMask;
 
     // 필요한 컴포넌트
     [SerializeField] private Camera theCam;
@@ -109,7 +110,7 @@ public class GunController : MonoBehaviour
             new Vector3(UnityEngine.Random.Range(-theCrosshair.GetAccuracy() - currentGun.accuracy, theCrosshair.GetAccuracy() + currentGun.accuracy),
                         UnityEngine.Random.Range(-theCrosshair.GetAccuracy() - currentGun.accuracy, theCrosshair.GetAccuracy() + currentGun.accuracy),
                         0)
-            , out hitInfo, currentGun.range)) {
+            , out hitInfo, currentGun.range, layerMask)) {
             GameObject clone = Instantiate(hitEffectPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(clone, 2f);
             Debug.Log(hitInfo.transform.name); // 타겟 확인용 디버깅
