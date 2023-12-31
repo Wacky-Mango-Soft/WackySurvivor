@@ -239,4 +239,9 @@ public class PlayerController : MonoBehaviour
         pauseCameraRotation = false;
     }
 
+    public bool GetRun()
+    {
+        return isRun;
+    }
+
 }
