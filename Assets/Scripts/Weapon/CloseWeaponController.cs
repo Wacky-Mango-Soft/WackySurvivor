@@ -20,6 +20,11 @@ public abstract class CloseWeaponController : MonoBehaviour
     // 필요한 컴포넌트
     protected PlayerController thePlayerController;
 
+    private void Start()
+    {
+        thePlayerController = FindObjectOfType<PlayerController>();
+    }
+
     protected void TryAttack()
     {
         if (!Inventory.invectoryActivated)
@@ -32,16 +37,17 @@ public abstract class CloseWeaponController : MonoBehaviour
                     {
                         if (currentCloseWeapon.isAxe && hitInfo.transform.tag == "Tree")
                         {
+                            //Debug.Log(hitInfo.transform.tag + "주시중");
                             StartCoroutine(thePlayerController.TreeLookCoroutine(hitInfo.transform.GetComponent<TreeComponent>().GetTreeCenterPosition()));
                             StartCoroutine(AttackCoroutine("Chop", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
                             return;
                         }
-                        else if (hitInfo.transform.tag == "WeakAnimal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        else if (hitInfo.transform.tag == "Weak_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
                         {
                             SoundManager.instance.PlaySE("Animal_Hit");
                             hitInfo.transform.GetComponent<WeakAnimal>().Damage(currentCloseWeapon.damage, transform.position);
                         }
-                        else if (hitInfo.transform.tag == "StrongAnimal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        else if (hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
                         {
                             SoundManager.instance.PlaySE("Animal_Hit");
                             hitInfo.transform.GetComponent<StrongAnimal>().Damage(currentCloseWeapon.damage, transform.position);

@@ -192,18 +192,24 @@ public class QuickSlotController : MonoBehaviour
         go_HandItem.transform.SetParent(tf_ItemPos);
     }
 
-    public void EatItem()
+    public void DecreaseSelectedItem()
     {
         CoolTimeReset();
-        AppearReset(); // 아이템 사용시 퀵슬롯 나오게 변경 #1
-        theItemEffectDatabase.UseItem(quickSlots[selectedSlot].item);
+        AppearReset();
+
         quickSlots[selectedSlot].SetSlotCount(-1);
 
         if (quickSlots[selectedSlot].itemCount <= 0)
             Destroy(go_HandItem);
     }
+
     public bool GetIsCoolTime()
     {
         return isCoolTime;
+    }
+
+    public Slot GetSelectedSlot()
+    {
+        return quickSlots[selectedSlot];
     }
 }

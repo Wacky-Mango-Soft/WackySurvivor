@@ -7,11 +7,6 @@ public class AxeController : CloseWeaponController
         // 활성화 여부
     public static bool isActivate = false;
 
-    private void Start()
-    {
-
-    }
-
     void Update()
     {
         if (isActivate)

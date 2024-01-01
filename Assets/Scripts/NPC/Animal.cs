@@ -20,6 +20,7 @@ public class Animal : MonoBehaviour
     protected bool isRunning; // 달리는지 판별
     protected bool isDead;   // 죽었는지 판별
     protected bool isChasing; // 추격중인지 판별
+    protected bool isAttacking; // 공격중인지 판별
 
     [SerializeField] protected float walkTime;  // 걷기 시간
     [SerializeField] protected float waitTime;  // 대기 시간
@@ -33,6 +34,7 @@ public class Animal : MonoBehaviour
     [SerializeField] protected BoxCollider boxCol;
     protected AudioSource theAudio;
     protected FieldOfViewAngle theFieldOfViewAngle;
+    protected StatusController thePlayerStatus;
 
     [SerializeField] protected AudioClip[] sound_Normal; // 돼지의 일상 소리. 여러개라 배열로
     [SerializeField] protected AudioClip sound_Hurt;  // 돼지가 맞을 때 소리
@@ -45,9 +47,10 @@ public class Animal : MonoBehaviour
     {
         currentTime = waitTime;   // 대기 시작
         isAction = true;   // 대기도 행동
-        theAudio = GetComponent<AudioSource>();  // 오디오 컴포넌트 가져오기
+        theAudio = GetComponent<AudioSource>();
         nav = GetComponent<NavMeshAgent>();
         theFieldOfViewAngle = GetComponent<FieldOfViewAngle>();
+        thePlayerStatus = FindObjectOfType<StatusController>();
     }
 
     protected virtual void Update() // 자식 객체에서도 사용하기 위해 가상함수 선언
@@ -82,7 +85,7 @@ public class Animal : MonoBehaviour
         if (isAction)
         {
             currentTime -= Time.deltaTime;
-            if (currentTime <= 0 && !isChasing)  // 랜덤하게 다음 행동을 개시 (추격중이 아닐때 추가)
+            if (currentTime <= 0 && !isChasing && !isAttacking)  // 랜덤하게 다음 행동을 개시 (추격중이 아닐때 추가)
                 initAction();
         }
     }
@@ -141,8 +144,10 @@ public class Animal : MonoBehaviour
         isWalking = false;
         isRunning = false;
         isDead = true;
-
+        isAttacking = false;
         anim.SetTrigger("Dead");
+
+        nav.ResetPath();
     }
 
     protected void RandomSound()
@@ -160,5 +165,10 @@ public class Animal : MonoBehaviour
     public bool GetIsDead()
     {
         return isDead;
+    }
+
+    public string GetAnimalName()
+    {
+        return animalName;
     }
 }

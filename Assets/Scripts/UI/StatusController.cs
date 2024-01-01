@@ -88,7 +88,7 @@ public class StatusController : MonoBehaviour
     {
         images_Gauge[HP].fillAmount = (float)currentHp / hp;
         images_Gauge[SP].fillAmount = (float)currentSp / sp;
-        images_Gauge[DP].fillAmount = (float)currentHp / dp;
+        images_Gauge[DP].fillAmount = (float)currentDp / dp;
         images_Gauge[HUNGRY].fillAmount = (float)currentHungry / hungry;
         images_Gauge[THIRSTY].fillAmount = (float)currentThirsty / thirsty;
         images_Gauge[SATISFY].fillAmount = (float)currentSatisfy / satisfy;

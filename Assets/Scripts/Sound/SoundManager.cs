@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 클래스 자체를 직렬화 SerializeField처럼 인스펙터창에 띄운다
 [System.Serializable]
@@ -37,10 +38,17 @@ public class SoundManager : MonoBehaviour
     public Sound[] effectSounds;
     public Sound[] bgmSounds;
 
+    public bool isRandomBgmPlaying;
+
+    [SerializeField] private Button bgmBtn;
+    private Color btnColor;
+
     private void Start()
     {
         playSoundName = new string[audioSourceEffects.Length];
+        isRandomBgmPlaying = false;
     }
+
 
     public void PlaySE(string _name)
     {
@@ -86,16 +94,63 @@ public class SoundManager : MonoBehaviour
         Debug.Log("재생 중인" + _name + "사운드가 없습니다.");
     }
 
-    public void PlayBGM(string _name)
+    //#0
+    public void PlayRequestedBGM(string _name)
     {
+        if (isRandomBgmPlaying)
+        {
+            audioSourceBgm.Stop();
+            isRandomBgmPlaying = false;
+        }
+
         for (int i = 0; i < bgmSounds.Length; i++)
         {
             if (_name == bgmSounds[i].name)
             {
-                audioSourceBgm.Stop();
                 audioSourceBgm.clip = bgmSounds[i].clip;
                 audioSourceBgm.Play();
+                return;
             }
         }
+        Debug.Log(_name + " 사운드가 SoundManager에 등록되지 않았습니다.");
+    }
+
+    //#0
+    public void PlayRandomBGM()
+    {
+        isRandomBgmPlaying = !isRandomBgmPlaying;
+
+        if (isRandomBgmPlaying)
+        {
+            btnColor = bgmBtn.image.color;
+            btnColor.a = 1f;
+            bgmBtn.image.color = btnColor;
+            StartCoroutine(RandomBGMCheckCoroutine());
+        }
+        else
+        {
+            btnColor = bgmBtn.image.color;
+            btnColor.a = 0.5f;
+            bgmBtn.image.color = btnColor;
+            StopCoroutine(RandomBGMCheckCoroutine());
+            audioSourceBgm.Stop();
+        }
+    }
+
+    //#0
+    IEnumerator RandomBGMCheckCoroutine()
+    {
+        yield return new WaitUntil(() => !audioSourceBgm.isPlaying);
+
+        while (isRandomBgmPlaying)
+        {
+            int randIdx = Random.Range(0, bgmSounds.Length);
+            audioSourceBgm.clip = bgmSounds[randIdx].clip;
+            Debug.Log("<color=yellow>" + bgmSounds[randIdx].name + "</color>" + " 재생을 시작합니다");
+            audioSourceBgm.Play();
+
+            yield return new WaitForSeconds(audioSourceBgm.clip.length);
+        }
+        Debug.Log("랜덤 BGM 재생을 종료합니다");
     }
 }

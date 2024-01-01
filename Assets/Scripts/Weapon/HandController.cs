@@ -9,13 +9,15 @@ public class HandController : CloseWeaponController
     public static bool isActivate = true;
 
     [SerializeField]
-    private QuickSlotController theQuickSlotController;
+    private QuickSlotController theQuickSlot;
+    [SerializeField]
+    private ItemEffectDatabase theItemEffectDatabase;
 
     private void Start()
     {
         WeaponManager.currentWeapon = currentCloseWeapon.GetComponent<Transform>();
         WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;
-        thePlayerController = FindObjectOfType<PlayerController>();
+        //thePlayerController = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -31,10 +33,12 @@ public class HandController : CloseWeaponController
 
     private void TryEating()
     {
-        if (Input.GetButtonDown("Fire2") && !theQuickSlotController.GetIsCoolTime())
+        if (Input.GetButtonDown("Fire2") && !theQuickSlot.GetIsCoolTime())
         {
             currentCloseWeapon.anim.SetTrigger("Eat");
-            theQuickSlotController.EatItem();
+            //#0 아이템 효과 사용
+            theItemEffectDatabase.UseItem(theQuickSlot.GetSelectedSlot().item);
+            theQuickSlot.DecreaseSelectedItem();
         }
     }
 

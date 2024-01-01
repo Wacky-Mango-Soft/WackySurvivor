@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    static public bool isActivated = true;
+
     // 스피드 조정 변수
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
@@ -61,16 +63,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IsGround();
-        TryJump();
-        TryRun();
-        TryCrounch();
-        Move();
-        MoveCheck();
-        if(!Inventory.invectoryActivated)
+        if (isActivated)
         {
-            CameraRotation();
-            CharacterRotation();
+            IsGround();
+            TryJump();
+            TryRun();
+            TryCrounch();
+            Move();
+            MoveCheck();
+
+            if(!Inventory.invectoryActivated)
+            {
+                CameraRotation();
+                CharacterRotation();
+            }
         }
     }
 

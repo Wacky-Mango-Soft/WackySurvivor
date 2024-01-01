@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4994666671455451258}
   - component: {fileID: 1263925971083227569}
   - component: {fileID: 2389648960141756198}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pig
-  m_TagString: WeakAnimal
+  m_TagString: Weak_Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,7 +82,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   runSpeed: 8
   walkTime: 10
   waitTime: 4
-  runTime: 20
+  runTime: 10
   movingDistance: 5
   anim: {fileID: 7726521846808667635}
   rigid: {fileID: 7052839119774145986}
@@ -115,6 +115,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8f8582b9e1419c9489c2f055e0b7b9d6, type: 3}
   sound_Hurt: {fileID: 8300000, guid: 2576a8e1fd281864ba888a6c4e83b676, type: 3}
   sound_Dead: {fileID: 8300000, guid: 65140d1bef2dca24790253f9884c3a52, type: 3}
+  item_Prefab: {fileID: 11400000, guid: 3f28835cbc4a9144ab7bd6f0c3cd4d90, type: 2}
+  itemNumber: 3
+  DeadBodyDisappearTime: 3
 --- !u!82 &4994666671455451258
 AudioSource:
   m_ObjectHideFlags: 0
@@ -268,9 +271,73 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3293707752883665427}
     m_Modifications:
+    - target: {fileID: 100000, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100020, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 100024, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
       propertyPath: m_Name
       value: pig
+      objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100028, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100030, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400024, guid: cfb4000a5f9598a4d9dbad028d46680d, type: 3}
       propertyPath: m_LocalScale.x

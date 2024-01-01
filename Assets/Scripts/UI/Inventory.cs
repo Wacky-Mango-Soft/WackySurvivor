@@ -12,10 +12,13 @@ public class Inventory : MonoBehaviour
     private GameObject go_SlotsParent;  // Slot들의 부모인 Grid Setting 
     [SerializeField]
     private GameObject go_QuickSlotParent;  // 퀵슬롯 영역
+    [SerializeField]
+    private QuickSlotController theQuickSlot;
 
     private Slot[] slots;  // 슬롯들 배열
     private Slot[] quickSlots; // 퀵슬롯의 슬롯들
     private bool isNotPut;
+    private int SlotNumber;
 
     private ItemEffectDatabase theItemEffectDatabase; // #1 Bug fix.
 
@@ -66,6 +69,11 @@ public class Inventory : MonoBehaviour
         theItemEffectDatabase.AppearReset(); // #2 아이템이 채워질때 퀵슬롯이 나오도록 수정
 
         PutSlot(quickSlots, _item, _count);
+
+        //#3 퀵슬롯이 위치한 곳에 아이템 획득시 변경
+        if (!isNotPut)
+            theQuickSlot.IsActivatedQuickSlot(SlotNumber);
+
         if (isNotPut)
             PutSlot(slots, _item, _count);
 
@@ -86,6 +94,8 @@ public class Inventory : MonoBehaviour
                 {
                     if (_slots[i].item.itemName == _item.itemName)
                     {
+                        //#3
+                        SlotNumber = i;
                         _slots[i].SetSlotCount(_count);
                         isNotPut = false;
                         return;
@@ -98,6 +108,8 @@ public class Inventory : MonoBehaviour
         {
             if (_slots[i].item == null)
             {
+                //#3
+                SlotNumber = i;
                 _slots[i].AddItem(_item, _count);
                 isNotPut = false;
                 return;
