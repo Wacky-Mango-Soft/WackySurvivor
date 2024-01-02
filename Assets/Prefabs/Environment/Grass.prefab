@@ -13,8 +13,68 @@ PrefabInstance:
       value: Grass
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
       propertyPath: m_TagString
       value: Grass
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100020, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 100028, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
       propertyPath: m_LocalScale.x
@@ -82,6 +142,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7266125419478800339}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8045421864844542243}
     - targetCorrespondingSourceObject: {fileID: 100002, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5914853162405424721}
@@ -318,6 +381,33 @@ MonoBehaviour:
   hit_sound: Twig_Hit
   item_leaf: {fileID: 11400000, guid: b4c3cd9c4a153ef428cf84c812e36717, type: 2}
   leafCount: 3
+--- !u!54 &8045421864844542243
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7751064391609517572}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7751064391609517574 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 7afe87e847fe2e4418013b30914f5bee, type: 3}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6967748352691337382}
   - component: {fileID: 4260557454636576753}
   - component: {fileID: 1139764330221217546}
+  - component: {fileID: 3878597022437775928}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Rock
@@ -78,6 +79,33 @@ MonoBehaviour:
   count: 5
   strike_Sound: Pickaxe_Strike
   destroy_Sound: Rock_Destroy
+--- !u!54 &3878597022437775928
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570944052885957679}
+  serializedVersion: 4
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &4366216071583588348
 PrefabInstance:
   m_ObjectHideFlags: 0
