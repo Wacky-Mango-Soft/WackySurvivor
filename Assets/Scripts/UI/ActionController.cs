@@ -43,6 +43,11 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private string sound_meat; // 고기 해체 소리
 
+    // #0 Bgm 테스트
+    private void Start()
+    {
+        SoundManager.instance.PlayRandomBGM();
+    }
 
     void Update()
     {
