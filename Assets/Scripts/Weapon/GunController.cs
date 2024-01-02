@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
@@ -114,6 +115,15 @@ public class GunController : MonoBehaviour
             GameObject clone = Instantiate(hitEffectPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(clone, 2f);
             Debug.Log(hitInfo.transform.name); // 타겟 확인용 디버깅
+            if (hitInfo.transform != null)
+            {
+                Animal animal = hitInfo.transform.GetComponent<Animal>();
+                if (animal != null)
+                {
+                    animal.Damage(currentGun.damage, transform.position);
+                    Debug.Log(hitInfo.transform.name + "에 " + currentGun.damage + "만큼의 데미지");
+                }
+            }
         }
     }
 

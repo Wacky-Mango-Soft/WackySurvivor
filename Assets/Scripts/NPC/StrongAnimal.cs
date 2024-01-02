@@ -28,15 +28,17 @@ public class StrongAnimal : Animal
         nav.speed = runSpeed;
         anim.SetBool("Running", isRunning);
 
-        if (!isDead)
-            nav.SetDestination(destination);
+        nav.SetDestination(destination);
     }
 
     public override void Damage(int _dmg, Vector3 _targetPos)
     {
         base.Damage(_dmg, _targetPos);
+
         if (!isDead)
+        {
             Chase(_targetPos);
+        }
     }
 
     protected IEnumerator ChaseTargetCoroutine()
@@ -54,10 +56,19 @@ public class StrongAnimal : Animal
                 {
                     Debug.Log("플레이어 공격 시도");
                     StartCoroutine(AttackCoroutine());
+                    yield break;
                 }
             }
+
             yield return new WaitForSeconds(chaseDelayTime);
             currentChaseTime += chaseDelayTime;
+
+            //#0 추적딜레이 중에 죽었을 경우 코루틴 해제
+            if (isDead)
+            {
+                CleanUpAfterDeath();
+                yield break;
+            }
         }
 
         isChasing = false;
@@ -68,6 +79,13 @@ public class StrongAnimal : Animal
 
     protected IEnumerator AttackCoroutine()
     {
+        //#0 공격딜레이 타임 안에 죽었을 경우 코루틴 해제
+        if (isDead)
+        {
+            CleanUpAfterDeath();
+            yield break;
+        }
+
         isAttacking = true;
 
         // 공격은 제자리에서 이루어져야 함.
@@ -92,10 +110,20 @@ public class StrongAnimal : Animal
         {
             Debug.Log("플레이어 빗나감!!");
         }
+
         yield return new WaitForSeconds(attackDelay);
 
         isAttacking = false;
         StartCoroutine(ChaseTargetCoroutine());
+    }
+
+    //#0 오직 코루틴 조건 변수 컨트롤을 위한 추가 메소드
+    protected void CleanUpAfterDeath()
+    {
+        isDead = true;
+        isChasing = false;
+        isRunning = false;
+        isAttacking = false;
     }
 
 }

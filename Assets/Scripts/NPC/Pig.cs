@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Pig : WeakAnimal
 {
+    protected override void Update()  // #1 플레이어 발소리 인식 & 전방위 시야각 도주
+    {
+        base.Update();
+        if (theFieldOfViewAngle.View() && !isDead)
+        {
+            Run(theFieldOfViewAngle.GetTargetPos());
+        }
+    }
 
     protected override void initAction()
     {

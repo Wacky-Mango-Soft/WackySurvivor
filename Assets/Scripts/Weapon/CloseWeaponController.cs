@@ -42,15 +42,10 @@ public abstract class CloseWeaponController : MonoBehaviour
                             StartCoroutine(AttackCoroutine("Chop", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
                             return;
                         }
-                        else if (hitInfo.transform.tag == "Weak_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        else if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
                         {
                             SoundManager.instance.PlaySE("Animal_Hit");
-                            hitInfo.transform.GetComponent<WeakAnimal>().Damage(currentCloseWeapon.damage, transform.position);
-                        }
-                        else if (hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
-                        {
-                            SoundManager.instance.PlaySE("Animal_Hit");
-                            hitInfo.transform.GetComponent<StrongAnimal>().Damage(currentCloseWeapon.damage, transform.position);
+                            hitInfo.transform.GetComponent<Animal>().Damage(currentCloseWeapon.damage, transform.position);
                         }
                     }
 

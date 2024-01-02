@@ -174,7 +174,9 @@ public class ActionController : MonoBehaviour
 
     private void MeatInfoAppear()
     {
-        if (hitInfo.transform.GetComponent<Animal>().GetIsDead()) // 죽은 돼지를 바라봤을 경우에만 (카메라에서 쏜 Raycast가 죽은 돼지와 충돌)
+        //#2 해당 동물로부터 아이템 획득이 가능한 경우에만 조건 추가
+        if (hitInfo.transform.GetComponent<Animal>().GetIsDead() 
+            && hitInfo.transform.GetComponent<Animal>().GetIsItemExsist())
         {
             Reset();
             dissolveActivated = true;
@@ -205,6 +207,7 @@ public class ActionController : MonoBehaviour
 
     private void CanPickUp()
     {
+        //#3 인벤토리 꽉찰 시 픽업 불가 조건 추가
         if (pickupActivated && !theInventory.GetIsInventoryFull())
         {
             if (hitInfo.transform != null)
@@ -221,7 +224,9 @@ public class ActionController : MonoBehaviour
     {
         if (dissolveActivated)
         {
-            if ((hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal") && hitInfo.transform.GetComponent<Animal>().GetIsDead() && !isDissolving)
+            if ((hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal")
+                && hitInfo.transform.GetComponent<Animal>().GetIsDead()
+                && !isDissolving)
             {
                 isDissolving = true;
                 InfoDisappear();
@@ -248,8 +253,8 @@ public class ActionController : MonoBehaviour
         SoundManager.instance.PlaySE(sound_meat);  // 고기 해체 소리
         yield return new WaitForSeconds(1.8f);  // 칼 해체하는 애니메이션 다 끝나길 기다림
 
-        // 고기 아이템 얻기
-        theInventory.AcquireItem(hitInfo.transform.GetComponent<WeakAnimal>().GetItem(), hitInfo.transform.GetComponent<WeakAnimal>().itemNumber);
+        // 고기 아이템 얻기 #4 Animal로 확장
+        theInventory.AcquireItem(hitInfo.transform.GetComponent<Animal>().GetItem(), hitInfo.transform.GetComponent<Animal>().itemNumber);
 
         // 칼 해체 손은 집어 넣고 다시 원래 무기로
         WeaponManager.currentWeapon.gameObject.SetActive(true);

@@ -43,6 +43,14 @@ public class Animal : MonoBehaviour
     protected Vector3 destination;  // 목적지
     protected NavMeshAgent nav; // 필요한 컴포넌트
 
+    [SerializeField]
+    protected Item item_Prefab;  // 해당 동물에게서 얻을 아이템
+    [SerializeField]
+    public int itemNumber;  // 아이템 획득 개수
+    [SerializeField]
+    protected float dissolveAfterDisappearTime; // 도축후 시체가 사라지는데 걸리는 시간
+
+
     void Start()
     {
         currentTime = waitTime;   // 대기 시작
@@ -139,14 +147,15 @@ public class Animal : MonoBehaviour
 
     protected void Dead()
     {
-        PlaySE(sound_Dead);
-
+        isDead = true;
         isWalking = false;
         isRunning = false;
-        isDead = true;
         isAttacking = false;
+        isChasing = false;
+        theAudio.Stop(); // #1 코루틴 오디오가 재생중일 경우를 위한 방어코드
+        PlaySE(sound_Dead);
+        anim.StopPlayback(); // #1 코루틴 애니메이션이 재생중일 경우를 위한 방어코드
         anim.SetTrigger("Dead");
-
         nav.ResetPath();
     }
 
@@ -170,5 +179,19 @@ public class Animal : MonoBehaviour
     public string GetAnimalName()
     {
         return animalName;
+    }
+
+    // 추후 메소드 기능을 나눌 필요있음 (아이템 프리펩을 리턴하나 이름에 맞지 않는 태그변환과 오브젝트 파괴 기능)
+    public Item GetItem()
+    {
+        this.gameObject.tag = "Untagged";
+        Destroy(this.gameObject, dissolveAfterDisappearTime);
+        return item_Prefab;
+    }
+
+    //#0 수확 또는 획득 가능한 아이템이 없을 경우 infoTooltip이나 dissolve 기능 활성화는 필요없기 때문에 null값 체크를 위해 만든 Getter
+    public bool GetIsItemExsist()
+    {
+        return item_Prefab != null;
     }
 }

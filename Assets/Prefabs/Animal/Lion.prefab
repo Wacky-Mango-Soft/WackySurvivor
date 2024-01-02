@@ -860,6 +860,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a3ea3dad86a7dac409ecb71db6f172a7, type: 3}
   sound_Hurt: {fileID: 8300000, guid: 9d97a7faf793dd648a60fc64a48543f3, type: 3}
   sound_Dead: {fileID: 8300000, guid: 465df6996f1a9e94cadc92209bd48e91, type: 3}
+  item_Prefab: {fileID: 11400000, guid: 3f28835cbc4a9144ab7bd6f0c3cd4d90, type: 2}
+  itemNumber: 2
+  dissolveAfterDisappearTime: 10
   attackDamage: 20
   attackDelay: 3
   attackDistance: 3
