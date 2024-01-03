@@ -36,6 +36,8 @@ public class ActionController : MonoBehaviour
     private RaycastHit hitInfo_SphereRay;
     private float castRadius = 1.0f;
     private Vector3 previousCameraForward;
+    private bool isSaveCoroutinePlaying = false;
+    [SerializeField, Range(0f, 1f)] private float saveTimeDuration;
 
     // 고기 해체용 변수
     [SerializeField]
@@ -86,14 +88,26 @@ public class ActionController : MonoBehaviour
     private void DragItem()
     {
         hitInfo_SphereRay.transform.position = transform.position + transform.forward * range;
+
+        if (isSaveCoroutinePlaying)
+            return;
+        else
+            StartCoroutine(PreviousCameraSaveCoroutine());
+    }
+
+    private IEnumerator PreviousCameraSaveCoroutine()
+    {
+        isSaveCoroutinePlaying = true;
         previousCameraForward = transform.forward;
+        yield return new WaitForSeconds(saveTimeDuration);
+        isSaveCoroutinePlaying = false;
     }
 
     private void DrowItem()
     {
         Vector3 currentCameraForward = transform.forward;
         Vector3 throwDirection = currentCameraForward - previousCameraForward;
-        float throwPower = ((throwDirection / Time.deltaTime).magnitude) % 10f;
+        float throwPower = (throwDirection / Time.deltaTime).magnitude % 10f;
         //Debug.Log(throwPower);
         hitInfo_SphereRay.transform.GetComponent<Rigidbody>().AddForce(throwDirection.normalized * throwPower, ForceMode.Impulse);
     }

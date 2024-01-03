@@ -214,16 +214,29 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
     }
 
-    private void ChangeSlot()
+    private void ChangeSlot() // 스왑 알고리즘
     {
+        //#0 현재 이동시키려는 아이템과 이동시키려는 슬롯에 있는 아이템이 동일아이템이고, 장비 아이템이 아닐 경우 스왑할 필요가 없다.
+        //#0 원래 슬롯에 아이템이 있고 && 해당 아이템이 드래그하려는 아이템과 일치하고 && 아이템타입이 장비타입이 아닌 경우
+        if (item != null && item.itemName == DragSlot.instance.dragSlot.item.itemName && item.itemType != Item.ItemType.Equipment) {
+            Debug.Log(item.itemName + " = item.itemname, " + DragSlot.instance.dragSlot.item.itemName + " = DragSlot.instance.dragSlot.item.itemName");
+            SetSlotCount(DragSlot.instance.dragSlot.itemCount);
+            DragSlot.instance.dragSlot.ClearSlot();
+            return;
+        }
+
+        // 현재 슬롯의 아이템을 임시변수에 담고
         Item _tempItem = item;
         int _tempItemCount = itemCount;
 
+        // 드래그 슬롯에 있는 아이템을 교환당하는 슬롯에 대입
         AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
 
-        if (_tempItem != null)
+        // 임시변수에 값이 있다면 드래그슬롯의 원래 위치에 교환당한 슬롯의 아이템을 넣어줘야한다.
+        if (_tempItem != null) {
             DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
-        else
+        }
+        else // null이라면 빈슬롯에 드래그한 것이므로 드래그슬롯의 원래 슬롯의 위치를 비운다.
             DragSlot.instance.dragSlot.ClearSlot();
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43375495, g: 0.6976623, b: 0.6221096, a: 1}
+  m_IndirectSpecularColor: {r: 0.43483922, g: 0.6980048, b: 0.6224537, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -628,6 +628,12 @@ MonoBehaviour:
   - itemName: Potion Yellow
     part: 010000000300000004000000
     num: f40100006400000064000000
+  - itemName: "\uC0DD\uACE0\uAE30"
+    part: 0000000003000000
+    num: 320000000a000000
+  - itemName: "\uC775\uD78C\uACE0\uAE30"
+    part: 0000000003000000
+    num: c800000064000000
   thePlayerStatus: {fileID: 348888624}
   theWeaponManager: {fileID: 1809753785}
   theSlotToolTip: {fileID: 492189737}
@@ -10908,7 +10914,7 @@ MonoBehaviour:
   accuracy: 0.01
   fireRate: 0.1
   reloadTime: 2
-  damage: 30
+  damage: 1
   reloadBulletCount: 30
   currentBulletCount: 30
   maxBulletCount: 0
@@ -12537,6 +12543,7 @@ MonoBehaviour:
   theInventory: {fileID: 979383952}
   theWeaponManager: {fileID: 1809753785}
   theQuickSlot: {fileID: 1022806028}
+  saveTimeDuration: 0.209
   tf_MeatDissolveTool: {fileID: 1779896827}
   sound_meat: Meat
 --- !u!1 &979383950
@@ -13011,63 +13018,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55805bda70ac20c47ab1acfbebedb8ea, type: 3}
---- !u!1001 &1060246583
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1158104861434760, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_Name
-      value: Fire_Preview
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 234.25798
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 20.258724
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 131.38791
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.65536165
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.0169542
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7548204
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.021444708
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4376889597962232, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7a468a7438442bf4b99f050a7ec652b0, type: 3}
 --- !u!1 &1061171102
 GameObject:
   m_ObjectHideFlags: 0
@@ -27664,4 +27614,3 @@ SceneRoots:
   - {fileID: 144371978}
   - {fileID: 1177260972}
   - {fileID: 2053241925}
-  - {fileID: 1060246583}
