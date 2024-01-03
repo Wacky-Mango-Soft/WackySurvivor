@@ -58,7 +58,7 @@ public class CraftManual : MonoBehaviour
     {
         if (isPreviewActivated && go_Preview.GetComponent<PreviewObject>().IsBuildable())
         {
-            Instantiate(go_Prefab, hitInfo.point, Quaternion.identity);
+            Instantiate(go_Prefab, go_Preview.transform.position, go_Preview.transform.rotation);
             Destroy(go_Preview);
             isActivated = false;
             isPreviewActivated=false;
@@ -74,6 +74,15 @@ public class CraftManual : MonoBehaviour
             if (hitInfo.transform != null)
             {
                 Vector3 _location = hitInfo.point;
+
+                // 회전
+                if (Input.GetKeyDown(KeyCode.Q))
+                    go_Preview.transform.Rotate(0f, -90f, 0f);
+                else if (Input.GetKeyDown(KeyCode.E))
+                    go_Preview.transform.Rotate(0f, +90f, 0f);
+
+                // Grid 단위 Building
+                _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / 0.1f) * 0.1f, Mathf.Round(_location.z));
                 go_Preview.transform.position = _location;
                 //Debug.Log(hitInfo.transform.name);
             }
