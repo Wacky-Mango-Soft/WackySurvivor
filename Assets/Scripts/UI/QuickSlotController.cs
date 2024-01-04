@@ -46,6 +46,7 @@ public class QuickSlotController : MonoBehaviour
         TryInputNumber();
         CoolTimeCalc();
         AppearCalc();
+        TryInputMouseWheel();
     }
 
     private void CoolTimeReset()
@@ -115,6 +116,33 @@ public class QuickSlotController : MonoBehaviour
                 ChangeSlot(7);
         }
     }
+
+    //#0 MouseWheel Slot Select function
+    private void TryInputMouseWheel()
+    {
+        // Math.Sign 양수면 +1, 음수면 -1 리턴
+        // Input.GetAxis("Mouse ScrollWheel") 마우스 휠 위로 굴리면 양수 float, 아래로 굴리면 음수 float 리턴
+        int temp_SlotNumber = selectedSlot;
+        int temp_MouseWheelDirection = Math.Sign(Input.GetAxis("Mouse ScrollWheel"));
+
+        if (temp_MouseWheelDirection > 0)
+        {
+            if (selectedSlot - temp_MouseWheelDirection < 0)
+            {
+                temp_SlotNumber = quickSlots.Length;
+            }
+            ChangeSlot(temp_SlotNumber - temp_MouseWheelDirection);
+        }
+        else if (temp_MouseWheelDirection < 0)
+        {
+            if (selectedSlot + Math.Abs(temp_MouseWheelDirection) >= quickSlots.Length)
+            {
+                temp_SlotNumber = temp_MouseWheelDirection;
+            }
+            ChangeSlot(temp_SlotNumber + Math.Abs(temp_MouseWheelDirection));
+        }
+    }
+
 
     public void IsActivatedQuickSlot(int _num)
     {

@@ -47,7 +47,6 @@ public class GunController : MonoBehaviour
         retroActionRecoilBack = new Vector3(currentGun.retroActionFineSightForce, currentGun.fineSightOriginPos.y, currentGun.fineSightOriginPos.z);
         audioSource = GetComponent<AudioSource>();
         theCrosshair = FindObjectOfType<Crosshair>();
-
     }
 
     void Update()
@@ -114,6 +113,8 @@ public class GunController : MonoBehaviour
             , out hitInfo, currentGun.range, layerMask)) {
             GameObject clone = Instantiate(hitEffectPrefab, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
             Destroy(clone, 2f);
+
+            //#0 총으로 Animal 공격 가능하도록 기능 추가
             Debug.Log(hitInfo.transform.name); // 타겟 확인용 디버깅
             if (hitInfo.transform != null)
             {
