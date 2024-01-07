@@ -38,9 +38,6 @@ public class ComputerKit : MonoBehaviour {
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         theInven = FindObjectOfType<Inventory>();
         theAudio = GetComponent<AudioSource>();
     }
@@ -54,18 +51,14 @@ public class ComputerKit : MonoBehaviour {
 
     public void PowerOn()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        //GameManager.isOpenComputer = true;
+        GameManager.instance.isOpenComputer = true;
         isPowerOn = true;
         go_BaseUi.SetActive(true);
     }
 
     private void PowerOff()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        //GameManager.isOpenComputer = false;
+        GameManager.instance.isOpenComputer = false;
         isPowerOn = false;
         theToolTip.HideToolTip();
         go_BaseUi.SetActive(false);
