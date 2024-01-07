@@ -149,6 +149,9 @@ public class CraftManual : MonoBehaviour
         go_Preview = Instantiate(craft_SelectedTab[selectedSlotNumber].go_PreviewPrefab, tf_Player.position + tf_Player.forward, Quaternion.identity);
         go_Prefab = craft_SelectedTab[selectedSlotNumber].go_Prefab;
         isPreviewActivated = true;
+
+        GameManager.instance.isOpenCraftManual = false;
+
         go_BaseUI.SetActive(false);
     }
 
@@ -218,7 +221,7 @@ public class CraftManual : MonoBehaviour
                     go_Preview.transform.Rotate(0f, +90f, 0f);
 
                 // Grid 단위 Building
-                _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / 0.01f) * 0.01f, Mathf.Round(_location.z));
+                _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / 0.1f) * 0.1f, Mathf.Round(_location.z));
                 go_Preview.transform.position = _location;
                 //Debug.Log(hitInfo.transform.name);
             }
@@ -234,6 +237,9 @@ public class CraftManual : MonoBehaviour
         isPreviewActivated= false;
         go_Preview = null;
         go_Prefab = null;
+
+        GameManager.instance.isOpenCraftManual = false;
+
         go_BaseUI.SetActive(false);
     }
 
@@ -247,12 +253,14 @@ public class CraftManual : MonoBehaviour
 
     private void OpenWindow()
     {
+        GameManager.instance.isOpenCraftManual = true;
         isActivated = true;
         go_BaseUI.SetActive(true);
     }
 
     private void CloseWindow()
     {
+        GameManager.instance.isOpenCraftManual = false;
         isActivated = false;
         go_BaseUI.SetActive(false);
     }

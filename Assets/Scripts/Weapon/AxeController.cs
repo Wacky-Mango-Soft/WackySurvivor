@@ -9,7 +9,7 @@ public class AxeController : CloseWeaponController
 
     void Update()
     {
-        if (isActivate)
+        if (isActivate && GameManager.instance.canPlayerMove)
         {
             TryAttack();
         }

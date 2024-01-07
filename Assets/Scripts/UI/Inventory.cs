@@ -54,11 +54,13 @@ public class Inventory : MonoBehaviour
 
     private void OpenInventory()
     {
+        GameManager.instance.isOpenInventory = true;
         go_InventoryBase.SetActive(true);
     }
 
     private void CloseInventory()
     {
+        GameManager.instance.isOpenInventory = false;
         go_InventoryBase.SetActive(false);
         theItemEffectDatabase.HideToolTip(); // #1 인벤토리 상태에서 툴팁을 띄우고 i를 통해 인벤토리 비활성화시 툴팁 사라지지 않는 문제.
     }
@@ -70,7 +72,7 @@ public class Inventory : MonoBehaviour
 
         PutSlot(quickSlots, _item, _count);
 
-        //#3 퀵슬롯이 위치한 곳에 아이템 획득시 변경
+        // 퀵슬롯이 위치한 곳에 아이템 획득시 변경
         if (!isNotPut)
             theQuickSlot.IsActivatedQuickSlot(SlotNumber);
 
@@ -86,7 +88,7 @@ public class Inventory : MonoBehaviour
 
     private void PutSlot(Slot[] _slots, Item _item, int _count)
     {
-        if (Item.ItemType.Equipment != _item.itemType)
+        if (Item.ItemType.Equipment != _item.itemType && Item.ItemType.Kit != _item.itemType)
         {
             for (int i = 0; i < _slots.Length; i++)
             {
@@ -94,7 +96,6 @@ public class Inventory : MonoBehaviour
                 {
                     if (_slots[i].item.itemName == _item.itemName)
                     {
-                        //#3
                         SlotNumber = i;
                         _slots[i].SetSlotCount(_count);
                         isNotPut = false;
@@ -108,7 +109,6 @@ public class Inventory : MonoBehaviour
         {
             if (_slots[i].item == null)
             {
-                //#3
                 SlotNumber = i;
                 _slots[i].AddItem(_item, _count);
                 isNotPut = false;
@@ -137,7 +137,7 @@ public class Inventory : MonoBehaviour
 
     private int SearchSlotItem(Slot[] _slots, string _itemName)
     {
-        for (int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < _slots.Length; i++)
         {
             if (_slots[i].item != null)
             {

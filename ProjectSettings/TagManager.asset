@@ -13,6 +13,7 @@ TagManager:
   - Strong_Animal
   - Fire
   - Structure
+  - Computer
   layers:
   - Default
   - TransparentFX
@@ -30,7 +31,7 @@ TagManager:
   - 
   - Terrain
   - Building
-  - 
+  - Computer
   - 
   - 
   - 

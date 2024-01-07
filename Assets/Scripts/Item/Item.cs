@@ -10,7 +10,8 @@ public class Item : ScriptableObject  // 게임 오브젝트에 붙일 필요 X
         Equipment,
         Used,
         Ingredient,
-        ETC,
+        Kit,
+        ETC
     }
 
     public string itemName; // 아이템의 이름
@@ -18,6 +19,9 @@ public class Item : ScriptableObject  // 게임 오브젝트에 붙일 필요 X
     [TextArea] public string itemDesc; // 아이템의 설명
     public Sprite itemImage; // 아이템의 이미지(인벤 토리 안에서 띄울)
     public GameObject itemPrefab;  // 아이템의 프리팹 (아이템 생성시 프리팹으로 찍어냄)
+
+    public GameObject kitPrefab; // 키트 프리팹
+    public GameObject kitPreviewPrefab; // 키트 프리뷰 프리팹
 
     public string weaponType;  // 무기 유형
 }

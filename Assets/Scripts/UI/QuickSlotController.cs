@@ -120,6 +120,8 @@ public class QuickSlotController : MonoBehaviour
     //#0 MouseWheel Slot Select function
     private void TryInputMouseWheel()
     {
+        if (isCoolTime) { return; }
+
         // Math.Sign 양수면 +1, 음수면 -1 리턴
         // Input.GetAxis("Mouse ScrollWheel") 마우스 휠 위로 굴리면 양수 float, 아래로 굴리면 음수 float 리턴
         int temp_SlotNumber = selectedSlot;
@@ -188,7 +190,7 @@ public class QuickSlotController : MonoBehaviour
         {
             if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Equipment)
                 StartCoroutine(theWeaponManager.ChangeWeaponCoroutine(quickSlots[selectedSlot].item.weaponType, quickSlots[selectedSlot].item.itemName));
-            else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used)
+            else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used || quickSlots[selectedSlot].item.itemType == Item.ItemType.Kit)
                 ChangeHand(quickSlots[selectedSlot].item);
             else
                 ChangeHand();
@@ -204,13 +206,18 @@ public class QuickSlotController : MonoBehaviour
         StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
 
         if (_item != null)
-            StartCoroutine(HandItemCoroutine());
+        {
+            StartCoroutine(HandItemCoroutine(_item));
+        }
     }
 
-    IEnumerator HandItemCoroutine()
+    IEnumerator HandItemCoroutine(Item _item)
     {
         HandController.isActivate = false;
         yield return new WaitUntil(() => HandController.isActivate);  // 맨손 교체의 마지막 과정
+
+        if (_item.itemType == Item.ItemType.Kit)
+            HandController.currentKit = _item;
 
         go_HandItem = Instantiate(quickSlots[selectedSlot].item.itemPrefab, tf_ItemPos.position, tf_ItemPos.rotation);
         go_HandItem.GetComponent<Rigidbody>().isKinematic = true;  // 중력 영향 X 

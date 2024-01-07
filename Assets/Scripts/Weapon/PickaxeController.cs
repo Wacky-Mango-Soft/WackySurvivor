@@ -11,7 +11,7 @@ public class PickaxeController : CloseWeaponController
 
     void Update()
     {
-        if (isActivate)
+        if (isActivate && GameManager.instance.canPlayerMove)
         {
             TryAttack();
         }

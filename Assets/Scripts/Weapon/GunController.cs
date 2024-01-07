@@ -51,7 +51,7 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
-        if (isActivate)
+        if (isActivate && GameManager.instance.canPlayerMove)
         {
             GunFireRateCalc();
             if (!Inventory.invectoryActivated)

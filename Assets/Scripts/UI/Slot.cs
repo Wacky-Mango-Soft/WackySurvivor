@@ -145,8 +145,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             // fixed. #1 해상도 및 인터페이스 이동에 따라 가변적으로 적용하도록 변경.
             // #1 quickSlotBase의 부모인 QuickSlot의 앵커를 중앙 하단으로 변경 후 해당 로컬포지션을 기반으로 계산하도록 함.
             float baseAndQuickDynamicPos = CalculateMovementDirection(baseRect.transform.localPosition, quickSlotBaseRect.transform.parent.transform.localPosition);
-            Debug.Log(DragSlot.instance.transform.localPosition.y + " >> drag y  " + DragSlot.instance.transform.localPosition.x + " >> drag x");
-            Debug.Log(baseAndQuickDynamicPos + " >> baseAndQuickDynamicPos");
+            //Debug.Log(DragSlot.instance.transform.localPosition.y + " >> drag y  " + DragSlot.instance.transform.localPosition.x + " >> drag x");
+            //Debug.Log(baseAndQuickDynamicPos + " >> baseAndQuickDynamicPos");
 
             // 인벤토리 영역 || 퀵슬롯 영역
             if (!((DragSlot.instance.transform.localPosition.x > baseRect.rect.xMin
