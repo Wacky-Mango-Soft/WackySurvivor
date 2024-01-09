@@ -26,7 +26,7 @@ public class DayAndNight : MonoBehaviour
         if (transform.eulerAngles.x >= 170) {
             isNight = true;
         }
-        else if (transform.eulerAngles.x <= 10) {
+        else if (transform.eulerAngles.x >= -10) {
             isNight = false;
         }
 
