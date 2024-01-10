@@ -27,13 +27,13 @@ public class GameManager : MonoBehaviour {
     public bool isOpenArchemyTable = false; // 연금 테이블 창 활성화.
     public bool isOpenComputer = false; // 컴퓨터 창 활성화.
 
-    //public static bool isNight = false;
-    //public static bool isWater = false;
+    public bool isNight = false;
+    public bool isWater = false;
 
     //public static bool isPause = false; // 메뉴가 호출되면 true
 
-    //private WeaponManager theWM;
-    //private bool flag = false;
+    private WeaponManager theWM;
+    private bool flag = false;
 
     // Update is called once per frame
     void Update()
@@ -51,23 +51,23 @@ public class GameManager : MonoBehaviour {
             canPlayerMove = true;
         }
 
-        //if (isWater)
-        //{
-        //    if (!flag)
-        //    {
-        //        StopAllCoroutines();
-        //        StartCoroutine(theWM.WeaponInCoroutine());
-        //        flag = true;
-        //    }
-        //}
-        //else
-        //{
-        //    if (flag)
-        //    {
-        //        flag = false;
-        //        theWM.WeaponOut();
-        //    }
-        //}
+        if (isWater)
+        {
+            if (!flag)
+            {
+                StopAllCoroutines();
+                StartCoroutine(theWM.WeaponInCoroutine());
+                flag = true;
+            }
+        }
+        else
+        {
+            if (flag)
+            {
+                flag = false;
+                theWM.WeaponOut();
+            }
+        }
 
     }
 
@@ -75,8 +75,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        //theWM = FindObjectOfType<WeaponManager>();
-
+        theWM = FindObjectOfType<WeaponManager>();
     }
 	
 	

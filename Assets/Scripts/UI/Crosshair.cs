@@ -12,41 +12,59 @@ public class Crosshair : MonoBehaviour
     // 이동시 조준점 변경
     public void WalkingAnimation(bool _flag)
     {
-        WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
-        animator.SetBool("Walking", _flag);
+        if (!GameManager.instance.isWater)
+        {
+            WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
+            animator.SetBool("Walking", _flag);
+        }
     }
     public void RunningAnimation(bool _flag)
     {
-        WeaponManager.currentWeaponAnim.SetBool("Run", _flag);
-        animator.SetBool("Running", _flag);
+        if (!GameManager.instance.isWater)
+        { 
+            WeaponManager.currentWeaponAnim.SetBool("Run", _flag);
+            animator.SetBool("Running", _flag);
+        }
     }
     public void JumpingAnimation(bool _flag)
     {
-        animator.SetBool("Running", _flag);
+        if (!GameManager.instance.isWater)
+        {
+            animator.SetBool("Running", _flag);
+        }
     }
     public void CrouchingAnimation(bool _flag)
     {
-        animator.SetBool("Crouching", _flag);
+        if (!GameManager.instance.isWater)
+        {
+            animator.SetBool("Crouching", _flag);
+        }
     }
     public void FineSightAnimation(bool _flag)
     {
-        animator.SetBool("FineSight", _flag);
+        if (!GameManager.instance.isWater)
+        {
+            animator.SetBool("FineSight", _flag);
+        }
     }
 
     // 사격시 조준점 변경
     public void FireAnimation()
     {
-        if(animator.GetBool("Walking"))
+        if (!GameManager.instance.isWater)
         {
-            animator.SetTrigger("Walk_Fire");
-        }
-        else if(animator.GetBool("Crouching"))
-        {
-            animator.SetTrigger("Crouch_Fire");
-        }
-        else
-        {
-            animator.SetTrigger("Idle_Fire");
+            if (animator.GetBool("Walking"))
+            {
+                animator.SetTrigger("Walk_Fire");
+            }
+            else if (animator.GetBool("Crouching"))
+            {
+                animator.SetTrigger("Crouch_Fire");
+            }
+            else
+            {
+                animator.SetTrigger("Idle_Fire");
+            }
         }
     }
 
