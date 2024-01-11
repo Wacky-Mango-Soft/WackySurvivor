@@ -12,7 +12,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float crouchSpeed;
-    private float applySpeed;   
+    [SerializeField] private float swimSpeed;
+    [SerializeField] private float swimFastSpeed;
+    [SerializeField] private float upSwimSpeed;
+
+    // #스피드 대입 변수 편한 디버깅을 위해 직렬화
+    [SerializeField] private float applySpeed;   
+
     [SerializeField] private float jumpForce;
 
     // 상태 변수
@@ -20,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool isRun = false;
     private bool isCrouch = false;
     private bool isGround = true;
+    private bool isSwim = false;
 
     // 움직임 체크 변수
     private Vector3 lastPos;
@@ -65,16 +72,53 @@ public class PlayerController : MonoBehaviour
     {
         if (isActivated && GameManager.instance.canPlayerMove)
         {
+            WaterCheck();
             IsGround();
             TryJump();
-            TryRun();
-            TryCrounch();
+            if (!GameManager.instance.isWater)
+            {
+                TryRun();
+                TryCrounch();
+            }
             Move();
             MoveCheck();
             CameraRotation();
             CharacterRotation();
         }
     }
+
+    private void WaterCheck()
+    {
+        // #fix GetKeyDown 토글 형식에서 변경. 물에서 나온뒤 applySpeed가 swinSpeed 상태인 부분 수정. isSwim 추가.
+        if (GameManager.instance.isWater)
+        {
+            isSwim = true;
+
+            if (isCrouch)
+            {
+                Crouch();
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                applySpeed = swimFastSpeed;
+            }
+            else
+            {
+                applySpeed = swimSpeed;
+            }
+
+        } 
+        else if (!GameManager.instance.isWater)
+        {
+            if (isSwim)
+            {
+                applySpeed = walkSpeed;
+                isSwim = false;
+            }
+        }
+    }
+
 
     // 앉기 시도
     private void TryCrounch() {
@@ -125,11 +169,20 @@ public class PlayerController : MonoBehaviour
 
     // 점프 시도
     private void TryJump() {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0) {
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0 && !GameManager.instance.isWater) {
             jump();
         }
+        else if (Input.GetKey(KeyCode.Space) && GameManager.instance.isWater)
+        {
+            UpSwim();
+        }
     }
-    
+
+    private void UpSwim()
+    {
+        myRigid.velocity = transform.up * upSwimSpeed;
+    }
+
     // 점프
     private void jump() {
         if (isCrouch) {
