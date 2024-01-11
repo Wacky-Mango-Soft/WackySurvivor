@@ -24,6 +24,8 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     [SerializeField] private bool isQuickSlot;  // 해당 슬롯이 퀵슬롯인지 여부 판단
     [SerializeField] private int quickSlotNumber;  // 퀵슬롯 넘버
 
+    
+
     void Start()
     {
         theInputNumber = FindObjectOfType<InputNumber>();
@@ -242,8 +244,9 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (item != null)
-            theItemEffectDatabase.ShowToolTip(item, transform.position);
+        if (item != null) {
+            theItemEffectDatabase.ShowToolTip(item, transform.position, isQuickSlot);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
