@@ -6,6 +6,7 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject go_BaseUI;
+    [SerializeField] private SaveNLoad theSaveNLoad;
 
     void Update()
     {
@@ -39,15 +40,17 @@ public class PauseMenu : MonoBehaviour
 
     public void ClickSave()
     {
-        Debug.Log("save");
+        Debug.Log("save button click");
+        theSaveNLoad.SaveData();
     }
     public void ClickLoad()
     {
-        Debug.Log("load");
+        Debug.Log("load button click");
+        theSaveNLoad.LoadData();
     }
     public void ClickExit()
     {
-        Debug.Log("exit");
+        Debug.Log("exit button click");
         Application.Quit();
     }
 }
