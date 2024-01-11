@@ -53,9 +53,9 @@ public class ItemEffectDatabase : MonoBehaviour
     }
 
     // SlotToolTip > Slot
-    public void ShowToolTip(Item _item, Vector3 _pos)
+    public void ShowToolTip(Item _item, Vector3 _pos, bool _isQuickSlot)
     {
-        theSlotToolTip.ShowToolTip(_item, _pos);
+        theSlotToolTip.ShowToolTip(_item, _pos, _isQuickSlot);
     }
 
     // SlotToolTip > Slot
