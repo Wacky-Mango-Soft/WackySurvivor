@@ -72,8 +72,10 @@ public class GunController : MonoBehaviour
 
     // 발사 시도
     private void TryFire() {
-        if (Input.GetButton("Fire1") && currentFireRate <= 0 && !isReload) {
-            Fire();
+        if (!GameManager.instance.isBuliding) {
+            if (Input.GetButton("Fire1") && currentFireRate <= 0 && !isReload) {
+                Fire();
+            }
         }
     }
 

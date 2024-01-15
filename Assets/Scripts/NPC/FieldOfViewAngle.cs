@@ -96,11 +96,11 @@ public class FieldOfViewAngle : MonoBehaviour
         _wayPoint[_path.corners.Length + 1] = _targetPos;
 
         float _pathLength = 0;  // 경로 길이를 더함
-        for (int i = 0; i < _path.corners.Length; i++)
-        {
+        for (int i = 0; i < _path.corners.Length; i++) {
             _wayPoint[i + 1] = _path.corners[i];
             _pathLength += Vector3.Distance(_wayPoint[i], _wayPoint[i + 1]);
         }
+        _pathLength += Vector3.Distance(_wayPoint[_wayPoint.Length - 1], _wayPoint[_wayPoint.Length - 2]);
 
         return _pathLength;
     }

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public bool isOpenCraftManual = false; // 건축 메뉴창 활성화.
     public bool isOpenArchemyTable = false; // 연금 테이블 창 활성화.
     public bool isOpenComputer = false; // 컴퓨터 창 활성화.
+    public bool isBuliding = false;
 
     public bool isNight = false;
     public bool isWater = false;

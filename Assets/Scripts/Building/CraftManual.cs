@@ -30,6 +30,7 @@ public class CraftManual : MonoBehaviour
     private int page = 1;
     private int selectedSlotNumber;
     private Craft[] craft_SelectedTab;
+    [SerializeField, Range(0, 1f)] private float buildAfterAttackDelay;
 
     [SerializeField] Craft[] craft_fire; // 모닥불용 탭
     [SerializeField] Craft[] craft_build; // 건축용 탭
@@ -149,7 +150,6 @@ public class CraftManual : MonoBehaviour
         go_Preview = Instantiate(craft_SelectedTab[selectedSlotNumber].go_PreviewPrefab, tf_Player.position + tf_Player.forward, Quaternion.identity);
         go_Prefab = craft_SelectedTab[selectedSlotNumber].go_Prefab;
         isPreviewActivated = true;
-
         GameManager.instance.isOpenCraftManual = false;
 
         go_BaseUI.SetActive(false);
@@ -181,11 +181,13 @@ public class CraftManual : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab) && !isPreviewActivated)
             Window();
 
-        if (isPreviewActivated)
+        if (isPreviewActivated) {
             PreviewPositionUpdate();
+        }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")) {
             Build();
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Cancel();
@@ -202,7 +204,13 @@ public class CraftManual : MonoBehaviour
             isPreviewActivated=false;
             go_Preview = null;
             go_Prefab = null;
+            StartCoroutine(DontShotDeleyTime());
         }
+    }
+
+    private IEnumerator DontShotDeleyTime() {
+        yield return new WaitForSeconds(buildAfterAttackDelay);
+        GameManager.instance.isBuliding = false;
     }
 
 
@@ -224,6 +232,7 @@ public class CraftManual : MonoBehaviour
                 _location.Set(Mathf.Round(_location.x), Mathf.Round(_location.y / 0.1f) * 0.1f, Mathf.Round(_location.z));
                 go_Preview.transform.position = _location;
                 //Debug.Log(hitInfo.transform.name);
+
             }
         }
     }
@@ -238,6 +247,7 @@ public class CraftManual : MonoBehaviour
         go_Preview = null;
         go_Prefab = null;
 
+        GameManager.instance.isBuliding = false;
         GameManager.instance.isOpenCraftManual = false;
 
         go_BaseUI.SetActive(false);
@@ -253,6 +263,7 @@ public class CraftManual : MonoBehaviour
 
     private void OpenWindow()
     {
+        GameManager.instance.isBuliding = true;
         GameManager.instance.isOpenCraftManual = true;
         isActivated = true;
         go_BaseUI.SetActive(true);
@@ -260,6 +271,7 @@ public class CraftManual : MonoBehaviour
 
     private void CloseWindow()
     {
+        GameManager.instance.isBuliding = false;
         GameManager.instance.isOpenCraftManual = false;
         isActivated = false;
         go_BaseUI.SetActive(false);
