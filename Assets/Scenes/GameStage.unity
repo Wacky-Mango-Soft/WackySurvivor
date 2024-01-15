@@ -22438,6 +22438,7 @@ MonoBehaviour:
   - {fileID: 741770423}
   - {fileID: 741770422}
   audioSourceBgm: {fileID: 741770421}
+  audioSourceTitleBgm: {fileID: 0}
   playSoundName: []
   effectSounds:
   - name: Pickaxe_Strike
@@ -22469,7 +22470,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 0aa51202ca0f28e43bb775996b47c472, type: 3}
   - name: StayStrong
     clip: {fileID: 8300000, guid: 9d7c45fb31a15e04f90f45876ebed357, type: 3}
-  isRandomBgmPlaying: 0
+  titleBgmSounds:
+    name: FreeTitleBGM
+    clip: {fileID: 8300000, guid: 21e5ad6d099a77343a159152603cddf7, type: 3}
   bgmBtn: {fileID: 778046917}
 --- !u!4 &741770429
 Transform:
@@ -24558,6 +24561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   go_BaseUI: {fileID: 499332671}
+  theSaveNLoad: {fileID: 1061834278}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -24779,6 +24783,21 @@ MonoBehaviour:
   go_QuickSlotParent: {fileID: 1022806026}
   theQuickSlot: {fileID: 1022806028}
   theActionController: {fileID: 963194229}
+  items:
+  - {fileID: 11400000, guid: 1ca610a110a0b9742a5993b3def02434, type: 2}
+  - {fileID: 11400000, guid: b72bf71b8344c374b870c669de4fc1f2, type: 2}
+  - {fileID: 11400000, guid: 1992a59e0666cd34ab88be544ca7e3ec, type: 2}
+  - {fileID: 11400000, guid: b4c3cd9c4a153ef428cf84c812e36717, type: 2}
+  - {fileID: 11400000, guid: 8eb160b4a98bfe54593a49c50c0b80cb, type: 2}
+  - {fileID: 11400000, guid: 015fb98ff35d5704cbc06fc26557e4de, type: 2}
+  - {fileID: 11400000, guid: 7bcbd4e4ae731c14eaa8cd36a1857269, type: 2}
+  - {fileID: 11400000, guid: 3f28835cbc4a9144ab7bd6f0c3cd4d90, type: 2}
+  - {fileID: 11400000, guid: b3524720b1583ef499e12270791ec392, type: 2}
+  - {fileID: 11400000, guid: 65f3027caa03e5943b7eda76cdd77424, type: 2}
+  - {fileID: 11400000, guid: 6a97b4fcdb1268644833b00cc4fff29e, type: 2}
+  - {fileID: 11400000, guid: e8b1179e8bea4ec4098b435ccf1d4b97, type: 2}
+  - {fileID: 11400000, guid: 69bfbffd61f02f14fa69cf675318ef4e, type: 2}
+  - {fileID: 11400000, guid: 827e4d36a36e46d4ca1f92fc0067d97f, type: 2}
 --- !u!4 &996457525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1769375247926856675, guid: 55805bda70ac20c47ab1acfbebedb8ea, type: 3}
@@ -25303,6 +25322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1061834276}
   - component: {fileID: 1061834277}
+  - component: {fileID: 1061834278}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -25345,6 +25365,18 @@ MonoBehaviour:
   isNight: 0
   isWater: 0
   isPause: 0
+--- !u!114 &1061834278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061834275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c43f0c1b711a3ac42833bbbb07fa53cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1064262829
 GameObject:
   m_ObjectHideFlags: 0

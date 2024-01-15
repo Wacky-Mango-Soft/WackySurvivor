@@ -26,6 +26,22 @@ public class Inventory : MonoBehaviour
     private ActionController theActionController;
     private bool isInventoryFull = false;  // 인벤토리 퀵슬롯 모두 꽉 찼는지 #1
 
+    // Func for Save
+    public Slot[] GetSlots() { return slots; }
+
+    [SerializeField] private Item[] items;
+
+    public void LoadToInven(int _arryNum, string _itemName, int _itemCount)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i].name == _itemName)
+            {
+                slots[_arryNum].AddItem(items[i], _itemCount);
+            }
+        }
+    }
+
     void Start()
     {
         slots = go_SlotsParent.GetComponentsInChildren<Slot>();

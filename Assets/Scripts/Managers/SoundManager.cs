@@ -32,13 +32,15 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource[] audioSourceEffects;
     public AudioSource audioSourceBgm;
+    public AudioSource audioSourceTitleBgm;
 
     public string[] playSoundName;
 
     public Sound[] effectSounds;
     public Sound[] bgmSounds;
+    public Sound titleBgmSounds;
 
-    public bool isRandomBgmPlaying;
+    private bool isRandomBgmPlaying;
 
     [SerializeField] private Button bgmBtn;
     private Color btnColor;
@@ -152,5 +154,19 @@ public class SoundManager : MonoBehaviour
             yield return new WaitForSeconds(audioSourceBgm.clip.length);
         }
         Debug.Log("랜덤 BGM 재생을 종료합니다");
+    }
+
+    //#1
+    public void TitleBgmPlay()
+    {
+        audioSourceTitleBgm.clip = titleBgmSounds.clip;
+        audioSourceTitleBgm.loop = true;
+        audioSourceTitleBgm.Play();
+    }
+
+    //#1
+    public void TitleBgmStop()
+    {
+        audioSourceTitleBgm.Stop();
     }
 }
