@@ -26,9 +26,17 @@ public class GameManager : MonoBehaviour {
     public bool isOpenCraftManual = false; // 건축 메뉴창 활성화.
     public bool isOpenArchemyTable = false; // 연금 테이블 창 활성화.
     public bool isOpenComputer = false; // 컴퓨터 창 활성화.
+
+    public bool isAnyOpenUI = false;
+    
     public bool isBuliding = false;
 
+    public bool isMorning = false;
     public bool isNight = false;
+    public bool isSunset = false;
+
+    public bool isSleeping = false;
+
     public bool isWater = false;
 
     public bool isPause = false; // 메뉴가 호출되면 true
@@ -50,6 +58,13 @@ public class GameManager : MonoBehaviour {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             canPlayerMove = true;
+        }
+
+        if (isOpenInventory || isOpenCraftManual || isOpenArchemyTable || isOpenComputer) {
+            isAnyOpenUI = true;
+        }
+        else {
+            isAnyOpenUI = false;
         }
 
         if (isWater)

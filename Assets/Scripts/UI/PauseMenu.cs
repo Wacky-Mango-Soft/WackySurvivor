@@ -10,17 +10,16 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (!GameManager.instance.isPause)
-            {
-                CallMenu();
+        if (!GameManager.instance.isAnyOpenUI) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                if (!GameManager.instance.isPause) {
+                    CallMenu();
+                }
+                else {
+                    CloseMenu();
+                }
             }
-            else
-            {
-                CloseMenu();
-            }
-        }    
+        }
     }
 
     private void CallMenu()

@@ -181,6 +181,10 @@ public class CraftManual : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab) && !isPreviewActivated)
             Window();
 
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            CloseWindow();
+        }
+
         if (isPreviewActivated) {
             PreviewPositionUpdate();
         }
@@ -189,7 +193,7 @@ public class CraftManual : MonoBehaviour
             Build();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Fire2"))
             Cancel();
     }
 

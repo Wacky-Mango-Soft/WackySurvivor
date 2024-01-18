@@ -52,6 +52,7 @@ public class Inventory : MonoBehaviour
     void Update()
     {
         TryOpenInventory();
+        TryCloseInventory();
     }
 
     private void TryOpenInventory()
@@ -64,6 +65,14 @@ public class Inventory : MonoBehaviour
                 OpenInventory();
             else
                 CloseInventory();
+
+        }
+    }
+
+    private void TryCloseInventory() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            invectoryActivated = false;
+            CloseInventory();
 
         }
     }
