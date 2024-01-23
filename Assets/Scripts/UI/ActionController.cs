@@ -18,6 +18,7 @@ public class ActionController : MonoBehaviour
     private bool lookComputer = false; // 컴퓨터를 바라볼시 true
     private bool lookArchemyTable = false; // 연금 테이블을 바라볼 시 true
     private bool lookActivatedTrap = false; // 가동된 함정을 바라볼 시 true
+    private bool lookWater = false; // 물을 바라볼 시 true(later 물 위에 있을시 구현)
 
     private RaycastHit hitInfo;  // 충돌체 정보 저장
 
@@ -75,9 +76,18 @@ public class ActionController : MonoBehaviour
             CanComputerPowerOn();
             CanArchemyTableOpen();
             CanReInstallTrap();
+            CanDrinkWater();
         }
     }
 
+    private void CanDrinkWater() {
+        if (lookWater) {
+            FindObjectOfType<StatusController>().IncreaseMaxThirsty();
+        }
+        else {
+            InfoDisappear();
+        }
+    }
 
     private void TryDrag()
     {
@@ -169,7 +179,7 @@ public class ActionController : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitInfo, range, layerMask))
         {
-            //Debug.Log(hitInfo.transform.name + " <" + hitInfo.transform.tag + "> 레이중...");
+            Debug.Log(hitInfo.transform.name + " <" + hitInfo.transform.tag + "> 레이중...");
             if (hitInfo.transform.tag == "Item")
                 ItemInfoAppear();
             else if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal")
@@ -182,11 +192,20 @@ public class ActionController : MonoBehaviour
                 ArchemyInfoAppear();
             else if (hitInfo.transform.tag == "Trap")
                 TrapInfoAppear();
+            else if (hitInfo.transform.tag == "Water")
+                WaterInfoAppear();
             else
                 InfoDisappear();
         }
         else
             InfoDisappear();
+    }
+
+    private void WaterInfoAppear() {
+        Reset();
+        lookWater = true;
+        actionText.gameObject.SetActive(true);
+        actionText.text = "물 마시기 " + "<color=yellow>" + "(E)" + "</color>";
     }
 
     // item > fire, fire > item, item > pickup 으로 레이가 바로 옮겨가는 상황 방지용 리셋 함수
@@ -272,6 +291,7 @@ public class ActionController : MonoBehaviour
         lookComputer = false;
         lookArchemyTable = false;
         lookActivatedTrap = false;
+        lookWater = false;
         actionText.gameObject.SetActive(false);
     }
 

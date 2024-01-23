@@ -130,7 +130,7 @@ public class Water : MonoBehaviour
     {
         if (GameManager.instance.isWater)
         {
-            go_BaseUI.SetActive(true);
+            go_BaseUI.SetActive(false);
             currentOxygen = totalOxygen;
             text_currentOxygen.text = currentOxygen.ToString();
             image_gauge.fillAmount = 1;

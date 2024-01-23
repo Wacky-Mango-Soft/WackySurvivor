@@ -242,4 +242,7 @@ public class StatusController : MonoBehaviour
         return currentSp;
     }
 
+    public void IncreaseMaxThirsty() {
+        currentThirsty = thirsty;
+    }
 }
