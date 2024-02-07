@@ -17,6 +17,7 @@ TagManager:
   - ArchemyTable
   - Trap
   - Water
+  - Bed
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Weapon
   - Fire
   - Item
-  - Water
+  - Bed
   - 
   - 
   - Terrain

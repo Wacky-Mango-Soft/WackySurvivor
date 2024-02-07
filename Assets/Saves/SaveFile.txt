@@ -1,1 +1,1 @@
-{"playerPos":{"x":10.355048179626465,"y":10.372947692871094,"z":-33.820613861083987},"playerRot":{"x":0.0,"y":292.0998229980469,"z":0.0},"invenArrayNumber":[0,5,13,16],"invenItemName":["Potion Yellow","생고기","Axe","Log"],"invenItemCount":[4,3,1,3]}
+{"playerPos":{"x":4.970000267028809,"y":2.7899999618530275,"z":-12.710000038146973},"playerRot":{"x":0.0,"y":90.0,"z":0.0},"invenArrayNumber":[],"invenItemName":[],"invenItemCount":[]}

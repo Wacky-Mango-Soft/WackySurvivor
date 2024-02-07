@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (isOpenInventory || isOpenCraftManual|| isOpenArchemyTable || isOpenComputer || isPause)
+        if (isOpenInventory || isOpenCraftManual|| isOpenArchemyTable || isOpenComputer || isPause || isSleeping)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

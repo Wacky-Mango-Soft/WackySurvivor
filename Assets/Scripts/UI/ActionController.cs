@@ -19,6 +19,7 @@ public class ActionController : MonoBehaviour
     private bool lookArchemyTable = false; // 연금 테이블을 바라볼 시 true
     private bool lookActivatedTrap = false; // 가동된 함정을 바라볼 시 true
     private bool lookWater = false; // 물을 바라볼 시 true(later 물 위에 있을시 구현)
+    private bool lookBed = false; // 침대를 바라볼 시 true
 
     private RaycastHit hitInfo;  // 충돌체 정보 저장
 
@@ -29,7 +30,7 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private Text actionText;  // 행동을 보여 줄 텍스트
     [SerializeField]
-    private Text itemFullText;  // 아이템이 꽉 찼다는 경고 메세지를 보여줄 텍스트 #1
+    private Text warningText;  // 아이템이 꽉 찼다는 경고 메세지를 보여줄 텍스트 #1
     [SerializeField]
     private Inventory theInventory;
     [SerializeField]
@@ -69,25 +70,18 @@ public class ActionController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            CheckAction();   // 고기 or 아이템 액션 텍스트 띄우기 시도
-            CanPickUp();  // 아이템을 주울 수 있는지 
-            CanMeat();  // 고기를 주울 수 있는지
+            CheckAction();   
+            CanPickUp();  
+            CanMeat(); 
             CanDropFire();
             CanComputerPowerOn();
             CanArchemyTableOpen();
             CanReInstallTrap();
+            CanSleep();
             CanDrinkWater();
         }
     }
 
-    private void CanDrinkWater() {
-        if (lookWater) {
-            FindObjectOfType<StatusController>().IncreaseMaxThirsty();
-        }
-        else {
-            InfoDisappear();
-        }
-    }
 
     private void TryDrag()
     {
@@ -179,7 +173,7 @@ public class ActionController : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitInfo, range, layerMask))
         {
-            Debug.Log(hitInfo.transform.name + " <" + hitInfo.transform.tag + "> 레이중...");
+            // Debug.Log(hitInfo.transform.name + " <" + hitInfo.transform.tag + "> 레이중...");
             if (hitInfo.transform.tag == "Item")
                 ItemInfoAppear();
             else if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal")
@@ -194,18 +188,13 @@ public class ActionController : MonoBehaviour
                 TrapInfoAppear();
             else if (hitInfo.transform.tag == "Water")
                 WaterInfoAppear();
+            else if (hitInfo.transform.tag == "Bed")
+                BedInfoAppear();
             else
                 InfoDisappear();
         }
         else
             InfoDisappear();
-    }
-
-    private void WaterInfoAppear() {
-        Reset();
-        lookWater = true;
-        actionText.gameObject.SetActive(true);
-        actionText.text = "물 마시기 " + "<color=yellow>" + "(E)" + "</color>";
     }
 
     // item > fire, fire > item, item > pickup 으로 레이가 바로 옮겨가는 상황 방지용 리셋 함수
@@ -283,6 +272,36 @@ public class ActionController : MonoBehaviour
         }
     }
 
+    private void BedInfoAppear() {
+        Reset();
+        lookBed = true;
+        //Debug.Log(lookBed);
+        actionText.gameObject.SetActive(true);
+        actionText.text = "잠 자기 " + "<color=yellow>" + "(E)" + "</color>";
+    }
+
+    private void WaterInfoAppear() {
+        Reset();
+        lookWater = true;
+        actionText.gameObject.SetActive(true);
+        actionText.text = "물 마시기 " + "<color=yellow>" + "(E)" + "</color>";
+    }
+
+
+    private void CanSleep() {
+        if (lookBed) {
+            FindObjectOfType<Sleep>().DoSleep();
+            InfoDisappear();
+        }
+    }
+
+    private void CanDrinkWater() {
+        if (lookWater) {
+            FindObjectOfType<StatusController>().IncreaseMaxThirsty();
+            InfoDisappear();
+        }
+    }
+
     private void InfoDisappear()
     {
         pickupActivated = false;
@@ -292,6 +311,7 @@ public class ActionController : MonoBehaviour
         lookArchemyTable = false;
         lookActivatedTrap = false;
         lookWater = false;
+        lookBed = false;
         actionText.gameObject.SetActive(false);
     }
 
@@ -396,12 +416,12 @@ public class ActionController : MonoBehaviour
     }
 
     // #1
-    public IEnumerator WhenInventoryIsFull()
+    public IEnumerator WarningTextCoroutine(string _text)
     {
-        itemFullText.gameObject.SetActive(true);
-        itemFullText.text = "아이템이 가득 찼습니다.";
+        warningText.gameObject.SetActive(true);
+        warningText.text = _text;
 
         yield return new WaitForSeconds(3.0f);  // 3 초 후 메세지는 사라짐. 메세지는 3 초만 띄움.
-        itemFullText.gameObject.SetActive(false);
+        warningText.gameObject.SetActive(false);
     }
 }

@@ -107,7 +107,7 @@ public class Inventory : MonoBehaviour
         if (isNotPut)
         {
             isInventoryFull = true;
-            StartCoroutine(theActionController.WhenInventoryIsFull());
+            StartCoroutine(theActionController.WarningTextCoroutine("아이템이 가득 찼습니다."));
         }
     }
 
