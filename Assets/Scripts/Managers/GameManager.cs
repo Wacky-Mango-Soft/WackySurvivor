@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour {
     public bool isWater = false;
 
     public bool isPause = false; // 메뉴가 호출되면 true
+    public bool isDied = false;
 
     private WeaponManager theWM;
     private bool flag = false;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (isOpenInventory || isOpenCraftManual|| isOpenArchemyTable || isOpenComputer || isPause || isSleeping)
+        if (isOpenInventory || isOpenCraftManual|| isOpenArchemyTable || isOpenComputer || isPause || isSleeping || isDied)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour {
         Cursor.visible = false;
         theWM = FindObjectOfType<WeaponManager>();
     }
-	
-	
+	public void ExitGame() {
+        Application.Quit();
+    }
 }

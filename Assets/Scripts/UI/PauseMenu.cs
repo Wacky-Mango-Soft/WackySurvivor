@@ -50,6 +50,6 @@ public class PauseMenu : MonoBehaviour
     public void ClickExit()
     {
         Debug.Log("exit button click");
-        Application.Quit();
+        GameManager.instance.ExitGame();
     }
 }

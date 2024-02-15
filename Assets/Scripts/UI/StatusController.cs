@@ -65,6 +65,8 @@ public class StatusController : MonoBehaviour
     // 각 상태를 대표하는 인덱스
     private const int HP = 0, DP = 1, SP = 2, HUNGRY = 3, THIRSTY = 4, SATISFY = 5;
 
+    PlayerController thePlayerController;
+
     void Start()
     {
         currentHp = hp;
@@ -73,6 +75,8 @@ public class StatusController : MonoBehaviour
         currentHungry = hungry;
         currentThirsty = thirsty;
         currentSatisfy = satisfy;
+        
+        thePlayerController = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -143,8 +147,10 @@ public class StatusController : MonoBehaviour
         }
         currentHp -= _count;
 
-        if (currentHp <= 0)
+        if (currentHp <= 0) {
             Debug.Log("캐릭터의 체력이 0이 되었습니다!!");
+            thePlayerController.Die();
+        }
     }
 
     public void IncreaseDP(int _count)

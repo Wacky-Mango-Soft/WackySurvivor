@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -51,6 +52,9 @@ public class PlayerController : MonoBehaviour
     private GunController theGunController;
     private Crosshair theCrosshair;
     private StatusController theStatusController;
+
+    [SerializeField] GameObject DieUI;
+    [SerializeField] SaveNLoad thesaveNLoad;
 
     // Start is called before the first frame update
     void Start()
@@ -299,4 +303,14 @@ public class PlayerController : MonoBehaviour
         return isRun;
     }
 
+    public void Die() {
+        if (!GameManager.instance.isDied) {
+            GameManager.instance.isDied = true;
+            //settriger "die"
+            DieUI.SetActive(true);
+            Debug.Log("die실행");
+        }
+    }
+
+   
 }

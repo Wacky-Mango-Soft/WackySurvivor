@@ -52,6 +52,8 @@ public class ActionController : MonoBehaviour
     [SerializeField]
     private string sound_meat; // 고기 해체 소리
 
+    public Text WarningText { get => warningText; set => warningText = value; }
+
     // #0 Bgm 테스트
     //private void Start()
     //{
@@ -418,10 +420,10 @@ public class ActionController : MonoBehaviour
     // #1
     public IEnumerator WarningTextCoroutine(string _text)
     {
-        warningText.gameObject.SetActive(true);
-        warningText.text = _text;
+        WarningText.gameObject.SetActive(true);
+        WarningText.text = _text;
 
         yield return new WaitForSeconds(3.0f);  // 3 초 후 메세지는 사라짐. 메세지는 3 초만 띄움.
-        warningText.gameObject.SetActive(false);
+        WarningText.gameObject.SetActive(false);
     }
 }
