@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -67,6 +68,9 @@ public class StatusController : MonoBehaviour
 
     PlayerController thePlayerController;
 
+    private float decreaseDelay;
+    private float currentdecreaseDelay;
+
     void Start()
     {
         currentHp = hp;
@@ -75,12 +79,13 @@ public class StatusController : MonoBehaviour
         currentHungry = hungry;
         currentThirsty = thirsty;
         currentSatisfy = satisfy;
-        
+
+        decreaseDelay = 0.5f;
+
         thePlayerController = FindObjectOfType<PlayerController>();
     }
 
-    void Update()
-    {
+    void FixedUpdate() {
         Hungry();
         Thirsty();
         SPRechargeTime();
@@ -100,34 +105,42 @@ public class StatusController : MonoBehaviour
 
     private void Hungry()
     {
-        if (currentHungry > 0)
-        {
+        if (currentHungry > 0) {
             if (currentHungryDecreaseTime <= hungryDecreaseTime)
                 currentHungryDecreaseTime++;
-            else
-            {
+            else {
                 currentHungry--;
                 currentHungryDecreaseTime = 0;
             }
         }
-        else
+        else {
             Debug.Log("배고픔 수치가 0 이 되었습니다.");
+            currentdecreaseDelay += Time.deltaTime;
+            if (currentdecreaseDelay >= decreaseDelay) {
+                currentdecreaseDelay = 0;
+                DecreaseHP(1);
+            }
+        }
     }
 
     private void Thirsty()
     {
-        if (currentThirsty > 0)
-        {
+        if (currentThirsty > 0) {
             if (currentThirstyDecreaseTime <= thirstyDecreaseTime)
                 currentThirstyDecreaseTime++;
-            else
-            {
+            else {
                 currentThirsty--;
                 currentThirstyDecreaseTime = 0;
             }
         }
-        else
+        else {
             Debug.Log("목마름 수치가 0 이 되었습니다.");
+            currentdecreaseDelay += Time.deltaTime;
+            if (currentdecreaseDelay >= decreaseDelay) {
+                currentdecreaseDelay = 0;
+                DecreaseHP(1);
+            }
+        }
     }
 
     public void IncreaseHP(int _count)

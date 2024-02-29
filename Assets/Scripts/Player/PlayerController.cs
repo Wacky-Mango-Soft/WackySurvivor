@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
@@ -53,7 +54,8 @@ public class PlayerController : MonoBehaviour
     private Crosshair theCrosshair;
     private StatusController theStatusController;
 
-    [SerializeField] GameObject DieUI;
+    [SerializeField] GameObject dieUI;
+    [SerializeField] Text dieText;
     [SerializeField] SaveNLoad thesaveNLoad;
 
     // Start is called before the first frame update
@@ -307,8 +309,10 @@ public class PlayerController : MonoBehaviour
         if (!GameManager.instance.isDied) {
             GameManager.instance.isDied = true;
             //settriger "die"
-            DieUI.SetActive(true);
+            dieUI.SetActive(true);
+            dieText.text = $"{TimeManager.instance.Day} Days Survive";
             Debug.Log("die실행");
+            
         }
     }
 

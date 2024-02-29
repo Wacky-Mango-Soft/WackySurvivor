@@ -7,6 +7,7 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject go_BaseUI;
     [SerializeField] private SaveNLoad theSaveNLoad;
+    [SerializeField] private TimeManager timeManager;
 
     void Update()
     {
@@ -26,7 +27,8 @@ public class PauseMenu : MonoBehaviour
     {
         GameManager.instance.isPause = true;
         go_BaseUI.SetActive(true);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        timeManager.TimeStop();
 
     }
 
@@ -34,7 +36,8 @@ public class PauseMenu : MonoBehaviour
     {
         GameManager.instance.isPause = false;
         go_BaseUI.SetActive(false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
+        timeManager.GoTime();
     }
 
     public void ClickSave()
