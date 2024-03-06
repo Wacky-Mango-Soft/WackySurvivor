@@ -45,17 +45,24 @@ public class GameManager : MonoBehaviour {
     private WeaponManager theWM;
     private bool flag = false;
 
+    private SaveNLoad saveNLoad;
+
+    public bool isSaveDelay = false;
+
+    void Start () {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        theWM = FindObjectOfType<WeaponManager>();
+        saveNLoad = gameObject.GetComponent<SaveNLoad>();
+    }
     // Update is called once per frame
-    void Update()
-    {
-        if (isOpenInventory || isOpenCraftManual|| isOpenArchemyTable || isOpenComputer || isPause || isSleeping || isDied)
-        {
+    void Update() {
+        if (isOpenInventory || isOpenCraftManual || isOpenArchemyTable || isOpenComputer || isPause || isSleeping || isDied) {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             canPlayerMove = false;
         }
-        else
-        {
+        else {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             canPlayerMove = true;
@@ -68,32 +75,33 @@ public class GameManager : MonoBehaviour {
             isAnyOpenUI = false;
         }
 
-        if (isWater)
-        {
-            if (!flag)
-            {
+        if (isWater) {
+            if (!flag) {
                 StopAllCoroutines();
                 StartCoroutine(theWM.WeaponInCoroutine());
                 flag = true;
             }
         }
-        else
-        {
-            if (flag)
-            {
+        else {
+            if (flag) {
                 flag = false;
                 theWM.WeaponOut();
             }
         }
+        AutoSaveCheck();
+    }
 
+    //AutoSave 체크박스 구현예정
+    private void AutoSaveCheck() {
+        if (!isSaveDelay) {
+            if (TimeManager.instance.Minute == 30) {
+                StartCoroutine(saveNLoad.AutoSaveCoroutine());
+            }
+
+        }
     }
 
     // Use this for initialization
-    void Start () {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        theWM = FindObjectOfType<WeaponManager>();
-    }
 	public void ExitGame() {
         Application.Quit();
     }

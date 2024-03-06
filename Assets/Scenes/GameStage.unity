@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: d12fb2381a68d0f4fbb037a93d82dbd9, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: ee9922ee33affe44ea71562137e6b34e, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -21703,13 +21703,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.40434358, z: 0, w: 0.91460717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1348086620}
-  m_LocalEulerAnglesHint: {x: 0, y: 47.7, z: 0}
+  m_Father: {fileID: 1836799589}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21722,13 +21722,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28629fb5fd1f64584ba5266e02112175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  secondPerRealTimeSecond: 0.25
   fogDensityCalc: 0.25
   nightFogDensity: 0.2
   nightColor: {r: 0, g: 0, b: 0, a: 0}
   dayToSunset: {fileID: 2100000, guid: d12fb2381a68d0f4fbb037a93d82dbd9, type: 2}
   sunsetToNight: {fileID: 2100000, guid: ee9922ee33affe44ea71562137e6b34e, type: 2}
   nightToDay: {fileID: 2100000, guid: c74a1e1664a8bd54ab2c7bf52b37c3e5, type: 2}
-  blendSpeed: 0.5
+  blendSpeed: 0.002
 --- !u!1001 &733370675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24035,83 +24036,6 @@ Transform:
   - {fileID: 25218798}
   m_Father: {fileID: 1348086620}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &902399518
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1892953489214324645, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_Name
-      value: Bed_Preview
-      objectReference: {fileID: 0}
-    - target: {fileID: 3823895986701798911, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: theSun
-      value: 
-      objectReference: {fileID: 705507993}
-    - target: {fileID: 3823895986701798911, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: fade_UI
-      value: 
-      objectReference: {fileID: 1776742750}
-    - target: {fileID: 3823895986701798911, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: thePlayer
-      value: 
-      objectReference: {fileID: 348888616}
-    - target: {fileID: 3823895986701798911, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: theSaveNLoad
-      value: 
-      objectReference: {fileID: 1061834278}
-    - target: {fileID: 3823895986701798911, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: theActionController
-      value: 
-      objectReference: {fileID: 963194229}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -12.71
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7940277684918475753, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5a81ca6fb210f974f869118caaaa5570, type: 3}
 --- !u!1001 &906248368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25947,6 +25871,7 @@ MonoBehaviour:
   isWater: 0
   isPause: 0
   isDied: 0
+  isSaveDelay: 0
 --- !u!114 &1061834278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29870,12 +29795,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 705507995}
   - {fileID: 1549349511}
   - {fileID: 179221752}
   - {fileID: 892461442}
   - {fileID: 843163267}
   - {fileID: 938967985}
+  - {fileID: 1836799589}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1348086621
@@ -34620,6 +34545,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1833644803}
   m_CullTransparentMesh: 1
+--- !u!1 &1836799588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836799589}
+  m_Layer: 0
+  m_Name: SunRotater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836799589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836799588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 705507995}
+  m_Father: {fileID: 1348086620}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1846339982
 GameObject:
   m_ObjectHideFlags: 0
@@ -43538,5 +43495,4 @@ SceneRoots:
   - {fileID: 2098472748}
   - {fileID: 2067116049}
   - {fileID: 6858886705153393775}
-  - {fileID: 902399518}
   - {fileID: 219159157}

@@ -92,4 +92,12 @@ public class SaveNLoad : MonoBehaviour
             Debug.Log("세이브 파일이 존재하지 않습니다");
         }
     }
+
+    public IEnumerator AutoSaveCoroutine() {
+        GameManager.instance.isSaveDelay = true;
+        SaveData();
+        yield return new WaitForSeconds(60f);
+        GameManager.instance.isSaveDelay = false;
+
+    }
 }

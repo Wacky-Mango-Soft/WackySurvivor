@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DayAndNight : MonoBehaviour {
-    //[SerializeField] private float secondPerRealTimeSecond; // sun 돌리기용으로만 쓰여서 삭제
+    [SerializeField] private float secondPerRealTimeSecond; // sun 돌리기용으로만 쓰여서 삭제
 
     [SerializeField] private float fogDensityCalc; // 증감량 비율
     [SerializeField] private float nightFogDensity; // 밤 상태의 Fog 밀도
@@ -40,7 +40,7 @@ public class DayAndNight : MonoBehaviour {
         WorkBlend();
         WorkShade();
 
-        //transform.Rotate(Vector3.right, 0.1f * secondPerRealTimeSecond * Time.fixedDeltaTime);
+        transform.Rotate(Vector3.right, secondPerRealTimeSecond * Time.fixedDeltaTime);
     }
         
 
