@@ -33,12 +33,15 @@ public class DayAndNight : MonoBehaviour {
         dayToSunset.SetFloat("_Blend", 0);
         sunsetToNight.SetFloat("_Blend", 1);
         nightToDay.SetFloat("_Blend", 0);
+
+        transform.rotation = Quaternion.Euler(270f, 0f, 0f);
     }
 
     void FixedUpdate() {
         CheckBlend();
         WorkBlend();
         WorkShade();
+        DayCheck();
 
         transform.Rotate(Vector3.right, secondPerRealTimeSecond * Time.fixedDeltaTime);
     }
@@ -52,6 +55,20 @@ public class DayAndNight : MonoBehaviour {
             TimeManager.instance.IsBlended = false;
         }
     }
+
+    
+    void DayCheck() {
+        if (TimeManager.instance.Hour == dayH && TimeManager.instance.Minute == 0) {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        else if (TimeManager.instance.Hour == sunsetH && TimeManager.instance.Minute == 0) {
+            transform.rotation = Quaternion.Euler(180f, 0f, 0f);
+        }
+        else if (TimeManager.instance.Hour == nightH && TimeManager.instance.Minute == 0) {
+            transform.rotation = Quaternion.Euler(210f, 0f, 0f);
+        }
+    }
+    
 
     void WorkBlend() {
         if (TimeManager.instance.IsBlended) { return; }

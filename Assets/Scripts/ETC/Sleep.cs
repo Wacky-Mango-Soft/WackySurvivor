@@ -22,7 +22,7 @@ public class Sleep : MonoBehaviour {
         if (!GameManager.instance.isSleeping && GameManager.instance.isNight)
             StartCoroutine(SleepingCoroutine());
         else {
-            StartCoroutine(theActionController.WarningTextCoroutine("밤에만 잘 수 있습니다."));
+            StartCoroutine(theActionController.WarningTextCoroutine("아직 피곤하지 않습니다."));
         }
     }
 
@@ -35,7 +35,7 @@ public class Sleep : MonoBehaviour {
         statusController.DecreaseThirsty(50);
         statusController.IncreseMaxSatisfy();
         yield return new WaitForSeconds(1f);
-        theSun.transform.rotation = Quaternion.Euler(-10, 0, 0);
+        //theSun.transform.rotation = Quaternion.Euler(-10, 0, 0);
         thePlayer.transform.position = sleepPos.position;
         thePlayer.transform.rotation = sleepPos.transform.rotation;
         ani.SetTrigger("FadeIn");

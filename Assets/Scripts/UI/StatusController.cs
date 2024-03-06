@@ -7,61 +7,27 @@ using UnityEngine.UI;
 
 public class StatusController : MonoBehaviour
 {
-    // 체력
-    [SerializeField]
-    private int hp;  // 최대 체력. 유니티 에디터 슬롯에서 지정할 것.
-    private int currentHp;
+    [SerializeField] private int hp;      
+    [SerializeField] private int sp;  
+    [SerializeField] private int dp;  
+    [SerializeField] private int hungry;
+    [SerializeField] private int thirsty;  
+    [SerializeField] private int satisfy;  
 
-    // 스태미나
-    [SerializeField]
-    private int sp;  // 최대 스태미나. 유니티 에디터 슬롯에서 지정할 것.
-    private int currentSp;
-
-    // 스태미나 증가량
-    [SerializeField]
-    private int spIncreaseSpeed;
-
-    // 스태미나 재회복 딜레이 시간
-    [SerializeField]
-    private int spRechargeTime;
-    private int currentSpRechargeTime;
-
-    // 스태미나 감소 여부
+    [SerializeField] private int spIncreaseSpeed;
+    [SerializeField] private int spRechargeTime;
+    [SerializeField] private int hungryDecreaseTime;
+    [SerializeField] private int thirstyDecreaseTime;
+    [SerializeField] private int satisfyDecreaseTime;
+    
     private bool spUsed;
-
-    // 방어력
-    [SerializeField]
-    private int dp;  // 최대 방어력. 유니티 에디터 슬롯에서 지정할 것.
-    private int currentDp;
-
-    // 배고픔
-    [SerializeField]
-    private int hungry;  // 최대 배고픔. 유니티 에디터 슬롯에서 지정할 것.
-    private int currentHungry;
-
-    // 배고픔이 줄어드는 속도
-    [SerializeField]
-    private int hungryDecreaseTime;
+    private int currentSpRechargeTime;
     private int currentHungryDecreaseTime;
-
-    // 목마름
-    [SerializeField]
-    private int thirsty;  // 최대 목마름. 유니티 에디터 슬롯에서 지정할 것.
-    private int currentThirsty;
-
-    // 목마름이 줄어드는 속도
-    [SerializeField]
-    private int thirstyDecreaseTime;
     private int currentThirstyDecreaseTime;
-
-    // 만족감
-    [SerializeField]
-    private int satisfy;  // 최대 만족감. 유니티 에디터 슬롯에서 지정할 것.
-    private int currentSatisfy;
+    private int currentSatisfyDecreaseTime;
 
     // 필요한 이미지
-    [SerializeField]
-    private Image[] images_Gauge;
+    [SerializeField] private Image[] images_Gauge;
 
     // 각 상태를 대표하는 인덱스
     private const int HP = 0, DP = 1, SP = 2, HUNGRY = 3, THIRSTY = 4, SATISFY = 5;
@@ -71,14 +37,20 @@ public class StatusController : MonoBehaviour
     private float decreaseDelay;
     private float currentdecreaseDelay;
 
-    void Start()
-    {
-        currentHp = hp;
-        currentDp = dp;
-        currentSp = sp;
-        currentHungry = hungry;
-        currentThirsty = thirsty;
-        currentSatisfy = satisfy;
+    public int CurrentHp { get; set; }
+    public int CurrentSp { get; set; }
+    public int CurrentDp { get; set; }
+    public int CurrentHungry { get; set; }
+    public int CurrentThirsty { get; set; }
+    public int CurrentSatisfy { get; set; }
+
+    void Start() {
+        CurrentHp = hp;
+        CurrentDp = dp;
+        CurrentSp = sp;
+        CurrentHungry = hungry;
+        CurrentThirsty = thirsty;
+        CurrentSatisfy = satisfy;
 
         decreaseDelay = 0.5f;
 
@@ -91,25 +63,26 @@ public class StatusController : MonoBehaviour
         SPRechargeTime();
         SPRecover();
         GaugeUpdate();
+        Satisfy();
+
+        Debug.Log(CurrentSatisfy);
     }
 
-    private void GaugeUpdate()
-    {
-        images_Gauge[HP].fillAmount = (float)currentHp / hp;
-        images_Gauge[SP].fillAmount = (float)currentSp / sp;
-        images_Gauge[DP].fillAmount = (float)currentDp / dp;
-        images_Gauge[HUNGRY].fillAmount = (float)currentHungry / hungry;
-        images_Gauge[THIRSTY].fillAmount = (float)currentThirsty / thirsty;
-        images_Gauge[SATISFY].fillAmount = (float)currentSatisfy / satisfy;
+    private void GaugeUpdate() {
+        images_Gauge[HP].fillAmount = (float)CurrentHp / hp;
+        images_Gauge[SP].fillAmount = (float)CurrentSp / sp;
+        images_Gauge[DP].fillAmount = (float)CurrentDp / dp;
+        images_Gauge[HUNGRY].fillAmount = (float)CurrentHungry / hungry;
+        images_Gauge[THIRSTY].fillAmount = (float)CurrentThirsty / thirsty;
+        images_Gauge[SATISFY].fillAmount = (float)CurrentSatisfy / satisfy;
     }
 
-    private void Hungry()
-    {
-        if (currentHungry > 0) {
+    private void Hungry() {
+        if (CurrentHungry > 0) {
             if (currentHungryDecreaseTime <= hungryDecreaseTime)
                 currentHungryDecreaseTime++;
             else {
-                currentHungry--;
+                CurrentHungry--;
                 currentHungryDecreaseTime = 0;
             }
         }
@@ -123,13 +96,12 @@ public class StatusController : MonoBehaviour
         }
     }
 
-    private void Thirsty()
-    {
-        if (currentThirsty > 0) {
+    private void Thirsty() {
+        if (CurrentThirsty > 0) {
             if (currentThirstyDecreaseTime <= thirstyDecreaseTime)
                 currentThirstyDecreaseTime++;
             else {
-                currentThirsty--;
+                CurrentThirsty--;
                 currentThirstyDecreaseTime = 0;
             }
         }
@@ -143,102 +115,104 @@ public class StatusController : MonoBehaviour
         }
     }
 
-    public void IncreaseHP(int _count)
-    {
-        if (currentHp + _count < hp)
-            currentHp += _count;
-        else
-            currentHp = hp;
+    private void Satisfy() {
+        if (CurrentSatisfy > 0) {
+            if (currentSatisfyDecreaseTime <= satisfyDecreaseTime)
+                currentSatisfyDecreaseTime++;
+            else {
+                CurrentSatisfy--;
+                currentSatisfyDecreaseTime = 0;
+            }
+        }
+        else {
+            Debug.Log("sataisfy가 0 이 되었습니다.");
+        }
     }
 
-    public void DecreaseHP(int _count)
-    {
-        if (currentDp > 0)
-        {
+    public void IncreaseHP(int _count) {
+        if (CurrentHp + _count < hp)
+            CurrentHp += _count;
+        else
+            CurrentHp = hp;
+    }
+
+    public void DecreaseHP(int _count) {
+        if (CurrentDp > 0) {
             DecreaseDP(_count);
             return;
         }
-        currentHp -= _count;
+        CurrentHp -= _count;
 
-        if (currentHp <= 0) {
+        if (CurrentHp <= 0) {
             Debug.Log("캐릭터의 체력이 0이 되었습니다!!");
             thePlayerController.Die();
         }
     }
 
-    public void IncreaseDP(int _count)
-    {
-        if (currentDp + _count < dp)
-            currentDp += _count;
+    public void IncreaseDP(int _count) {
+        if (CurrentDp + _count < dp)
+            CurrentDp += _count;
         else
-            currentDp = dp;
+            CurrentDp = dp;
     }
 
-    public void DecreaseDP(int _count)
-    {
-        currentDp -= _count;
+    public void DecreaseDP(int _count) {
+        CurrentDp -= _count;
 
-        if (currentDp <= 0)
+        if (CurrentDp <= 0)
             Debug.Log("캐릭터의 방어력이 0이 되었습니다!!");
     }
 
-    public void IncreaseHungry(int _count)
-    {
-        if (currentHungry + _count < hungry)
-            currentHungry += _count;
+    public void IncreaseHungry(int _count) {
+        if (CurrentHungry + _count < hungry)
+            CurrentHungry += _count;
         else
-            currentHungry = hungry;
+            CurrentHungry = hungry;
     }
 
-    public void DecreaseHungry(int _count)
-    {
-        if (currentHungry - _count < 0)
-            currentHungry = 0;
+    public void DecreaseHungry(int _count) {
+        if (CurrentHungry - _count < 0)
+            CurrentHungry = 0;
         else
-            currentHungry -= _count;
+            CurrentHungry -= _count;
     }
 
-    public void IncreaseThirsty(int _count)
-    {
-        if (currentThirsty + _count < thirsty)
-            currentThirsty += _count;
+    public void IncreaseThirsty(int _count) {
+        if (CurrentThirsty + _count < thirsty)
+            CurrentThirsty += _count;
         else
-            currentThirsty = thirsty;
+            CurrentThirsty = thirsty;
     }
 
-    public void DecreaseThirsty(int _count)
-    {
-        if (currentThirsty - _count < 0)
-            currentThirsty = 0;
+    public void DecreaseThirsty(int _count) {
+        if (CurrentThirsty - _count < 0)
+            CurrentThirsty = 0;
         else
-            currentThirsty -= _count;
+            CurrentThirsty -= _count;
     }
 
-    public void IncreaseStamina(int _count)
-    {
-        if (currentSp + _count > sp)
+    public void IncreaseStamina(int _count) {
+        if (CurrentSp + _count > sp)
         {
-            currentSp = sp;
+            CurrentSp = sp;
         }
         else
-            currentSp += _count;
+            CurrentSp += _count;
     }
 
-    public void DecreaseStamina(int _count)
-    {
+    public void DecreaseStamina(int _count) {
         spUsed = true;
         currentSpRechargeTime = 0;
 
-        if (currentSp - _count > 0)
+        if (CurrentSp - _count > 0)
         {
-            currentSp -= _count;
+            CurrentSp -= _count;
         }
         else
-            currentSp = 0;
+            CurrentSp = 0;
     }
 
-    private void SPRechargeTime()
-    {
+    private void SPRechargeTime() {
         if (spUsed)
         {
             if (currentSpRechargeTime < spRechargeTime)
@@ -248,24 +222,17 @@ public class StatusController : MonoBehaviour
         }
     }
 
-    private void SPRecover()
-    {
-        if (!spUsed && currentSp < sp)
+    private void SPRecover() {
+        if (!spUsed && CurrentSp < sp)
         {
-            currentSp += spIncreaseSpeed;
+            CurrentSp += spIncreaseSpeed;
         }
     }
-
-    public int GetCurrentSP()
-    {
-        return currentSp;
-    }
-
     public void IncreaseMaxThirsty() {
-        currentThirsty = thirsty;
+        CurrentThirsty = thirsty;
     }
 
     public void IncreseMaxSatisfy() {
-        currentSatisfy = satisfy;
+        CurrentSatisfy = satisfy;
     }
 }

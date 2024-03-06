@@ -1,1 +1,1 @@
-{"playerPos":{"x":1.0800397396087647,"y":1.007110834121704,"z":-14.109883308410645},"playerRot":{"x":0.0,"y":41.600032806396487,"z":0.0},"invenArrayNumber":[],"invenItemName":[],"invenItemCount":[]}
+{"playerPos":{"x":1.0800267457962037,"y":1.007110834121704,"z":-14.109899520874024},"playerRot":{"x":0.0,"y":279.5000305175781,"z":0.0},"currentHp":100,"currentSp":1000,"currentDp":100,"currentHungry":86,"currentThirsty":86,"currentSatisfy":86,"day":0,"time":1801.17578125,"invenArrayNumber":[],"invenItemName":[],"invenItemCount":[]}

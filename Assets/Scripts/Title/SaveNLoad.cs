@@ -11,6 +11,16 @@ public class SaveData
     public Vector3 playerPos;
     public Vector3 playerRot;
 
+    public int currentHp;
+    public int currentSp;
+    public int currentDp;
+    public int currentHungry;
+    public int currentThirsty;
+    public int currentSatisfy;
+
+    public int day;
+    public float time;
+
     public List<int> invenArrayNumber = new List<int>();
     public List<string> invenItemName = new List<string>();
     public List<int> invenItemCount = new List<int>();
@@ -25,6 +35,7 @@ public class SaveNLoad : MonoBehaviour
 
     private PlayerController thePlayer;
     private Inventory theInven;
+    private StatusController theStatus;
 
     [SerializeField] GameObject dieUI;
 
@@ -41,9 +52,20 @@ public class SaveNLoad : MonoBehaviour
     {
         thePlayer = FindObjectOfType<PlayerController>();
         theInven = FindObjectOfType<Inventory>();
+        theStatus = FindObjectOfType<StatusController>();
 
         saveData.playerPos = thePlayer.transform.position;
         saveData.playerRot = thePlayer.transform.eulerAngles;
+
+        saveData.currentHp = theStatus.CurrentHp;
+        saveData.currentSp = theStatus.CurrentSp;
+        saveData.currentDp = theStatus.CurrentDp;
+        saveData.currentHungry = theStatus.CurrentHungry;
+        saveData.currentThirsty = theStatus.CurrentThirsty;
+        saveData.currentSatisfy = theStatus.CurrentSatisfy;
+
+        saveData.time = TimeManager.instance.Time;
+        saveData.day = TimeManager.instance.Day;
 
         Slot[] slots = theInven.GetSlots();
         for (int i = 0; i < slots.Length; i++)
@@ -70,6 +92,7 @@ public class SaveNLoad : MonoBehaviour
         {
             thePlayer = FindObjectOfType<PlayerController>();
             theInven = FindObjectOfType<Inventory>();
+            theStatus = FindObjectOfType<StatusController>();
 
             string loadJson = File.ReadAllText(SAVE_DATA_DIRECTORY + SAVE_FILENAME);
 
@@ -77,6 +100,16 @@ public class SaveNLoad : MonoBehaviour
 
             thePlayer.transform.position = saveData.playerPos;
             thePlayer.transform.eulerAngles = saveData.playerRot;
+
+            theStatus.CurrentHp = saveData.currentHp;
+            theStatus.CurrentSp = saveData.currentSp;
+            theStatus.CurrentDp = saveData.currentDp;
+            theStatus.CurrentHungry = saveData.currentHungry;
+            theStatus.CurrentThirsty = saveData.currentThirsty;
+            theStatus.CurrentSatisfy = saveData.currentSatisfy;
+
+            TimeManager.instance.Day = saveData.day;
+            TimeManager.instance.Time = saveData.time;
 
             for (int i = 0; i < saveData.invenItemName.Count; i++)
             {

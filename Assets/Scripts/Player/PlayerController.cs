@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
 
     // 점프 시도
     private void TryJump() {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0 && !GameManager.instance.isWater) {
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.CurrentSp > 0 && !GameManager.instance.isWater) {
             jump();
         }
         else if (Input.GetKey(KeyCode.Space) && GameManager.instance.isWater)
@@ -200,10 +200,10 @@ public class PlayerController : MonoBehaviour
 
     // 달리기 시도
     private void TryRun() {
-        if (Input.GetKey(KeyCode.LeftShift) && theStatusController.GetCurrentSP() > 0) {
+        if (Input.GetKey(KeyCode.LeftShift) && theStatusController.CurrentSp > 0) {
             Running();
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) || theStatusController.GetCurrentSP() <= 0) {
+        if (Input.GetKeyUp(KeyCode.LeftShift) || theStatusController.CurrentSp <= 0) {
             RunningCancle();
         }
     }

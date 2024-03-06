@@ -8534,14 +8534,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   sp: 1000
-  spIncreaseSpeed: 10
-  spRechargeTime: 500
   dp: 100
   hungry: 100
-  hungryDecreaseTime: 100
   thirsty: 100
-  thirstyDecreaseTime: 100
   satisfy: 100
+  spIncreaseSpeed: 10
+  spRechargeTime: 500
+  hungryDecreaseTime: 100
+  thirstyDecreaseTime: 100
+  satisfyDecreaseTime: 100
   images_Gauge:
   - {fileID: 2008397951}
   - {fileID: 199495475}
@@ -21703,13 +21704,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1836799589}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!114 &705507996
 MonoBehaviour:
   m_ObjectHideFlags: 0
