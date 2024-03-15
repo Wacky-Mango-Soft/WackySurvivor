@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public bool isOpenCraftManual = false; // 건축 메뉴창 활성화.
     public bool isOpenArchemyTable = false; // 연금 테이블 창 활성화.
     public bool isOpenComputer = false; // 컴퓨터 창 활성화.
+    public bool isOpenSleepSlider = false;
 
     public bool isAnyOpenUI = false;
     
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour {
     }
     // Update is called once per frame
     void Update() {
-        if (isOpenInventory || isOpenCraftManual || isOpenArchemyTable || isOpenComputer || isPause || isSleeping || isDied) {
+        if (isOpenInventory || isOpenCraftManual || isOpenArchemyTable || isOpenComputer || isPause || isSleeping || isDied || isOpenSleepSlider) {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             canPlayerMove = false;
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour {
             canPlayerMove = true;
         }
 
-        if (isOpenInventory || isOpenCraftManual || isOpenArchemyTable || isOpenComputer) {
+        if (isOpenInventory || isOpenCraftManual || isOpenArchemyTable || isOpenComputer || isOpenSleepSlider) {
             isAnyOpenUI = true;
         }
         else {

@@ -292,7 +292,7 @@ public class ActionController : MonoBehaviour
 
     private void CanSleep() {
         if (lookBed) {
-            FindObjectOfType<Sleep>().DoSleep();
+            FindObjectOfType<Sleep>().TrySleep();
             InfoDisappear();
         }
     }

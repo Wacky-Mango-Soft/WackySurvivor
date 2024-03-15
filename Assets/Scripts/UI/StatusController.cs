@@ -64,8 +64,6 @@ public class StatusController : MonoBehaviour
         SPRecover();
         GaugeUpdate();
         Satisfy();
-
-        Debug.Log(CurrentSatisfy);
     }
 
     private void GaugeUpdate() {
