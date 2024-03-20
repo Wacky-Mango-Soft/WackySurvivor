@@ -19,6 +19,7 @@ TagManager:
   - Water
   - Bed
   - DeadZone
+  - Enemy
   layers:
   - Default
   - TransparentFX

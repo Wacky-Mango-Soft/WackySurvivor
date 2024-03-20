@@ -19,14 +19,10 @@ public class SaveData
 public class SaveNLoad : MonoBehaviour
 {
     private SaveData saveData = new SaveData();
-
     private string SAVE_DATA_DIRECTORY;
     private string SAVE_FILENAME = "/SaveFile.txt";
-
     private PlayerController thePlayer;
     private Inventory theInven;
-
-    [SerializeField] GameObject dieUI;
 
     // Start is called before the first frame update
     void Start()
@@ -84,8 +80,7 @@ public class SaveNLoad : MonoBehaviour
             }
 
             Debug.Log("로드 완료");
-            GameManager.instance.isDied = false;
-            dieUI.SetActive(false);
+            
         }
         else
         {

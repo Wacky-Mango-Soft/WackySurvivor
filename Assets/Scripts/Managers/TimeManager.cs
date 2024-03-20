@@ -49,34 +49,5 @@ public class TimeManager : MonoBehaviour {
 
         timeDebugText.text = $"{Day}일 : {Hour}시간 : {Minute}분";
 
-        /*if (Hour >= 0 && Hour < 12) {
-            GameManager.instance.isMorning = true;
-            GameManager.instance.isSunset = false;
-            GameManager.instance.isNight = false;
-            //skybox blend
-        }
-
-        else if (Hour >= 12 && Hour < 18) {
-            GameManager.instance.isMorning = false;
-            GameManager.instance.isSunset = true;
-            GameManager.instance.isNight = false;
-        }
-
-        else if (Hour >= 18 && Hour <= 24) {
-            GameManager.instance.isMorning = false;
-            GameManager.instance.isSunset = false;
-            GameManager.instance.isNight = true;
-        }*/
-    }
-
-    public void TimeStop() {
-        Time.timeScale = 0;
-        GameManager.instance.isPause = true;
-
-    }
-
-    public void GoTime() {
-        Time.timeScale = 1;
-        GameManager.instance.isPause = false;
     }
 }

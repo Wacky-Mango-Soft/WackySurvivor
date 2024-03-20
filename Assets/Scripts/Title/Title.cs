@@ -7,9 +7,7 @@ using UnityEngine.SceneManagement;
 public class Title : MonoBehaviour
 {
     public static Title instance;
-
-    private SaveNLoad theSaveNLoad;
-
+    #region Singleton
     private void Awake()
     {
         if (instance == null)
@@ -22,7 +20,9 @@ public class Title : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    #endregion
 
+    private SaveNLoad theSaveNLoad;
     public string sceneName = "GameStage";
 
     private void Start()
@@ -40,6 +40,8 @@ public class Title : MonoBehaviour
     public void ClickLoad()
     {
         Debug.Log("Load");
+        GameManager.instance.isPause = false;
+        GameManager.instance.isDied = false;
         StartCoroutine(LoadCoroutine());
     }
 

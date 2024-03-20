@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class StatusController : MonoBehaviour
 {
+    private bool isImmortality = false;
+
     // 체력
     [SerializeField]
     private int hp;  // 최대 체력. 유니티 에디터 슬롯에서 지정할 것.
@@ -267,5 +269,17 @@ public class StatusController : MonoBehaviour
 
     public void IncreseMaxSatisfy() {
         currentSatisfy = satisfy;
+    }
+
+    // Dodge or Buff for DecreaseHP Method
+    public void Dameged(int _count) {
+        if (!isImmortality) {
+            DecreaseHP(_count);
+        }
+    }
+
+    public void Immortable(bool _status)
+    {
+        isImmortality = _status;
     }
 }

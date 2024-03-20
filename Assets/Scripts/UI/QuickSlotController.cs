@@ -46,7 +46,7 @@ public class QuickSlotController : MonoBehaviour
         TryInputNumber();
         CoolTimeCalc();
         AppearCalc();
-        TryInputMouseWheel();
+        // TryInputMouseWheel(); person view camera implement. maybe deprecated.
     }
 
     private void CoolTimeReset()
