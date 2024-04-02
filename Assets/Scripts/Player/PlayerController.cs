@@ -108,25 +108,26 @@ public class PlayerController : MonoBehaviour
             CharacterRotation();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            playerAnimator.OnAttack();
-        }
+        // test code : need fixed for use weapon animator
+        // if (Input.GetKeyDown(KeyCode.Mouse0)) {
+        //     playerAnimator.OnAttack();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.B)) {
-            SoundManager.instance.PlayRandomBGM();
-        }
+        // if (Input.GetKeyDown(KeyCode.B)) {
+        //     SoundManager.instance.PlayRandomBGM();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.E)) {
-            playerAnimator.onPickup();
-        }
+        // if (Input.GetKeyDown(KeyCode.E)) {
+        //     playerAnimator.onPickup();
+        // }
 
-        if (Input.GetKeyDown(KeyCode.T)) {
-            transform.rotation = Quaternion.LookRotation(new Vector3(90,0,0));
-        }
+        // if (Input.GetKeyDown(KeyCode.T)) {
+        //     transform.rotation = Quaternion.LookRotation(new Vector3(90,0,0));
+        // }
 
-        if (Input.GetKeyDown(KeyCode.Y)) {
-            playerAnimator.onDodge();
-        }
+        // if (Input.GetKeyDown(KeyCode.Y)) {
+        //     playerAnimator.onDodge();
+        // }
     }
 
     //** if Player Input return true, else false **//
@@ -204,7 +205,9 @@ public class PlayerController : MonoBehaviour
     // 앉기 동작
     private void Crouch() {
         isCrouch = !isCrouch;
-        theCrosshair.CrouchingAnimation(isCrouch);
+        // theCrosshair.CrouchingAnimation(isCrouch);
+        playerAnimator.onCrouch(isCrouch);
+        // Debug.Log(isCrouch);
 
         if (isCrouch) {
             applySpeed = crouchSpeed;
@@ -244,7 +247,7 @@ public class PlayerController : MonoBehaviour
     // 점프 시도
     private void TryJump() {
         if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0 && !GameManager.instance.isWater) {
-            jump();
+            Jump();
         }
         else if (Input.GetKey(KeyCode.Space) && GameManager.instance.isWater)
         {
@@ -258,7 +261,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 점프
-    private void jump() {
+    private void Jump() {
         if (isCrouch) {
             Crouch();
         }
@@ -284,7 +287,8 @@ public class PlayerController : MonoBehaviour
         }
         theGunController.CancelFineSight();
         isRun = true;
-        theCrosshair.RunningAnimation(isRun);
+        // theCrosshair.RunningAnimation(isRun);
+        playerAnimator.OnRun(isRun);
         theStatusController.DecreaseStamina(1);
         applySpeed = runSpeed;
     }
@@ -293,7 +297,8 @@ public class PlayerController : MonoBehaviour
     private void RunningCancle() {
         isRun = false;
         applySpeed = walkSpeed;
-        theCrosshair.RunningAnimation(isRun);
+        // theCrosshair.RunningAnimation(isRun);
+        playerAnimator.OnRun(isRun);
     }
 
     // 움직임 실행
@@ -301,8 +306,8 @@ public class PlayerController : MonoBehaviour
 
         if (isDodging) { return; }
 
-        float _moveDirX = Input.GetAxisRaw("Horizontal");
-        float _moveDirZ = Input.GetAxisRaw("Vertical");
+        float _moveDirX = Input.GetAxis("Horizontal");
+        float _moveDirZ = Input.GetAxis("Vertical");
 
         playerAnimator.OnMovement(_moveDirX, _moveDirZ);
 

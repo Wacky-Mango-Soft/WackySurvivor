@@ -51,6 +51,11 @@ public class SoundManager : MonoBehaviour
         isRandomBgmPlaying = false;
     }
 
+    private void LateUpdate() {
+        if (Input.GetKeyDown(KeyCode.B)) 
+            PlayRandomBGM();
+    }
+
 
     public void PlaySE(string _name)
     {
@@ -168,5 +173,9 @@ public class SoundManager : MonoBehaviour
     public void TitleBgmStop()
     {
         audioSourceTitleBgm.Stop();
+    }
+
+    public void TestDebug() {
+        Debug.Log("event trigger on");
     }
 }

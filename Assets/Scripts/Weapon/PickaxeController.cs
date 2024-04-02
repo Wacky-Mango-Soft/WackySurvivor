@@ -32,7 +32,7 @@ public class PickaxeController : CloseWeaponController
                     hitInfo.transform.GetComponent<Twig>().Damage(this.transform);
                 }
                 isSwing = false;
-                Debug.Log(hitInfo.transform.name);
+                // Debug.Log(hitInfo.transform.name);
             }
             yield return null;
         }

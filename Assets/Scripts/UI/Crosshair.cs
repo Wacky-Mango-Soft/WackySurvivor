@@ -14,7 +14,7 @@ public class Crosshair : MonoBehaviour
     {
         if (!GameManager.instance.isWater)
         {
-            WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
+            // WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
             animator.SetBool("Walking", _flag);
         }
     }

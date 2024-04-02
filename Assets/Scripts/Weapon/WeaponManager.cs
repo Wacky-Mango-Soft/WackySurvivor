@@ -11,6 +11,7 @@ public class WeaponManager : MonoBehaviour
     // 현재 무기와 현재 무기의 애니메이션
     public static Transform currentWeapon;
     public static Animator currentWeaponAnim;
+    public static PlayerAnimator thePlayerAnimator;
 
     // 현재 무기의 타입
     [SerializeField] private string currentWeaponType;
@@ -24,18 +25,25 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] CloseWeapon[] hands;
     [SerializeField] CloseWeapon[] axes;
     [SerializeField] CloseWeapon[] pickaxes;
+    [SerializeField] CloseWeapon[] weapons;
 
     // 무기 배열을 문자열로 분류할 딕셔너리
     private Dictionary<string, Gun> gunDictionary = new Dictionary<string, Gun>();
     private Dictionary<string, CloseWeapon> handDictionary = new Dictionary<string, CloseWeapon>();
     private Dictionary<string, CloseWeapon> axeDictionary = new Dictionary<string, CloseWeapon>();
     private Dictionary<string, CloseWeapon> pickaxeDictionary = new Dictionary<string, CloseWeapon>();
+    private Dictionary<string, CloseWeapon> WeaponDictionary = new Dictionary<string, CloseWeapon>();
 
     // 필요한 컴포넌트
     [SerializeField] private GunController theGunController;
     [SerializeField] private HandController theHandController;
     [SerializeField] private AxeController theAxeController;
     [SerializeField] private PickaxeController thePickaxeController;
+    [SerializeField] private WeaponController theWeaponController;
+
+    void Awake() {
+        thePlayerAnimator = FindObjectOfType<PlayerAnimator>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +64,10 @@ public class WeaponManager : MonoBehaviour
         {
             pickaxeDictionary.Add(pickaxes[i].closeWeaponName, pickaxes[i]);
         }
-
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            WeaponDictionary.Add(weapons[i].closeWeaponName, weapons[i]);
+        }
     }
 
     public IEnumerator ChangeWeaponCoroutine(string _type, string _name)
@@ -97,6 +108,10 @@ public class WeaponManager : MonoBehaviour
             case "PICKAXE":
                 PickaxeController.isActivate = false;
                 break;
+            case "WEAPON":
+                theWeaponController.ComboAttackTrigger(false);
+                WeaponController.isActivate = false;
+                break;
         }
     }
 
@@ -118,6 +133,10 @@ public class WeaponManager : MonoBehaviour
         {
             thePickaxeController.CloseWeaponChange(pickaxeDictionary[_name]);
         }
+        else if (_type == "WEAPON")
+        {
+            theWeaponController.CloseWeaponChange(WeaponDictionary[_name]);
+        }
     }
 
     public IEnumerator WeaponInCoroutine()
@@ -135,4 +154,5 @@ public class WeaponManager : MonoBehaviour
         isChangeWeapon = false;
         currentWeapon.gameObject.SetActive(true);
     }
+
 }

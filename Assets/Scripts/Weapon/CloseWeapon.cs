@@ -10,6 +10,7 @@ public class CloseWeapon : MonoBehaviour
     public bool isHand;
     public bool isAxe;
     public bool isPickaxe;
+    public bool isWeapon;
 
     public float range; // 공격 범위
     public int damage; // 작업 속도

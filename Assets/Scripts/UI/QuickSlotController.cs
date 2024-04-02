@@ -203,7 +203,7 @@ public class QuickSlotController : MonoBehaviour
 
     private void ChangeHand(Item _item = null)
     {
-        StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "맨손"));
+        StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "Unarmed"));
 
         if (_item != null)
         {
