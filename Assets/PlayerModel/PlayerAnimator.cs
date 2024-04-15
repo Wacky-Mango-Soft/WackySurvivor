@@ -8,12 +8,14 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator animator;
     [SerializeField] GameObject attackCollision;
+    SoundManager theSoundManager;
 
     public Animator Animator { get => animator; set => animator = value; }
 
     void Awake()
     {
         Animator = GetComponent<Animator>();
+        theSoundManager = FindObjectOfType<SoundManager>();
     }
 
     public void OnAttackCollision()
@@ -54,5 +56,9 @@ public class PlayerAnimator : MonoBehaviour
             // WeaponManager.currentWeaponAnim.SetBool("Run", isRun);
             Animator.SetBool("Run", isRun);
         }
+    }
+
+    public void OnAnimationSound(string soundName) {
+        theSoundManager.PlaySE(soundName);
     }
 }

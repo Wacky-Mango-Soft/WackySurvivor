@@ -104,6 +104,7 @@ public class ActionController : MonoBehaviour
             CanReInstallTrap();
             CanSleep();
             CanDrinkWater();
+            CanGathering();
         }
     }
 
@@ -207,6 +208,8 @@ public class ActionController : MonoBehaviour
                 WaterInfoAppear();
             else if (hitInfo.transform.tag == "Bed")
                 BedInfoAppear();
+            else if (hitInfo.transform.tag == "Grass")
+                GatheringInfoAppear();
             else
                 InfoDisappear();
         }
@@ -224,6 +227,29 @@ public class ActionController : MonoBehaviour
         fireLookActivated = false;
     }
 
+    private void GatheringInfoAppear()
+    {
+        Reset();
+        actionText.gameObject.SetActive(true);
+        actionText.text = "채집" + "<color=yellow>" + "(E)" + "</color>";
+    }
+
+    private void CanGathering()
+    {
+        if (!theInventory.GetIsInventoryFull())
+        {
+            if (hitInfo.transform != null && hitInfo.transform.tag == "Grass")
+            {
+                SimpleGrass theSimpleGrass = hitInfo.transform.GetComponent<SimpleGrass>();
+                if (theSimpleGrass.Hp == 0) {
+                    InfoDisappear();
+                } else {
+                    WeaponManager.thePlayerAnimator.onPickup();
+                    theSimpleGrass.Gathering();
+                }
+            }
+        }
+    }
 
     private void ItemInfoAppear()
     {
@@ -342,6 +368,7 @@ public class ActionController : MonoBehaviour
             if (hitInfo.transform != null)
             {
                 //Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득 했습니다.");  // 인벤토리 넣기
+                StartCoroutine(AcquirerItem.instance.AcquireLogCoroutine(hitInfo.transform.GetComponent<ItemPickUp>().item, 1));
                 theInventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
                 Destroy(hitInfo.transform.gameObject);
                 InfoDisappear();

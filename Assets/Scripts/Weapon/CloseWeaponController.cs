@@ -38,14 +38,7 @@ public abstract class CloseWeaponController : MonoBehaviour
                 {
                     if (CheckObject())
                     {
-                        if (currentCloseWeapon.isAxe && hitInfo.transform.tag == "Tree")
-                        {
-                            //Debug.Log(hitInfo.transform.tag + "주시중");
-                            StartCoroutine(thePlayerController.TreeLookCoroutine(hitInfo.transform.GetComponent<TreeComponent>().GetTreeCenterPosition()));
-                            StartCoroutine(AttackCoroutine("Attack", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
-                            return;
-                        }
-                        else if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격되도록 closeweapon컨트롤러에 배치
                         {
                             SoundManager.instance.PlaySE("Animal_Hit");
                             hitInfo.transform.GetComponent<Animal>().Damage(currentCloseWeapon.damage, transform.position);
@@ -53,7 +46,6 @@ public abstract class CloseWeaponController : MonoBehaviour
                     }
 
                     // 공격 애니메이션 선택 설정부
-
                     if (currentCloseWeapon.isWeapon || currentCloseWeapon.isHand) {
                         isAttack = true;
                         StartCoroutine(AnimDependentAttack("ComboAttack", currentCloseWeapon.closeWeaponName));
@@ -61,7 +53,6 @@ public abstract class CloseWeaponController : MonoBehaviour
                     else {
                         StartCoroutine(AttackCoroutine("Attack", currentCloseWeapon.attackDelayA, currentCloseWeapon.attackDelayB, currentCloseWeapon.attackDelay));
                     }
-
                 }
             }
         }
@@ -87,16 +78,6 @@ public abstract class CloseWeaponController : MonoBehaviour
 
     // 애니메이션 트리거 이벤트에 따른 공격 코루틴
     protected IEnumerator AnimDependentAttack(string swingType, string currentWeaponName) {
-
-        switch (currentWeaponName)
-        {
-            case "Unarmed":
-                // SoundManager.instance.PlaySE("Punch");
-                break;
-            case "TwohandSword":
-                // SoundManager.instance.PlaySE("Sword_swing");
-                break;
-        }
 
         WeaponManager.thePlayerAnimator.Animator.SetTrigger(swingType);
 

@@ -282,4 +282,8 @@ public class StatusController : MonoBehaviour
     {
         isImmortality = _status;
     }
+
+    public void SetFullHP() {
+        currentHp = hp;
+    }
 }

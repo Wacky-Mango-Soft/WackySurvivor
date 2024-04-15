@@ -51,6 +51,10 @@ public class CraftManual : MonoBehaviour
     [SerializeField] private Text[] text_SlotDesc;
     [SerializeField] private Text[] text_SlotNeedItem;
 
+    // UI 탭 선택시 스프라이트 변경용 멤버변수
+    [SerializeField] private Sprite disableImage;
+    [SerializeField] private Sprite enableImage;
+
     // 필요한 컴포넌트
     private Inventory theInventory;
 
@@ -71,12 +75,35 @@ public class CraftManual : MonoBehaviour
         switch (tabNumber)
         {
             case 0:
+                TabButtonActive(tabNumber);
                 TabSlotSetting(craft_fire);
                 break;
             case 1:
+                TabButtonActive(tabNumber);
                 TabSlotSetting(craft_build);
                 break;
         }
+    }
+
+    private void TabButtonActive(int tabNumber)
+    {
+        GameObject obj_tab = GameObject.Find("Tab");
+        List<Image> craftTabsImages = new List<Image>();
+
+        for (int i = 0; i < obj_tab.transform.childCount; i++)
+        {
+            craftTabsImages.Add(obj_tab.transform.GetChild(i).GetComponent<Image>());
+        }
+
+        for (int i = 0; i < craftTabsImages.Count; i++)
+        {
+            if (i == tabNumber) { 
+                craftTabsImages[i].sprite = enableImage;
+            } else {
+                craftTabsImages[i].sprite = disableImage;
+            }
+        }
+        craftTabsImages.Clear();
     }
 
     private void ClearSlot()
@@ -178,7 +205,7 @@ public class CraftManual : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && !isPreviewActivated)
+        if (Input.GetKeyDown(KeyCode.Tab) && !isPreviewActivated && !GameManager.instance.isOpenArchemyTable)
             Window();
 
         if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -195,6 +222,15 @@ public class CraftManual : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
             Cancel();
+
+        if (GameManager.instance.isOpenCraftManual) {
+            if (Input.GetKeyDown(KeyCode.PageUp)) {
+                LeftPageSetting();
+            }
+            if (Input.GetKeyDown(KeyCode.PageDown)) {
+                RightPageSetting();
+            }
+        }
     }
 
     private void Build()

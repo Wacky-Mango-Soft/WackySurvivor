@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text dieText;
     [SerializeField] SaveNLoad thesaveNLoad;
 
+    // 3인칭 1인칭 상태변환용 변수
     [SerializeField] Camera theThirdPersonCamera;
     [SerializeField] Camera theWeaponCamera;
     [SerializeField] GameObject characterHead;
@@ -63,13 +64,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerAnimator playerAnimator;
     private Transform theThirdPersonCameraTransform;
 
+    // 3인칭 좌우 시점 변환
+    [SerializeField] private Transform innerThirdPersonViewCamera;
+
+    // 닷지 용 변수
     [SerializeField] private float dodgeDistance;
     [SerializeField] private float dodgeTime;
     private Vector3 moveDirection;
-    private Quaternion originRotation;
     private bool isDodging = false;
-    
-    
+
+    private Quaternion originRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -107,27 +111,6 @@ public class PlayerController : MonoBehaviour
             CameraRotation();
             CharacterRotation();
         }
-
-        // test code : need fixed for use weapon animator
-        // if (Input.GetKeyDown(KeyCode.Mouse0)) {
-        //     playerAnimator.OnAttack();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.B)) {
-        //     SoundManager.instance.PlayRandomBGM();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.E)) {
-        //     playerAnimator.onPickup();
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.T)) {
-        //     transform.rotation = Quaternion.LookRotation(new Vector3(90,0,0));
-        // }
-
-        // if (Input.GetKeyDown(KeyCode.Y)) {
-        //     playerAnimator.onDodge();
-        // }
     }
 
     //** if Player Input return true, else false **//
@@ -147,13 +130,19 @@ public class PlayerController : MonoBehaviour
             theCamera.targetDisplay = 0;
             theWeaponCamera.targetDisplay = 0;
             theThirdPersonCamera.targetDisplay = 1;
+            theCrosshair.PersonViewModeChanger("OnePerson");
             CharacterMeshActiver(false);
         } else {
             theCamera.targetDisplay = 1;
             theWeaponCamera.targetDisplay = 1;
             theThirdPersonCamera.targetDisplay = 0;
+            theCrosshair.PersonViewModeChanger("ThirdPerson");
             CharacterMeshActiver(true);
         }
+
+        // if (!GameManager.instance.isOnePersonView && Input.GetKeyDown(KeyCode.G)) {
+        //     innerThirdPersonViewCamera.position = new Vector3(innerThirdPersonViewCamera.position.x * -1f, innerThirdPersonViewCamera.position.y, innerThirdPersonViewCamera.position.z);
+        // }
     }
 
     private void CharacterMeshActiver(bool offer) {
@@ -193,7 +182,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
 
     // 앉기 시도
     private void TryCrounch() {
@@ -265,7 +253,7 @@ public class PlayerController : MonoBehaviour
         if (isCrouch) {
             Crouch();
         }
-        theStatusController.DecreaseStamina(100);
+        theStatusController.DecreaseStamina(10);
         myRigid.velocity = transform.up * jumpForce;
         playerAnimator.OnJump();
     }
@@ -306,8 +294,8 @@ public class PlayerController : MonoBehaviour
 
         if (isDodging) { return; }
 
-        float _moveDirX = Input.GetAxis("Horizontal");
-        float _moveDirZ = Input.GetAxis("Vertical");
+        float _moveDirX = Input.GetAxisRaw("Horizontal");
+        float _moveDirZ = Input.GetAxisRaw("Vertical");
 
         playerAnimator.OnMovement(_moveDirX, _moveDirZ);
 
@@ -438,5 +426,9 @@ public class PlayerController : MonoBehaviour
             dieText.text = $"{TimeManager.instance.Day} Days Survive";
             Debug.Log("die실행");
         }
+    }
+
+    public StatusController GetTheStatusController() {
+        return theStatusController;
     }
 }

@@ -190,8 +190,9 @@ public class QuickSlotController : MonoBehaviour
         {
             if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Equipment)
                 StartCoroutine(theWeaponManager.ChangeWeaponCoroutine(quickSlots[selectedSlot].item.weaponType, quickSlots[selectedSlot].item.itemName));
-            else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used || quickSlots[selectedSlot].item.itemType == Item.ItemType.Kit)
-                ChangeHand(quickSlots[selectedSlot].item);
+            // else if (quickSlots[selectedSlot].item.itemType == Item.ItemType.Used || quickSlots[selectedSlot].item.itemType == Item.ItemType.Kit)
+                // ChangeHand(quickSlots[selectedSlot].item);
+                // 캐릭터 모델링 변경에 따른 수정 필요. 사용가능한 아이템을 손에 드는 코드.
             else
                 ChangeHand();
         }

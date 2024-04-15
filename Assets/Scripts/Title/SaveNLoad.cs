@@ -71,8 +71,11 @@ public class SaveNLoad : MonoBehaviour
 
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
-            thePlayer.transform.position = saveData.playerPos;
+            thePlayer.transform.position = saveData.playerPos + Vector3.up;
             thePlayer.transform.eulerAngles = saveData.playerRot;
+
+            // 로드시 체력 원복을 위한 임시코드
+            thePlayer.GetTheStatusController().SetFullHP();
 
             for (int i = 0; i < saveData.invenItemName.Count; i++)
             {
@@ -80,7 +83,6 @@ public class SaveNLoad : MonoBehaviour
             }
 
             Debug.Log("로드 완료");
-            
         }
         else
         {
