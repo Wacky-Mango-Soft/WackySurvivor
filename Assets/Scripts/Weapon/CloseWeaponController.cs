@@ -20,9 +20,12 @@ public abstract class CloseWeaponController : MonoBehaviour
     // 필요한 컴포넌트
     protected PlayerController thePlayerController;
 
-    private void Start()
+    private ActionController actionController;
+
+    private void Awake()
     {
         thePlayerController = FindObjectOfType<PlayerController>();
+        actionController = FindObjectOfType<ActionController>();
     }
 
     protected void TryAttack()
@@ -35,30 +38,31 @@ public abstract class CloseWeaponController : MonoBehaviour
                 {
                     if (CheckObject())
                     {
-                        if (currentCloseWeapon.isAxe && hitInfo.transform.tag == "Tree")
-                        {
-                            //Debug.Log(hitInfo.transform.tag + "주시중");
-                            StartCoroutine(thePlayerController.TreeLookCoroutine(hitInfo.transform.GetComponent<TreeComponent>().GetTreeCenterPosition()));
-                            StartCoroutine(AttackCoroutine("Chop", currentCloseWeapon.workDelayA, currentCloseWeapon.workDelayB, currentCloseWeapon.workDelay));
-                            return;
-                        }
-                        else if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격
+                        if (hitInfo.transform.tag == "Weak_Animal" || hitInfo.transform.tag == "Strong_Animal") // #1 근접 무기 뭘로 때려도 NPC 타격되도록 closeweapon컨트롤러에 배치
                         {
                             SoundManager.instance.PlaySE("Animal_Hit");
                             hitInfo.transform.GetComponent<Animal>().Damage(currentCloseWeapon.damage, transform.position);
                         }
                     }
 
-                    StartCoroutine(AttackCoroutine("Attack", currentCloseWeapon.attackDelayA, currentCloseWeapon.attackDelayB, currentCloseWeapon.attackDelay));
+                    // 공격 애니메이션 선택 설정부
+                    if (currentCloseWeapon.isWeapon || currentCloseWeapon.isHand) {
+                        isAttack = true;
+                        StartCoroutine(AnimDependentAttack("ComboAttack", currentCloseWeapon.closeWeaponName));
+                    }
+                    else {
+                        StartCoroutine(AttackCoroutine("Attack", currentCloseWeapon.attackDelayA, currentCloseWeapon.attackDelayB, currentCloseWeapon.attackDelay));
+                    }
                 }
             }
         }
     }
 
+    // 작업 능력에 따른 공격 코루틴
     protected IEnumerator AttackCoroutine(string swingType, float _delayA, float _delayB, float _delay)
     {
         isAttack = true;
-        currentCloseWeapon.anim.SetTrigger(swingType);
+        WeaponManager.thePlayerAnimator.Animator.SetTrigger(swingType);
 
         yield return new WaitForSeconds(_delayA);
         isSwing = true;
@@ -72,12 +76,23 @@ public abstract class CloseWeaponController : MonoBehaviour
         isAttack = false;
     }
 
+    // 애니메이션 트리거 이벤트에 따른 공격 코루틴
+    protected IEnumerator AnimDependentAttack(string swingType, string currentWeaponName) {
+
+        WeaponManager.thePlayerAnimator.Animator.SetTrigger(swingType);
+
+        // yield return new WaitForSeconds(WeaponManager.thePlayerAnimator.Animator.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(0.5f);
+
+        isAttack = false;
+    }
+
     // 미완성 추상 코루틴
     protected abstract IEnumerator HitCoroutine();
 
     protected bool CheckObject()
     {
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, currentCloseWeapon.range, layerMask))
+        if (Physics.Raycast(actionController.Tf_rayStartPoint, actionController.CurrentCameraForward, out hitInfo, actionController.CurrentRaycastRange - actionController.Range + currentCloseWeapon.range, layerMask))
         {
             return true;
         }
@@ -94,6 +109,7 @@ public abstract class CloseWeaponController : MonoBehaviour
         currentCloseWeapon = _CloseWeapon;
         WeaponManager.currentWeapon = currentCloseWeapon.GetComponent<Transform>();
         WeaponManager.currentWeaponAnim = currentCloseWeapon.anim;
+        WeaponManager.thePlayerAnimator.Animator.runtimeAnimatorController = WeaponManager.currentWeaponAnim.runtimeAnimatorController;
 
         currentCloseWeapon.transform.localPosition = Vector3.zero;
         currentCloseWeapon.gameObject.SetActive(true);

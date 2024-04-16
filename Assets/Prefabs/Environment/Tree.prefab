@@ -14,19 +14,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 57aa1416211c1464b95dccf147aacdb6, type: 3}
       propertyPath: m_TagString
-      value: Tree
+      value: DebrisTree
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 57aa1416211c1464b95dccf147aacdb6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.11788
+      value: 5.260858
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 57aa1416211c1464b95dccf147aacdb6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.226441
+      value: -4.1715364
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 57aa1416211c1464b95dccf147aacdb6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.3759701
+      value: 0.38510442
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 57aa1416211c1464b95dccf147aacdb6, type: 3}
       propertyPath: m_LocalRotation.w

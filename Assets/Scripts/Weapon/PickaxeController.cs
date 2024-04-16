@@ -20,7 +20,13 @@ public class PickaxeController : CloseWeaponController
         {
             if (CheckObject())
             {
-                if(hitInfo.transform.CompareTag("Rock"))
+                Debug.Log(hitInfo.transform.name);
+
+                if(hitInfo.transform.tag == "Rock")
+                {
+                    hitInfo.transform.GetComponent<SimpleRock>().Mining();
+                }
+                else if(hitInfo.transform.tag == "DebrisStone")
                 {
                     hitInfo.transform.GetComponent<Rock>().Mining();
                 }
@@ -29,7 +35,6 @@ public class PickaxeController : CloseWeaponController
                     hitInfo.transform.GetComponent<Twig>().Damage(this.transform);
                 }
                 isSwing = false;
-                Debug.Log(hitInfo.transform.name);
             }
             yield return null;
         }

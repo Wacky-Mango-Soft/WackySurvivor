@@ -48,16 +48,6 @@ public class TimeManager : MonoBehaviour {
             Day++;
         }
         timeDebugText.text = $"{Day}일 : {Hour}시간 : {Minute}분";
-    }
 
-    public void TimeStop() {
-        UnityEngine.Time.timeScale = 0;
-        GameManager.instance.isPause = true;
-
-    }
-
-    public void GoTime() {
-        UnityEngine.Time.timeScale = 1;
-        GameManager.instance.isPause = false;
     }
 }

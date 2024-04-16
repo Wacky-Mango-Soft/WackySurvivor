@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3878597022437775928}
   m_Layer: 0
   m_Name: Rock
-  m_TagString: Rock
+  m_TagString: DebrisStone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1753,11 +1753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 14e2fd835ee0ba54eab271df0fb30c17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 14e2fd835ee0ba54eab271df0fb30c17, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 14e2fd835ee0ba54eab271df0fb30c17, type: 3}
       propertyPath: m_LocalRotation.w

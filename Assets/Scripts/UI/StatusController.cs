@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class StatusController : MonoBehaviour
 {
+    private bool isImmortality = false;
+
     [SerializeField] private int hp;      
     [SerializeField] private int sp;  
     [SerializeField] private int dp;  
@@ -228,5 +230,21 @@ public class StatusController : MonoBehaviour
 
     public void IncreseMaxSatisfy() {
         CurrentSatisfy = satisfy;
+    }
+
+    // Dodge or Buff for DecreaseHP Method
+    public void Dameged(int _count) {
+        if (!isImmortality) {
+            DecreaseHP(_count);
+        }
+    }
+
+    public void Immortable(bool _status)
+    {
+        isImmortality = _status;
+    }
+
+    public void SetFullHP() {
+        currentHp = hp;
     }
 }

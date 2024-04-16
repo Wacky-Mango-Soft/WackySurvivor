@@ -19,6 +19,9 @@ TagManager:
   - Water
   - Bed
   - DeadZone
+  - Enemy
+  - DebrisTree
+  - DebrisStone
   layers:
   - Default
   - TransparentFX

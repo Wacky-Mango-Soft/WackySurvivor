@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PickAxeAnimator
+  m_Controller: {fileID: 9100000, guid: 5da7e4193c3d74295a191d3743a3e7a5, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 96ed5e4a6dc56fe4c9c2de75fc8a077c, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 378d2fcffb2d1074989d256360b687e9, type: 3}

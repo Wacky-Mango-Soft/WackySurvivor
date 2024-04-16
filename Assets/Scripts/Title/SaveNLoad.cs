@@ -29,15 +29,11 @@ public class SaveData
 public class SaveNLoad : MonoBehaviour
 {
     private SaveData saveData = new SaveData();
-
     private string SAVE_DATA_DIRECTORY;
     private string SAVE_FILENAME = "/SaveFile.txt";
-
     private PlayerController thePlayer;
     private Inventory theInven;
     private StatusController theStatus;
-
-    [SerializeField] GameObject dieUI;
 
     // Start is called before the first frame update
     void Start()
@@ -98,7 +94,7 @@ public class SaveNLoad : MonoBehaviour
 
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
-            thePlayer.transform.position = saveData.playerPos;
+            thePlayer.transform.position = saveData.playerPos + Vector3.up;
             thePlayer.transform.eulerAngles = saveData.playerRot;
 
             theStatus.CurrentHp = saveData.currentHp;
@@ -111,14 +107,15 @@ public class SaveNLoad : MonoBehaviour
             TimeManager.instance.Day = saveData.day;
             TimeManager.instance.Time = saveData.time;
 
+            // 로드시 체력 원복을 위한 임시코드
+            thePlayer.GetTheStatusController().SetFullHP();
+
             for (int i = 0; i < saveData.invenItemName.Count; i++)
             {
                 theInven.LoadToInven(saveData.invenArrayNumber[i], saveData.invenItemName[i], saveData.invenItemCount[i]);
             }
 
             Debug.Log("로드 완료");
-            GameManager.instance.isDied = false;
-            dieUI.SetActive(false);
         }
         else
         {

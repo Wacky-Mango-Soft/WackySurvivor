@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Crosshair : MonoBehaviour
 {
@@ -8,13 +11,14 @@ public class Crosshair : MonoBehaviour
     private float gunAccuracy;
     [SerializeField] private GameObject go_CrosshairHUD;
     [SerializeField] private GunController theGunController;
+    [SerializeField] private GameObject[] obj_crosshairs;
 
     // 이동시 조준점 변경
     public void WalkingAnimation(bool _flag)
     {
         if (!GameManager.instance.isWater)
         {
-            WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
+            // WeaponManager.currentWeaponAnim.SetBool("Walk", _flag);
             animator.SetBool("Walking", _flag);
         }
     }
@@ -88,5 +92,21 @@ public class Crosshair : MonoBehaviour
             gunAccuracy = 0.035f;
         }
         return gunAccuracy;
+    }
+
+    public void PersonViewModeChanger(string _state)
+    {
+        if (_state == "OnePerson") {
+            for (int i = 1; i < obj_crosshairs.Length; i++)
+            {
+                obj_crosshairs[i].SetActive(true);
+            }
+        }
+        else if (_state == "ThirdPerson") {
+            for (int i = 1; i < obj_crosshairs.Length; i++)
+            {
+                obj_crosshairs[i].SetActive(false);
+            }
+        }
     }
 }

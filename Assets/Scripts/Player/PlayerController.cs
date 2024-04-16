@@ -55,6 +55,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Text dieText;
     [SerializeField] SaveNLoad thesaveNLoad;
 
+    // 3인칭 1인칭 상태변환용 변수
+    [SerializeField] Camera theThirdPersonCamera;
+    [SerializeField] Camera theWeaponCamera;
+    [SerializeField] GameObject characterHead;
+    [SerializeField] GameObject characterEye;
+    [SerializeField] GameObject characterFace;
+    [SerializeField] private PlayerAnimator playerAnimator;
+    private Transform theThirdPersonCameraTransform;
+
+    // 3인칭 좌우 시점 변환
+    [SerializeField] private Transform innerThirdPersonViewCamera;
+
+    // 닷지 용 변수
+    [SerializeField] private float dodgeDistance;
+    [SerializeField] private float dodgeTime;
+    private Vector3 moveDirection;
+    private bool isDodging = false;
+
+    private Quaternion originRotation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +85,8 @@ public class PlayerController : MonoBehaviour
         theStatusController = FindObjectOfType<StatusController>();
 
         // 초기화
+        theThirdPersonCameraTransform = theThirdPersonCamera.transform;
+        GameManager.instance.isOnePersonView = false;
         applySpeed = walkSpeed;
         originPosY = theCamera.transform.localPosition.y;
         applyCrouchPosY = originPosY;
@@ -75,6 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isActivated && GameManager.instance.canPlayerMove)
         {
+            CameraViewCheck();
             WaterCheck();
             IsGround();
             TryJump();
@@ -88,6 +111,44 @@ public class PlayerController : MonoBehaviour
             CameraRotation();
             CharacterRotation();
         }
+    }
+
+    //** if Player Input return true, else false **//
+    private bool PlayerInputCheck()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+
+        return moveDirection != Vector3.zero;
+    }
+
+    private void CameraViewCheck()
+    {
+        if (GameManager.instance.isOnePersonView) {
+            theCamera.targetDisplay = 0;
+            theWeaponCamera.targetDisplay = 0;
+            theThirdPersonCamera.targetDisplay = 1;
+            theCrosshair.PersonViewModeChanger("OnePerson");
+            CharacterMeshActiver(false);
+        } else {
+            theCamera.targetDisplay = 1;
+            theWeaponCamera.targetDisplay = 1;
+            theThirdPersonCamera.targetDisplay = 0;
+            theCrosshair.PersonViewModeChanger("ThirdPerson");
+            CharacterMeshActiver(true);
+        }
+
+        // if (!GameManager.instance.isOnePersonView && Input.GetKeyDown(KeyCode.G)) {
+        //     innerThirdPersonViewCamera.position = new Vector3(innerThirdPersonViewCamera.position.x * -1f, innerThirdPersonViewCamera.position.y, innerThirdPersonViewCamera.position.z);
+        // }
+    }
+
+    private void CharacterMeshActiver(bool offer) {
+        characterHead.SetActive(offer);
+        characterFace.SetActive(offer);
+        characterEye.SetActive(offer);
     }
 
     private void WaterCheck()
@@ -122,7 +183,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     // 앉기 시도
     private void TryCrounch() {
         if (Input.GetKeyDown(KeyCode.LeftControl)) {
@@ -133,7 +193,9 @@ public class PlayerController : MonoBehaviour
     // 앉기 동작
     private void Crouch() {
         isCrouch = !isCrouch;
-        theCrosshair.CrouchingAnimation(isCrouch);
+        // theCrosshair.CrouchingAnimation(isCrouch);
+        playerAnimator.onCrouch(isCrouch);
+        // Debug.Log(isCrouch);
 
         if (isCrouch) {
             applySpeed = crouchSpeed;
@@ -172,8 +234,8 @@ public class PlayerController : MonoBehaviour
 
     // 점프 시도
     private void TryJump() {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.CurrentSp > 0 && !GameManager.instance.isWater) {
-            Jump();
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0 && !GameManager.instance.isWater) {
+            jump();
         }
         else if (Input.GetKey(KeyCode.Space) && GameManager.instance.isWater)
         {
@@ -191,8 +253,9 @@ public class PlayerController : MonoBehaviour
         if (isCrouch) {
             Crouch();
         }
-        theStatusController.DecreaseStamina(100);
+        theStatusController.DecreaseStamina(10);
         myRigid.velocity = transform.up * jumpForce;
+        playerAnimator.OnJump();
     }
 
     // 달리기 시도
@@ -212,7 +275,8 @@ public class PlayerController : MonoBehaviour
         }
         theGunController.CancelFineSight();
         isRun = true;
-        theCrosshair.RunningAnimation(isRun);
+        // theCrosshair.RunningAnimation(isRun);
+        playerAnimator.OnRun(isRun);
         theStatusController.DecreaseStamina(1);
         applySpeed = runSpeed;
     }
@@ -221,13 +285,19 @@ public class PlayerController : MonoBehaviour
     private void RunningCancle() {
         isRun = false;
         applySpeed = walkSpeed;
-        theCrosshair.RunningAnimation(isRun);
+        // theCrosshair.RunningAnimation(isRun);
+        playerAnimator.OnRun(isRun);
     }
 
     // 움직임 실행
     private void Move() {
+
+        if (isDodging) { return; }
+
         float _moveDirX = Input.GetAxisRaw("Horizontal");
         float _moveDirZ = Input.GetAxisRaw("Vertical");
+
+        playerAnimator.OnMovement(_moveDirX, _moveDirZ);
 
         Vector3 _moveHorizontal = transform.right * _moveDirX;
         Vector3 _moveVertical = transform.forward * _moveDirZ;
@@ -238,6 +308,12 @@ public class PlayerController : MonoBehaviour
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
         // #1 fix
         transform.position = myRigid.position;
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            // changed global Vector3, Quaternion.LookRotation is based to Local coordinate
+            Vector3 globalDirection = transform.TransformDirection(new Vector3(_moveDirX, 0f, _moveDirZ).normalized);
+            StartCoroutine(Dodge(globalDirection));
+        }
     }
 
     // 움직임 체크
@@ -255,11 +331,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 좌우 캐릭터 회전
+    // 좌우 캐릭터 회전 (one person view & third person view swap)
     private void CharacterRotation() {
+
+        if (isDodging) {return;}
+
         float _yRotation = Input.GetAxisRaw("Mouse X");
         Vector3 _characterRotationY = new Vector3(0f, _yRotation, 0f) * lookSensitivity;
-        myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY));
+
+        if (GameManager.instance.isOnePersonView) {
+            myRigid.MoveRotation(myRigid.rotation * Quaternion.Euler(_characterRotationY));
+        }
+        else {
+            if (PlayerInputCheck()) {
+                transform.rotation = Quaternion.Euler(0, theThirdPersonCameraTransform.eulerAngles.y, 0);
+            }
+        }
     }
 
     // 상하 캐릭터 회전
@@ -269,14 +356,42 @@ public class PlayerController : MonoBehaviour
     {
         if (!pauseCameraRotation)
         {
-            float _xRotation = Input.GetAxisRaw("Mouse Y");
-            float _cameraRotationX = _xRotation * lookSensitivity;
+            if (GameManager.instance.isOnePersonView) {
+                float _xRotation = Input.GetAxisRaw("Mouse Y");
+                float _cameraRotationX = _xRotation * lookSensitivity;
 
-            currentCameraRotationX -= _cameraRotationX;
-            currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
+                currentCameraRotationX -= _cameraRotationX;
+                currentCameraRotationX = Mathf.Clamp(currentCameraRotationX, -cameraRotationLimit, cameraRotationLimit);
 
-            theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
+                theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
+            }
         }
+    }
+
+    private IEnumerator Dodge(Vector3 worldDirection) {
+
+        isDodging = true;
+
+        if (!GameManager.instance.isOnePersonView) {
+
+            originRotation = transform.rotation;
+
+            // Quaternion.LookRotation is based to Local coordinate
+            Quaternion targetRotation = Quaternion.LookRotation(worldDirection);
+            transform.rotation = targetRotation;
+        }
+
+        myRigid.velocity = worldDirection * dodgeDistance;
+
+        playerAnimator.onDodge();
+        theStatusController.Immortable(true);
+
+        yield return new WaitForSeconds(dodgeTime);
+
+        theStatusController.Immortable(false);
+
+        isDodging = false;
+        
     }
 
     public IEnumerator TreeLookCoroutine(Vector3 _target)
@@ -307,11 +422,13 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.isDied = true;
             //settriger "die"
             dieUI.SetActive(true);
+            Time.timeScale = 0;
             dieText.text = $"{TimeManager.instance.Day} Days Survive";
             Debug.Log("die실행");
-            
         }
     }
 
-   
+    public StatusController GetTheStatusController() {
+        return theStatusController;
+    }
 }

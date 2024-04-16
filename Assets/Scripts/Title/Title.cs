@@ -26,7 +26,9 @@ public class Title : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    #endregion
 
+    private SaveNLoad theSaveNLoad;
     public string sceneName = "GameStage";
 
     private void Start()
@@ -60,6 +62,8 @@ public class Title : MonoBehaviour
     public void ClickLoad()
     {
         Debug.Log("Load");
+        GameManager.instance.isPause = false;
+        GameManager.instance.isDied = false;
         StartCoroutine(LoadCoroutine());
     }
 

@@ -8,8 +8,7 @@ using UnityEngine.UIElements;
 
 public class ActionController : MonoBehaviour
 {
-    [SerializeField]
-    private float range;  // 아이템 습득이 가능한 최대 거리
+    [SerializeField] private float range;  // 아이템 습득이 가능한 최대 거리
 
     private bool pickupActivated = false;  // 아이템 습득 가능할시 True 
     private bool dissolveActivated = false; // 고기 해체 가능할 시 True (돼지 시체를 바라 볼 때)
@@ -43,22 +42,29 @@ public class ActionController : MonoBehaviour
     private ComputerKit theComputer;
 
     // 드레그용 멤버변수
-    private RaycastHit hitInfo_SphereRay;
-    private float castRadius = 1.0f;
-    private Vector3 previousCameraForward;
-    private bool isSaveCoroutinePlaying = false;
+    private RaycastHit hitInfo_DragRay;
     [SerializeField, Range(0f, 1f)] private float saveTimeDuration;
 
     [SerializeField]
     private string sound_meat; // 고기 해체 소리
-
     public Text WarningText { get => warningText; set => warningText = value; }
 
-    // #0 Bgm 테스트
-    //private void Start()
-    //{
-    //    SoundManager.instance.PlayRandomBGM();
-    //}
+    // 1인칭 3인칭 액션 컨트롤 전환을 위한 프로퍼티, 레이 시작점
+    [SerializeField] private GameObject obj_thirdPersonCamera;
+    private ThirdPersonCameraController thirdPersonCameraController;
+    private Vector3 tf_rayStartPoint;
+    private Vector3 currentCameraForward;
+    private float currentRaycastRange;
+    public Vector3 Tf_rayStartPoint { get => tf_rayStartPoint; set => tf_rayStartPoint = value; }
+    public Vector3 CurrentCameraForward { get => currentCameraForward; set => currentCameraForward = value; }
+    public float CurrentRaycastRange { get => currentRaycastRange; set => currentRaycastRange = value; }
+    public float Range { get => range; set => range = value; }
+    private bool isDragging = false;
+    GameObject dragTarget;
+
+    void Awake() {
+        thirdPersonCameraController = obj_thirdPersonCamera.GetComponent<ThirdPersonCameraController>();
+    }
 
     void Update()
     {
@@ -66,6 +72,23 @@ public class ActionController : MonoBehaviour
         TryAction();
         CheckDragableItem();
         TryDrag();
+    }
+
+    void FixedUpdate() {
+        CheckView();
+    }
+
+    private void CheckView()
+    {
+        if (GameManager.instance.isOnePersonView) {
+            CurrentRaycastRange = Range;
+            Tf_rayStartPoint = transform.position;
+            CurrentCameraForward = transform.TransformDirection(Vector3.forward);
+        } else {
+            CurrentRaycastRange = thirdPersonCameraController.Distance + Range;
+            Tf_rayStartPoint = obj_thirdPersonCamera.transform.position; 
+            CurrentCameraForward = obj_thirdPersonCamera.transform.TransformDirection(Vector3.forward);
+        }
     }
 
     private void TryAction()
@@ -81,57 +104,49 @@ public class ActionController : MonoBehaviour
             CanReInstallTrap();
             CanSleep();
             CanDrinkWater();
+            CanGathering();
         }
     }
 
 
     private void TryDrag()
     {
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && !isDragging)
         {
-            if (CheckDragableItem())
-            {
-                DragItem();
+            if (CheckDragableItem()) {
+                StartCoroutine(DragCoroutine());
             }
         }
-        else if (Input.GetKeyUp(KeyCode.F) && CheckDragableItem())
-        {
-            DrowItem();
+    }
+
+    private IEnumerator DragCoroutine()
+    {
+        isDragging = true;
+
+        while (isDragging) {
+
+            Debug.Log(dragTarget.gameObject.name);
+            if (GameManager.instance.isOnePersonView) {
+                dragTarget.transform.position = Tf_rayStartPoint + CurrentCameraForward * CurrentRaycastRange;
+            } else {
+                dragTarget.transform.position = Tf_rayStartPoint + CurrentCameraForward * CurrentRaycastRange + (transform.up * 2f);
+            }
+
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                isDragging = false;
+            }
+            yield return null;
         }
-    }
-
-    private void DragItem()
-    {
-        hitInfo_SphereRay.transform.position = transform.position + transform.forward * range;
-
-        if (isSaveCoroutinePlaying)
-            return;
-        else
-            StartCoroutine(PreviousCameraSaveCoroutine());
-    }
-
-    private IEnumerator PreviousCameraSaveCoroutine()
-    {
-        isSaveCoroutinePlaying = true;
-        previousCameraForward = transform.forward;
-        yield return new WaitForSeconds(saveTimeDuration);
-        isSaveCoroutinePlaying = false;
-    }
-
-    private void DrowItem()
-    {
-        Vector3 currentCameraForward = transform.forward;
-        Vector3 throwDirection = currentCameraForward - previousCameraForward;
-        float throwPower = (throwDirection / Time.deltaTime).magnitude % 10f;
-        //Debug.Log(throwPower);
-        hitInfo_SphereRay.transform.GetComponent<Rigidbody>().AddForce(throwDirection.normalized * throwPower, ForceMode.Impulse);
     }
 
     private bool CheckDragableItem()
     {
-        if (Physics.SphereCast(transform.position, castRadius, transform.forward, out hitInfo_SphereRay, range, layerMask))
+        if (Physics.Raycast(Tf_rayStartPoint, CurrentCameraForward, out hitInfo_DragRay, CurrentRaycastRange, layerMask) && !isDragging)
         {
-            if (hitInfo_SphereRay.transform.tag == "Item")
+            dragTarget = hitInfo_DragRay.collider.gameObject;
+
+            if (hitInfo_DragRay.transform.tag == "Item")
             {
                 return true;
             } 
@@ -173,8 +188,9 @@ public class ActionController : MonoBehaviour
 
     private void CheckAction()
     {
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitInfo, range, layerMask))
+        if (Physics.Raycast(Tf_rayStartPoint, CurrentCameraForward, out hitInfo, CurrentRaycastRange, layerMask))
         {
+            Debug.DrawRay(Tf_rayStartPoint, CurrentCameraForward * hitInfo.distance, Color.red);
             // Debug.Log(hitInfo.transform.name + " <" + hitInfo.transform.tag + "> 레이중...");
             if (hitInfo.transform.tag == "Item")
                 ItemInfoAppear();
@@ -192,11 +208,15 @@ public class ActionController : MonoBehaviour
                 WaterInfoAppear();
             else if (hitInfo.transform.tag == "Bed")
                 BedInfoAppear();
+            else if (hitInfo.transform.tag == "Grass")
+                GatheringInfoAppear();
             else
                 InfoDisappear();
         }
-        else
+        else {
+            Debug.DrawRay(Tf_rayStartPoint, CurrentCameraForward * CurrentRaycastRange, Color.green);
             InfoDisappear();
+        }
     }
 
     // item > fire, fire > item, item > pickup 으로 레이가 바로 옮겨가는 상황 방지용 리셋 함수
@@ -207,6 +227,29 @@ public class ActionController : MonoBehaviour
         fireLookActivated = false;
     }
 
+    private void GatheringInfoAppear()
+    {
+        Reset();
+        actionText.gameObject.SetActive(true);
+        actionText.text = "채집" + "<color=yellow>" + "(E)" + "</color>";
+    }
+
+    private void CanGathering()
+    {
+        if (!theInventory.GetIsInventoryFull())
+        {
+            if (hitInfo.transform != null && hitInfo.transform.tag == "Grass")
+            {
+                SimpleGrass theSimpleGrass = hitInfo.transform.GetComponent<SimpleGrass>();
+                if (theSimpleGrass.Hp == 0) {
+                    InfoDisappear();
+                } else {
+                    WeaponManager.thePlayerAnimator.onPickup();
+                    theSimpleGrass.Gathering();
+                }
+            }
+        }
+    }
 
     private void ItemInfoAppear()
     {
@@ -325,6 +368,7 @@ public class ActionController : MonoBehaviour
             if (hitInfo.transform != null)
             {
                 //Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " 획득 했습니다.");  // 인벤토리 넣기
+                StartCoroutine(AcquirerItem.instance.AcquireLogCoroutine(hitInfo.transform.GetComponent<ItemPickUp>().item, 1));
                 theInventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
                 Destroy(hitInfo.transform.gameObject);
                 InfoDisappear();
@@ -398,6 +442,9 @@ public class ActionController : MonoBehaviour
         yield return new WaitForSeconds(0.2f);  // 애니메이션 재생 후 비활되도록
         WeaponManager.currentWeapon.gameObject.SetActive(false);
 
+        // 애니메이션 시스템 변경으로 애니메이터 대입 로직 추가
+        WeaponManager.thePlayerAnimator.Animator.runtimeAnimatorController = tf_MeatDissolveTool.GetComponent<Animator>().runtimeAnimatorController;
+
         // 칼 꺼내기
         tf_MeatDissolveTool.gameObject.SetActive(true);  // 애니메이션은 이때 자동으로 실행됨 (디폴트상태니까)
         yield return new WaitForSeconds(0.2f);  // 애니메이션 0.2초 진행 후
@@ -406,6 +453,9 @@ public class ActionController : MonoBehaviour
 
         // 고기 아이템 얻기 #4 Animal로 확장
         theInventory.AcquireItem(hitInfo.transform.GetComponent<Animal>().GetItem(), hitInfo.transform.GetComponent<Animal>().itemNumber);
+
+        // 애니메이션 시스템 변경으로 애니메이터 대입 로직 추가
+        WeaponManager.thePlayerAnimator.Animator.runtimeAnimatorController = WeaponManager.currentWeaponAnim.runtimeAnimatorController;
 
         // 칼 해체 손은 집어 넣고 다시 원래 무기로
         WeaponManager.currentWeapon.gameObject.SetActive(true);

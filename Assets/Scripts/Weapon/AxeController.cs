@@ -28,11 +28,16 @@ public class AxeController : CloseWeaponController
 
                 if (hitInfo.transform.tag == "Tree")
                 {
-                    hitInfo.transform.GetComponent<TreeComponent>().Chop(hitInfo.point, transform.eulerAngles.y);
+                    hitInfo.transform.GetComponent<SimpleTree>().Chop(thePlayerController.transform);
+                }
+
+                if (hitInfo.transform.tag == "DebrisTree")
+                {
+                    hitInfo.transform.GetComponent<TreeComponent>().Chop(hitInfo.transform.position, hitInfo.transform.eulerAngles.y);
                 }
 
                 isSwing = false;
-                Debug.Log(hitInfo.transform.name);
+                // Debug.Log(hitInfo.transform.name);
             }
             yield return null;
         }

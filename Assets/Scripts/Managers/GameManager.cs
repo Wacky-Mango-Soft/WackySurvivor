@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -42,13 +43,16 @@ public class GameManager : MonoBehaviour {
 
     public bool isPause = false; // 메뉴가 호출되면 true
     public bool isDied = false;
-
-    private WeaponManager theWM;
+    
     private bool flag = false;
+    public bool isSaveDelay = false;
+    public bool isOnePersonView = false;
+
+    public bool autoSaveEnable = false;
+
 
     private SaveNLoad saveNLoad;
-
-    public bool isSaveDelay = false;
+    private WeaponManager theWM;
 
     void Start () {
         Cursor.lockState = CursorLockMode.Locked;
@@ -94,6 +98,8 @@ public class GameManager : MonoBehaviour {
 
     //AutoSave 체크박스 구현예정
     private void AutoSaveCheck() {
+        if (!autoSaveEnable) { return; }
+
         if (!isSaveDelay) {
             if (TimeManager.instance.Minute == 30) {
                 StartCoroutine(saveNLoad.AutoSaveCoroutine());
@@ -105,5 +111,26 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
 	public void ExitGame() {
         Application.Quit();
+    }
+
+    public void ClickExitMainMenu() {
+        Debug.Log("Exit Main Menu button click");
+        StartCoroutine(ExitMainMenuCoroutine());
+    }
+
+    public IEnumerator ExitMainMenuCoroutine() {
+        AsyncOperation operation = SceneManager.LoadSceneAsync("GameTitle");
+
+        while (!operation.isDone)
+        {
+            Debug.Log(operation.progress);
+
+            yield return null;
+        }
+
+        // isPause = false;
+        // isDied = false;
+        Time.timeScale = 1f;
+        Title.instance.gameObject.SetActive(true);
     }
 }
