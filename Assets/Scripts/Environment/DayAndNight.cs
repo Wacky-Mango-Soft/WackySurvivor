@@ -18,14 +18,14 @@ public class DayAndNight : MonoBehaviour {
     public Material dayToSunset; // 아침 -> 오후
     public Material sunsetToNight; // 오후 -> 저녁
     public Material nightToDay; // 저녁 -> 아침
-    [SerializeField][Range(0f, 0.1f)] public float blendSpeed; // 블렌딩 속도
+    public float blendSpeed = 0.002f; // 블렌딩 속도
 
     private bool isBlendingStepOver = false;
     private float blendFactor = 0f; // 블렌딩 정도
 
-    const int dayH = 1;
-    const int sunsetH = 2;
-    const int nightH = 3;
+    const int dayH = 6;
+    const int sunsetH = 18;
+    const int nightH = 20;
 
 
     void Start() {
@@ -120,6 +120,10 @@ public class DayAndNight : MonoBehaviour {
             RenderSettings.skybox.SetFloat("_Blend", blendFactor);
             if (blendFactor >= 1f) {
                 isBlendingStepOver = true;
+            }
+            if (GameManager.instance.isSleeping) {
+                isBlendingStepOver = true;
+                RenderSettings.skybox.SetFloat("_Blend", 1f);
             }
             yield return new WaitForSeconds(0.1f);
         }

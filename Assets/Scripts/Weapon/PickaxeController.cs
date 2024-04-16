@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class PickaxeController : CloseWeaponController
@@ -23,11 +20,11 @@ public class PickaxeController : CloseWeaponController
         {
             if (CheckObject())
             {
-                if(hitInfo.transform.tag == "Rock")
+                if(hitInfo.transform.CompareTag("Rock"))
                 {
                     hitInfo.transform.GetComponent<Rock>().Mining();
                 }
-                else if (hitInfo.transform.tag == "Twig")
+                else if (hitInfo.transform.CompareTag("Twig"))
                 {
                     hitInfo.transform.GetComponent<Twig>().Damage(this.transform);
                 }

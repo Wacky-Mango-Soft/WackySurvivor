@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -176,7 +173,7 @@ public class PlayerController : MonoBehaviour
     // 점프 시도
     private void TryJump() {
         if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.CurrentSp > 0 && !GameManager.instance.isWater) {
-            jump();
+            Jump();
         }
         else if (Input.GetKey(KeyCode.Space) && GameManager.instance.isWater)
         {
@@ -190,7 +187,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 점프
-    private void jump() {
+    private void Jump() {
         if (isCrouch) {
             Crouch();
         }

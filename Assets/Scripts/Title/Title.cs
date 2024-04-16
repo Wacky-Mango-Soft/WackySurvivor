@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
     public static Title instance;
 
     private SaveNLoad theSaveNLoad;
+
+    [SerializeField] GameObject leftMenu;
+    [SerializeField] Image loading_UI;
 
     private void Awake()
     {
@@ -34,9 +38,25 @@ public class Title : MonoBehaviour
     {
         Debug.Log("Start");
         SoundManager.instance.TitleBgmStop();
-        SceneManager.LoadScene(sceneName);
+        StartCoroutine(GameStartCoroutine());
+    }
+
+    private IEnumerator GameStartCoroutine() {
+        AsyncOperation operation = SceneManager.LoadSceneAsync("GameStage");
+        float progress = operation.progress;
+        leftMenu.SetActive(false);
+        loading_UI.gameObject.SetActive(true);
+
+        while (!operation.isDone) {
+            Debug.Log(operation.progress);
+            loading_UI.fillAmount = progress;
+
+            yield return new WaitForSeconds(1f);
+        }
+
         this.gameObject.SetActive(false);
     }
+
     public void ClickLoad()
     {
         Debug.Log("Load");
@@ -49,7 +69,7 @@ public class Title : MonoBehaviour
 
         while (!operation.isDone)
         {
-            Debug.Log(operation.progress);
+            //Debug.Log(operation.progress);
 
             yield return null;
         }
