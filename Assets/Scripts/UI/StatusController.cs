@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -245,6 +246,7 @@ public class StatusController : MonoBehaviour
     }
 
     public void SetFullHP() {
-        currentHp = hp;
+        CurrentHp = hp;
     }
+
 }

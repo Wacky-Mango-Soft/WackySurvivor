@@ -234,8 +234,8 @@ public class PlayerController : MonoBehaviour
 
     // 점프 시도
     private void TryJump() {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0 && !GameManager.instance.isWater) {
-            jump();
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.CurrentSp > 0 && !GameManager.instance.isWater) {
+            Jump();
         }
         else if (Input.GetKey(KeyCode.Space) && GameManager.instance.isWater)
         {

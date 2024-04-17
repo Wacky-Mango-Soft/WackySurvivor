@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Title : MonoBehaviour
 {
     public static Title instance;
-
+#region
     private SaveNLoad theSaveNLoad;
 
     [SerializeField] GameObject leftMenu;
@@ -28,7 +28,6 @@ public class Title : MonoBehaviour
     }
     #endregion
 
-    private SaveNLoad theSaveNLoad;
     public string sceneName = "GameStage";
 
     private void Start()
