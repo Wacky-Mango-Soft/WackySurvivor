@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour {
         AutoSaveCheck();
     }
 
-    //AutoSave 체크박스 구현예정
     private void AutoSaveCheck() {
         if (!autoSaveEnable) { return; }
 

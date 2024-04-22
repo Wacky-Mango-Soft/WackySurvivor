@@ -344,7 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c43f0c1b711a3ac42833bbbb07fa53cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieUI: {fileID: 0}
 --- !u!1 &332788097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,6 +2088,12 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a8cebdf869105d34dad2f62ffdaaea02, type: 3}
   - name: Water_Breathe
     clip: {fileID: 8300000, guid: 5f032f741a04d7a4c95c8d3642aa11e9, type: 3}
+  - name: Punch
+    clip: {fileID: 8300000, guid: 376cd5be9c7a84f2d9b72b7353bf638b, type: 3}
+  - name: Sword_swing
+    clip: {fileID: 8300000, guid: 112620ef736024de7b1a516eb2d17afd, type: 3}
+  - name: Gathering
+    clip: {fileID: 8300000, guid: 4c566022ebfd14c40940c81582007d87, type: 3}
   bgmSounds:
   - name: Honor
     clip: {fileID: 8300000, guid: 0aa51202ca0f28e43bb775996b47c472, type: 3}

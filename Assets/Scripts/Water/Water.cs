@@ -63,7 +63,9 @@ public class Water : MonoBehaviour
                 currentBreathTime = 0;
             }
         }
-
+        if (!GameManager.instance.isWater) {
+            currentOxygen = totalOxygen;
+        }
         DecreaseOxygen();
     }
 
@@ -90,7 +92,7 @@ public class Water : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             GetWater(other);
         }
@@ -99,7 +101,7 @@ public class Water : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             GetOutWater(other);
         }
@@ -131,7 +133,6 @@ public class Water : MonoBehaviour
         if (GameManager.instance.isWater)
         {
             go_BaseUI.SetActive(false);
-            currentOxygen = totalOxygen;
             text_currentOxygen.text = currentOxygen.ToString();
             image_gauge.fillAmount = 1;
             SoundManager.instance.PlaySE(sound_WaterOut);

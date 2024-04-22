@@ -420,11 +420,9 @@ public class PlayerController : MonoBehaviour
     public void Die() {
         if (!GameManager.instance.isDied) {
             GameManager.instance.isDied = true;
-            //settriger "die"
             dieUI.SetActive(true);
             Time.timeScale = 0;
             dieText.text = $"{TimeManager.instance.Day} Days Survive";
-            Debug.Log("die실행");
         }
     }
 
