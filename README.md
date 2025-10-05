@@ -11,9 +11,6 @@
 | 🧑‍💻 Member | **박원재** |
 | 🧑‍💻 Member | **김태현** |
 
-📦 **GitHub Repository:**  
-🔗 [https://github.com/Wacky-Mango-Soft/WSProject](https://github.com/Wacky-Mango-Soft/WSProject)
-
 ---
 
 ## 🌍 0. Real-Time Open World & Shader Utilization
